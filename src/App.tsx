@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
+import { SiSubstack } from 'react-icons/si';
 import Origin from './pages/Origin';
 import Workshop from './pages/Workshop';
 import Loft from './pages/Loft';
@@ -11,7 +13,7 @@ const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f
 const workshopImage = "https://cdn.midjourney.com/2a89e5b4-ee6a-42bd-991e-8561a9b2fbe7/0_1.png";
 const loftImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_2.png";
 const observatoryImage = "https://cdn.midjourney.com/ed339c2f-a4e1-431f-96fe-79f1da80128a/0_0.png";
-const crossroadsImage = "https://cdn.midjourney.com/902fb2dd-864a-45fb-8bed-b3450745581d/0_0.png";
+const crossroadsImage = "https://cdn.midjourney.com/01674c0c-001d-406e-8efb-b56fb7e5e95a/0_3.png";
 
 const Header = () => (
   <header className="py-6">
@@ -84,11 +86,11 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
 // Social Media Icon Component
 interface SocialIconProps {
   url: string;
-  icon: string;
+  icon: React.ComponentType<{ size?: number }>;
   name: string;
 }
 
-const SocialIcon = ({ url, icon, name }: SocialIconProps) => (
+const SocialIcon = ({ url, icon: Icon, name }: SocialIconProps) => (
   <a 
     href={url} 
     target="_blank" 
@@ -96,9 +98,30 @@ const SocialIcon = ({ url, icon, name }: SocialIconProps) => (
     className="social-icon"
     aria-label={name}
   >
-    {icon}
+    <Icon size={24} />
   </a>
 );
+
+// Alternative implementation for using custom PNG images
+/*
+interface SocialIconProps {
+  url: string;
+  imageSrc: string;
+  name: string;
+}
+
+const SocialIcon = ({ url, imageSrc, name }: SocialIconProps) => (
+  <a 
+    href={url} 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className="social-icon"
+    aria-label={name}
+  >
+    <img src={imageSrc} alt={name} className="w-6 h-6" />
+  </a>
+);
+*/
 
 // Easter egg component for the Crossroads
 const CrossroadsEasterEgg = () => {
@@ -369,65 +392,72 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="container-wide">
-          <div className="max-w-5xl">
-            <h1 className="text-5xl md:text-6xl font-heading leading-tight mb-6 animate-fade-in text-slate-800">
-              Explore a Blueprint of Possibility
+          <div className="max-w-5xl mx-auto text-center">
+            <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-6 animate-fade-in text-slate-800">
+              Blueprints of Possibility
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-20 animate-slide-up">
+            <p className="text-xl md:text-2xl text-slate-600 mb-8 animate-slide-up">
               Where engineering meets imagination and data powers discovery
             </p>
-          </div>
-          
-          {/* Portal Cards Row - evenly spaced across the page */}
-          <div className="cards-container animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <PortalCard 
-              title="Origin" 
-              description="Personal story & journey" 
-              image={originImage} 
-              link="/origin"
-              tag="STORY"
-              tagColor="tag-amber"
-              longDescription={portalDescriptions.origin}
-            />
-            <PortalCard 
-              title="Workshop" 
-              description="Professional portfolio & skills" 
-              image={workshopImage} 
-              link="/workshop"
-              tag="TECH"
-              tagColor="tag-blue"
-              longDescription={portalDescriptions.workshop}
-            />
-            <PortalCard 
-              title="Loft" 
-              description="Hobbies & creative pursuits" 
-              image={loftImage} 
-              link="/loft"
-              tag="CREATIVE"
-              tagColor="tag-green"
-              longDescription={portalDescriptions.loft}
-            />
-            <PortalCard 
-              title="Observatory" 
-              description="Ideas & future perspectives" 
-              image={observatoryImage} 
-              link="/observatory"
-              tag="FUTURE"
-              tagColor="tag-purple"
-              longDescription={portalDescriptions.observatory}
-            />
-          </div>
-          
-          {/* Call to Action Text - Simplified since descriptions are now on cards */}
-          <div className="call-to-action animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            <p className="text-base">
-              Explore the intersection of <strong>web building</strong> and <strong>world building</strong> through these four portals, 
-              each offering a unique lens into different dimensions of creation and thought.
-            </p>
             
-            <p className="text-base mt-6">
-              Step through these portals to discover how the architecture of digital spaces can mirror the intricate design of our mental models and future visions.
-            </p>
+            <div className="header-divider mb-8"></div>
+            
+            <div className="call-to-action animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <p className="text-base">
+                Explore my intersection of <strong>web building</strong> and <strong>world building</strong> through these four portals, 
+                each offering a unique lens into different dimensions of my work, creations and thoughts.
+              </p>
+            </div>
+          </div>
+          
+          {/* Portal Cards Row - responsive layout for both mobile and desktop */}
+          <div className="mt-8 md:mt-16">
+            <div className="cards-container animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="card-container">
+                <PortalCard 
+                  title="Origin" 
+                  description="Personal story & journey" 
+                  image={originImage} 
+                  link="/origin"
+                  tag="STORY"
+                  tagColor="tag-amber"
+                  longDescription={portalDescriptions.origin}
+                />
+              </div>
+              <div className="card-container">
+                <PortalCard 
+                  title="Workshop" 
+                  description="Professional portfolio & skills" 
+                  image={workshopImage} 
+                  link="/workshop"
+                  tag="TECH"
+                  tagColor="tag-blue"
+                  longDescription={portalDescriptions.workshop}
+                />
+              </div>
+              <div className="card-container">
+                <PortalCard 
+                  title="Loft" 
+                  description="Hobbies & creative pursuits" 
+                  image={loftImage} 
+                  link="/loft"
+                  tag="CREATIVE"
+                  tagColor="tag-green"
+                  longDescription={portalDescriptions.loft}
+                />
+              </div>
+              <div className="card-container">
+                <PortalCard 
+                  title="Observatory" 
+                  description="Ideas & future perspectives" 
+                  image={observatoryImage} 
+                  link="/observatory"
+                  tag="FUTURE"
+                  tagColor="tag-purple"
+                  longDescription={portalDescriptions.observatory}
+                />
+              </div>
+            </div>
           </div>
           
           {/* Social Media Icons */}
@@ -436,19 +466,56 @@ const Home = () => {
             <div className="social-icon-container">
               <SocialIcon 
                 url="https://github.com/sojourner-alpha" 
-                icon="GH" 
+                icon={FaGithub}
                 name="GitHub"
               />
               <SocialIcon 
                 url="https://x.com/curtlederle" 
-                icon="X" 
+                icon={FaXTwitter}
                 name="Twitter / X"
               />
               <SocialIcon 
                 url="https://www.linkedin.com/in/clederle/" 
-                icon="IN" 
+                icon={FaLinkedinIn}
                 name="LinkedIn"
               />
+              <SocialIcon 
+                url="https://curtislederle.substack.com" 
+                icon={SiSubstack}
+                name="Substack"
+              />
+            </div>
+            
+            {/* If using PNG images, you would use this instead:
+            <div className="social-icon-container">
+              <SocialIcon 
+                url="https://github.com/sojourner-alpha" 
+                imageSrc="/images/social/github.png" 
+                name="GitHub"
+              />
+              <SocialIcon 
+                url="https://x.com/curtlederle" 
+                imageSrc="/images/social/twitter.png" 
+                name="Twitter / X"
+              />
+              <SocialIcon 
+                url="https://www.linkedin.com/in/clederle/" 
+                imageSrc="/images/social/linkedin.png" 
+                name="LinkedIn"
+              />
+              <SocialIcon 
+                url="https://curtislederle.substack.com" 
+                imageSrc="/images/social/substack.png" 
+                name="Substack"
+              />
+            </div>
+            */}
+            
+            {/* Open Source Disclaimer */}
+            <div className="open-source-disclaimer animate-fade-in mt-6" style={{ animationDelay: '0.5s' }}>
+              <p className="text-sm text-center text-slate-600">
+                This website and other projects I build are <strong>open source</strong> and available on <a href="https://github.com/sojourner-alpha" className="text-blue-700 hover:underline">GitHub</a>.
+              </p>
             </div>
           </div>
         </div>
@@ -474,10 +541,27 @@ const Home = () => {
               <h2 className="text-xl font-heading text-slate-800">Curtis James | Lederle </h2>
               <p className="text-sm text-slate-600">© {new Date().getFullYear()} All rights reserved</p>
             </div>
-            <div className="flex space-x-6">
-              <a href="https://x.com/curtlederle" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-slate-900">Twitter</a>
-              <a href="https://github.com/sojourner-alpha" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-slate-900">GitHub</a>
-              <a href="https://www.linkedin.com/in/clederle/" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-slate-900">LinkedIn</a>
+            <div className="flex space-x-4">
+              <SocialIcon 
+                url="https://github.com/sojourner-alpha" 
+                icon={FaGithub}
+                name="GitHub"
+              />
+              <SocialIcon 
+                url="https://x.com/curtlederle" 
+                icon={FaXTwitter}
+                name="Twitter / X"
+              />
+              <SocialIcon 
+                url="https://www.linkedin.com/in/clederle/" 
+                icon={FaLinkedinIn}
+                name="LinkedIn"
+              />
+              <SocialIcon 
+                url="https://curtislederle.substack.com" 
+                icon={SiSubstack}
+                name="Substack"
+              />
             </div>
           </div>
         </div>
