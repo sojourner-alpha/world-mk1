@@ -572,7 +572,7 @@ const Home = () => {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/alpha.github.io">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/origin" element={<Origin />} />
