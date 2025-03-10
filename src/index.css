@@ -1,0 +1,362 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-parchment text-slate-800 min-h-screen;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply font-medium tracking-tight;
+  }
+}
+
+.header-divider {
+  height: 1px;
+  @apply bg-slate-300 w-full my-4;
+}
+
+@layer components {
+  /* Card container for consistent sizing */
+  .card-container {
+    width: 260px;
+    height: 420px; /* slightly longer */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* The actual card */
+  .portal-card {
+    @apply relative transition-all duration-300 border-2 border-gray-800 rounded-xl bg-matted;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .portal-card-image {
+    @apply w-full h-full object-cover object-center brightness-90;
+    position: absolute;
+    inset: 0;
+  }
+  
+  .portal-card-content {
+    @apply pt-5 px-6 pb-4 flex flex-col text-white absolute bottom-0 left-0 right-0 z-10;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%);
+  }
+
+  /* Sliding description that appears on hover */
+  .card-description {
+    @apply absolute p-8 flex flex-col justify-start text-center text-white bg-black/75;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 80px; /* Leave space for the title area */
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.35s ease-out, opacity 0.35s ease-out;
+    z-index: 5;
+  }
+
+  .portal-card:hover .card-description {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .card-tag {
+    @apply absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-medium text-white shadow-md z-10;
+  }
+  
+  .btn {
+    @apply px-5 py-2 rounded-md font-medium transition-colors text-sm;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-700 text-white hover:bg-blue-800;
+  }
+  
+  .btn-outline {
+    @apply border border-gray-500 text-gray-200 hover:bg-gray-800;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-wide {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl mb-6 font-medium;
+  }
+  
+  .scroll-section {
+    min-height: 100vh;
+    @apply py-24 flex items-center justify-center relative;
+    /* Add transition between sections */
+    position: relative;
+    opacity: 0.95;
+    transition: opacity 0.6s ease-out;
+  }
+
+  .scroll-section.active-section {
+    opacity: 1;
+  }
+
+  .scroll-section.active-section .section-transition {
+    opacity: 1;
+    box-shadow: 0 0 25px 8px rgba(255,255,255,0.25);
+  }
+
+  /* Section transition effects */
+  .scroll-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .scroll-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  /* Section transition overlay */
+  .section-transition {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255,255,255,0.3);
+    z-index: 5;
+    box-shadow: 0 0 20px 5px rgba(255,255,255,0.2);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-out, box-shadow 0.4s ease-out;
+  }
+  
+  .section-transition.top {
+    top: 0;
+  }
+  
+  .section-transition.bottom {
+    bottom: 0;
+  }
+
+  .matted-section {
+    @apply bg-matted text-white rounded-lg shadow-lg p-8 md:p-12;
+  }
+
+  .easter-egg {
+    @apply fixed bottom-6 right-6 w-12 h-12 rounded-full bg-matted text-white flex items-center justify-center shadow-lg transition-all duration-300 z-50 cursor-pointer;
+    font-size: 1.5rem;
+  }
+  
+  .easter-egg:hover {
+    @apply bg-amber-700;
+  }
+
+  .social-icon-container {
+    @apply flex justify-center space-x-8 py-6;
+  }
+
+  .social-icon {
+    @apply w-12 h-12 rounded-full bg-matted flex items-center justify-center text-white shadow-md transition-all duration-300;
+    font-size: 1.25rem;
+  }
+
+  .social-icon:hover {
+    @apply transform scale-110 bg-blue-700;
+  }
+
+  .call-to-action {
+    @apply text-center max-w-3xl mx-auto my-16 text-slate-700;
+    line-height: 1.7;
+  }
+
+  .portal-description {
+    @apply my-3 text-slate-600 italic;
+  }
+
+  .hero-section {
+    @apply py-12 md:py-20;
+  }
+
+  .cards-container {
+    @apply flex justify-between mx-auto;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  /* Section image transitions */
+  .scroll-section img {
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    opacity: 0.85;
+  }
+  
+  .scroll-section.active-section img {
+    opacity: 1;
+  }
+  
+  /* Enhanced section content transitions */
+  .scroll-section .container-wide {
+    transition: transform 0.5s ease-out;
+  }
+  
+  .scroll-section.active-section .container-wide {
+    transform: translateY(0);
+  }
+
+  /* Content slide-in animations */
+  .content-container {
+    @apply p-8 rounded-lg backdrop-blur-sm;
+    opacity: 0;
+    transform: translateX(0);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out, background-color 0.5s ease-out;
+  }
+  
+  .content-container-right {
+    @apply bg-parchment/20;
+    transform: translateX(80px);
+  }
+  
+  .content-container-left {
+    @apply bg-parchment/20;
+    transform: translateX(-80px);
+  }
+  
+  .active-section .content-container {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  /* Staggered animation for content elements */
+  .content-title {
+    transition-delay: 0.2s;
+  }
+  
+  .content-text {
+    transition-delay: 0.4s;
+    @apply flex flex-col items-center; /* Center the text content and button */
+  }
+  
+  .content-button {
+    transition-delay: 0.6s;
+    display: inline-block;
+    background: transparent;
+    margin-top: 1.5rem;
+  }
+  
+  /* Enhance button hover effect */
+  .btn.btn-primary {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-size: 1.25rem; /* Larger text */
+    padding: 0.75rem 1.5rem; /* Larger padding */
+    border: 2px solid white; /* Add white border */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .btn.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: transform 0.5s ease;
+    z-index: 0;
+  }
+  
+  .btn.btn-primary:hover::before {
+    transform: translateX(100%);
+  }
+  
+  .btn.btn-primary:hover {
+    background-color: rgba(59, 130, 246, 0.8); /* Slightly transparent blue on hover */
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.05);
+  }
+  
+  .btn.btn-primary span {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Custom animations for scroll sections */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Enhanced section transitions for scrolling */
+.section-image-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Parallax effect for background images */
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  transform: translateZ(-1px) scale(2);
+  transition: transform 0.3s ease-out;
+}
