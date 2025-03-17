@@ -1,322 +1,147 @@
-import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Stars, Html } from '@react-three/drei';
-import * as THREE from 'three';
+import { useEffect } from 'react';
 
-// Custom error boundary component
-class ThreeJSErrorBoundary extends React.Component<
-  { children: React.ReactNode; fallback: React.ReactNode },
-  { hasError: boolean }
-> {
-  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error) {
-    console.error('Error in 3D scene:', error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
-}
-
-// Simplified Earth component without external textures
-function Earth() {
-  const earthRef = useRef<THREE.Group>(null);
-  
-  // Rotate the earth
-  useFrame(() => {
-    if (earthRef.current) {
-      earthRef.current.rotation.y += 0.0005;
-    }
-  });
-
-  return (
-    <group position={[0, 0, -15]} ref={earthRef}>
-      {/* Earth sphere */}
-      <mesh>
-        <sphereGeometry args={[5, 32, 32]} />
-        <meshPhongMaterial 
-          color="#1a66ff"
-          emissive="#00287a"
-          specular="#111111"
-          shininess={5}
-        />
-      </mesh>
-      
-      {/* Atmosphere glow */}
-      <mesh>
-        <sphereGeometry args={[5.05, 32, 32]} />
-        <meshBasicMaterial 
-          color="#4fc3f7"
-          transparent={true}
-          opacity={0.2}
-          depthWrite={false}
-        />
-      </mesh>
-    </group>
-  );
-}
-
-// Window component that frames the view of Earth
-function PanoramicWindow() {
-  return (
-    <mesh position={[0, 0, -10]}>
-      <planeGeometry args={[30, 15]} />
-      <meshBasicMaterial color="#0f0f1f" opacity={0.1} transparent />
-      <Box position={[-15, 0, 0]} args={[0.5, 15, 1]} color="#1a1a2e" />
-      <Box position={[15, 0, 0]} args={[0.5, 15, 1]} color="#1a1a2e" />
-      <Box position={[0, 7.5, 0]} args={[30, 0.5, 1]} color="#1a1a2e" />
-      <Box position={[0, -7.5, 0]} args={[30, 0.5, 1]} color="#1a1a2e" />
-    </mesh>
-  );
-}
-
-// Reusable Box component for window frames and furniture
-interface BoxProps {
-  position: [number, number, number];
-  args: [number, number, number];
-  color: string;
-}
-
-function Box({ position, args, color }: BoxProps) {
-  return (
-    <mesh position={position}>
-      <boxGeometry args={args} />
-      <meshStandardMaterial color={color} />
-    </mesh>
-  );
-}
-
-// Furniture components
-function ReadingChair({ position = [5, -3, -5] as [number, number, number] }) {
-  return (
-    <group position={position} rotation={[0, -Math.PI / 4, 0]}>
-      <Box position={[0, 0.5, 0]} args={[1.5, 1, 1.5]} color="#8B4513" />
-      <Box position={[0, 1.5, -0.6]} args={[1.5, 2, 0.3]} color="#8B4513" />
-    </group>
-  );
-}
-
-function Couch({ position = [-5, -3, -5] as [number, number, number] }) {
-  return (
-    <group position={position} rotation={[0, Math.PI / 4, 0]}>
-      <Box position={[0, 0.5, 0]} args={[3, 1, 1.5]} color="#2E4053" />
-      <Box position={[0, 1.5, -0.7]} args={[3, 1, 0.2]} color="#2E4053" />
-      <Box position={[-1.5, 1, 0]} args={[0.2, 2, 1.5]} color="#2E4053" />
-      <Box position={[1.5, 1, 0]} args={[0.2, 2, 1.5]} color="#2E4053" />
-    </group>
-  );
-}
-
-function Desk({ position = [0, -3, -7] as [number, number, number] }) {
-  return (
-    <group position={position}>
-      <Box position={[0, 1, 0]} args={[3, 0.2, 1.5]} color="#5D6D7E" />
-      <Box position={[-1.3, 0, 0]} args={[0.2, 2, 1.5]} color="#5D6D7E" />
-      <Box position={[1.3, 0, 0]} args={[0.2, 2, 1.5]} color="#5D6D7E" />
-    </group>
-  );
-}
-
-// Holographic display component
-interface HologramProps {
-  position: [number, number, number];
-  title: string;
-  content: React.ReactNode;
-}
-
-function Hologram({ position, title, content }: HologramProps) {
-  const { camera } = useThree();
-  const hologramRef = useRef<THREE.Group>(null);
-  
-  // Always face the camera
-  useFrame(() => {
-    if (hologramRef.current) {
-      hologramRef.current.lookAt(camera.position);
-    }
-  });
-  
-  return (
-    <group position={position} ref={hologramRef}>
-      <mesh>
-        <planeGeometry args={[4, 3]} />
-        <meshBasicMaterial color="#4FC3F7" opacity={0.2} transparent side={THREE.DoubleSide} />
-      </mesh>
-      <Html transform distanceFactor={10} position={[0, 0, 0.1]}>
-        <div className="hologram-content bg-blue-900/20 backdrop-blur-sm p-4 rounded text-blue-100 w-64">
-          <h3 className="text-lg font-bold text-blue-300 mb-2">{title}</h3>
-          <div className="text-xs">{content}</div>
-        </div>
-      </Html>
-    </group>
-  );
-}
-
-// Main scene component
-function Scene() {
-  // Hologram content
-  const holograms = [
-    {
-      title: "Narrative Bio",
-      content: (
-        <p>
-          Engineer turned analyst turned tech startup leader, now investor and consultant. 
-          Driven by first principles thinking and building innovative solutions across sectors.
-          Obsessed with the intersection of technology and possibility.
-        </p>
-      ),
-      position: [7, 2, -8] as [number, number, number]
-    },
-    {
-      title: "Life Journey",
-      content: (
-        <div>
-          <p className="mb-2">A map of my evolving path:</p>
-          <ul className="list-disc pl-4">
-            <li>Minneapolis, MN - Current Base</li>
-            <li>New York - Finance & Tech</li>
-            <li>California - Startups</li>
-            <li>International Projects - Africa, Asia, Europe</li>
-          </ul>
-        </div>
-      ),
-      position: [-7, 2, -8] as [number, number, number]
-    },
-    {
-      title: "Systems Theory",
-      content: (
-        <p>
-          Exploring the critical intersections of energy systems, infrastructure development, 
-          and information networks. Analyzing how these three pillars form the foundation 
-          of technological advancement and societal transformation.
-        </p>
-      ),
-      position: [-4, 2, -5] as [number, number, number]
-    },
-    {
-      title: "Focus Areas",
-      content: (
-        <div>
-          <p className="mb-1">Passionate about the future of:</p>
-          <ul className="list-disc pl-4">
-            <li>Machine Learning</li>
-            <li>Aerospace Innovation</li>
-            <li>Robotics & Automation</li>
-            <li>Data Visualization</li>
-          </ul>
-        </div>
-      ),
-      position: [4, 2, -5] as [number, number, number]
-    }
-  ];
-  
-  return (
-    <>
-      {/* Ambient light and point light for the scene */}
-      <ambientLight intensity={0.3} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      
-      {/* Controls to navigate the scene */}
-      <OrbitControls 
-        enableZoom={true} 
-        enablePan={true} 
-        enableRotate={true}
-        minDistance={5}
-        maxDistance={20}
-        target={[0, 0, -10]}
-      />
-      
-      {/* Background stars */}
-      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0.5} fade />
-      
-      {/* Earth outside the window */}
-      <Earth />
-      
-      {/* Window frame */}
-      <PanoramicWindow />
-      
-      {/* Room furniture */}
-      <ReadingChair />
-      <Couch />
-      <Desk />
-      
-      {/* Floor */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -5, 0]}>
-        <planeGeometry args={[30, 30]} />
-        <meshStandardMaterial color="#2C3E50" />
-      </mesh>
-      
-      {/* Holographic displays */}
-      {holograms.map((hologram, index) => (
-        <Hologram 
-          key={index}
-          position={hologram.position}
-          title={hologram.title}
-          content={hologram.content}
-        />
-      ))}
-    </>
-  );
-}
-
-// Main Origin component
 const Origin = () => {
-  const [hasError, setHasError] = useState(false);
-
-  // Error fallback component
-  const Fallback = () => {
-    // Set the error state when the fallback is rendered
-    useEffect(() => {
-      setHasError(true);
-    }, []);
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
     
-    return null; // This won't be visible, we'll show our own fallback UI
-  };
+    // Animation for scroll elements
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
 
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    fadeElements.forEach(element => {
+      observer.observe(element);
+    });
+
+    return () => {
+      fadeElements.forEach(element => {
+        observer.unobserve(element);
+      });
+    };
+  }, []);
+
+  // Origin image from App.tsx
+  const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
+  
   return (
-    <div className="w-full h-screen bg-black overflow-hidden">
-      {/* Top navigation bar */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4 bg-gradient-to-b from-black to-transparent">
-        <Link to="/" className="text-blue-300 hover:text-blue-500 px-4 py-2 rounded-full bg-gray-900/30 backdrop-blur-sm">
-          ← Back to Nexus
-        </Link>
-      </div>
-      
-      {/* Main 3D canvas or fallback */}
-      {!hasError ? (
-        <ThreeJSErrorBoundary fallback={<Fallback />}>
-          <Canvas camera={{ position: [0, 0, 5], fov: 70 }}>
-            <Suspense fallback={null}>
-              <Scene />
-            </Suspense>
-          </Canvas>
-        </ThreeJSErrorBoundary>
-      ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center text-white">
-          <div className="bg-matted p-8 rounded-lg max-w-xl shadow-2xl">
-            <h1 className="text-4xl font-heading mb-6">Origin</h1>
-            <p className="text-lg mb-8">
-              A cozy, introspective space—an orbital den with a panoramic view of Earth.
-            </p>
-            <p className="mb-4">
-              There was an error loading the 3D environment. 
-              The complete experience includes an orbital room with Earth visible through a panoramic window,
-              comfortable furniture, and holographic displays sharing my journey.
-            </p>
+    <div className="bg-parchment text-slate-800 min-h-screen">
+      {/* Header */}
+      <header className="py-6 border-b border-slate-300 sticky top-0 bg-parchment/95 backdrop-blur-sm z-10">
+        <div className="container-custom">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="text-2xl font-heading text-slate-800">Curtis James</Link>
+            <nav className="hidden md:flex items-center space-x-8">
+              <Link to="/" className="text-slate-600 hover:text-slate-900 text-sm">Home</Link>
+              <span className="text-blue-600 text-sm">Origin</span>
+            </nav>
           </div>
         </div>
-      )}
+      </header>
+      
+      {/* Hero Section */}
+      <section className="relative h-[70vh] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-matted/70 to-transparent z-10"></div>
+        <img 
+          src={originImage} 
+          alt="Origin" 
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        
+        <div className="container-custom relative z-20 h-full flex items-center">
+          <div className="max-w-2xl">
+            <div className="bg-matted/60 backdrop-blur-sm text-white p-8 rounded-lg">
+              <h1 className="text-4xl font-heading mb-4">Origin</h1>
+              <p className="text-xl mb-6">Personal story & journey</p>
+              <p className="mb-6">A space where you can discover the journey and personal story that shaped my identity and values.</p>
+              <div className="mt-6">
+                <button className="btn btn-primary rounded-md px-6 py-2 bg-blue-600 hover:bg-blue-700 transition">
+                  <span>Future Three.js Experience</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Content Sections */}
+      <section className="py-16 bg-white">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-heading mb-8 text-center">The Story Behind</h2>
+            
+            <div className="bg-parchment p-8 rounded-lg shadow-md mb-12">
+              <p className="text-lg mb-6">
+                This section features a detailed exposition of the personal journey, 
+                including formative experiences and key turning points that have shaped
+                my perspective and approach to technology and innovation.
+              </p>
+              <p>
+                Origin chronicles my path from engineer to investor, revealing the 
+                formative experiences and values that drive my approach to building 
+                solutions and analyzing problems.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-parchment p-6 rounded-lg shadow-md fade-in-up">
+                <h3 className="text-xl font-heading mb-4">Personal Timeline</h3>
+                <p>
+                  An interactive timeline of significant moments and experiences that have 
+                  contributed to my professional and personal development.
+                </p>
+                <div className="mt-4 text-blue-600">Coming soon</div>
+              </div>
+              
+              <div className="bg-parchment p-6 rounded-lg shadow-md fade-in-up">
+                <h3 className="text-xl font-heading mb-4">Core Values</h3>
+                <p>
+                  An exploration of the fundamental principles and beliefs that guide
+                  my decisions and shape my approach to technology and business.
+                </p>
+                <div className="mt-4 text-blue-600">Coming soon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Call to Action - Three.js Experience */}
+      <section className="py-16 bg-gray-100">
+        <div className="container-custom">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-heading mb-6">Step Into The Origin World</h2>
+            <p className="text-lg mb-8">
+              A future immersive Three.js experience will allow you to explore this world
+              in an interactive 3D environment. Stay tuned as we develop this feature.
+            </p>
+            <button className="btn btn-outline border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition rounded-md px-8 py-3">
+              Coming Soon
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      {/* Footer */}
+      <footer className="py-12 border-t border-slate-300">
+        <div className="container-custom">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-6 md:mb-0">
+              <h2 className="text-xl font-heading text-slate-800">Curtis James | Lederle </h2>
+              <p className="text-sm text-slate-600">© {new Date().getFullYear()} All rights reserved</p>
+            </div>
+            <div>
+              <Link to="/" className="text-slate-600 hover:text-slate-900">Back to Nexus</Link>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

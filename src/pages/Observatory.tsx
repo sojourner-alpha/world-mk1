@@ -27,8 +27,8 @@ const Observatory = () => {
     };
   }, []);
 
-  // Placeholder image
-  const observatoryHero = "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?q=80&w=2000";
+  // Observatory image from App.tsx
+  const observatoryImage = "https://cdn.midjourney.com/ed339c2f-a4e1-431f-96fe-79f1da80128a/0_0.png";
   
   return (
     <div className="bg-parchment text-slate-800 min-h-screen">
@@ -49,107 +49,79 @@ const Observatory = () => {
       <section className="relative h-[70vh] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-matted/70 to-transparent z-10"></div>
         <img 
-          src={observatoryHero} 
+          src={observatoryImage} 
           alt="Observatory" 
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
-        <div className="container-custom relative z-10 flex items-center h-full">
+        
+        <div className="container-custom relative z-20 h-full flex items-center">
           <div className="max-w-2xl">
-            <h1 className="text-5xl md:text-6xl font-heading mb-6 text-white">Observatory</h1>
-            <p className="text-xl text-gray-200">
-              A futuristic lookout tower gazing into tomorrow's possibilities
-            </p>
+            <div className="bg-matted/60 backdrop-blur-sm text-white p-8 rounded-lg">
+              <h1 className="text-4xl font-heading mb-4">Observatory</h1>
+              <p className="text-xl mb-6">Ideas & future perspectives</p>
+              <p className="mb-6">A futuristic lookout point where thoughts on emerging technologies, future trends, and speculative ideas come together.</p>
+              <div className="mt-6">
+                <button className="btn btn-primary rounded-md px-6 py-2 bg-blue-600 hover:bg-blue-700 transition">
+                  <span>Future Three.js Experience</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
       
-      {/* Main Content */}
-      <section className="py-20">
+      {/* Content Sections */}
+      <section className="py-16 bg-white">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-            <div className="lg:col-span-2">
-              <div className="prose prose-slate max-w-none">
-                <h2 className="text-3xl font-heading mb-8 fade-in-up text-slate-800">Ideas & Future Perspectives</h2>
-                <div className="fade-in-up matted-section">
-                  <p className="mb-6">
-                    Welcome to Observatory, where we explore the intersection of technology, society, and human potential. 
-                    This is where I share thoughts on emerging technologies, predictions about future trends, 
-                    and speculative ideas about where we might be heading.
-                  </p>
-                  <p className="mb-6">
-                    Observatory represents the forward-looking aspect of my identity — the part that's constantly 
-                    scanning the horizon for what comes next, analyzing patterns, and imagining possible futures. 
-                    It's a space for intellectual exploration and thoughtful examination of complex ideas.
-                  </p>
-                  <h3 className="text-2xl font-heading mt-12 mb-6">Featured Thoughts</h3>
-                  <div className="bg-black/80 p-8 rounded-lg border border-gray-700 mb-10">
-                    <h4 className="text-xl font-heading mb-4">The Future of Digital Identity</h4>
-                    <p className="mb-4">
-                      In a world where our digital and physical lives continue to merge, how will our concept of identity evolve? 
-                      This ongoing series explores the philosophical, technical, and social implications of our changing relationship with identity.
-                    </p>
-                    <div className="flex justify-end">
-                      <span className="text-blue-400 cursor-not-allowed opacity-70">Coming soon</span>
-                    </div>
-                  </div>
-                  <div className="bg-black/80 p-8 rounded-lg border border-gray-700">
-                    <h4 className="text-xl font-heading mb-4">Sustainable Technology Futures</h4>
-                    <p className="mb-4">
-                      How can we ensure that technological progress aligns with ecological sustainability? This exploration 
-                      looks at emerging models for tech development that prioritize regenerative relationships with our planet.
-                    </p>
-                    <div className="flex justify-end">
-                      <span className="text-blue-400 cursor-not-allowed opacity-70">Coming soon</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <h3 className="text-2xl font-heading mt-16 mb-6 fade-in-up text-slate-800">Future Features</h3>
-                <div className="fade-in-up matted-section">
-                  <p className="mb-4">
-                    Observatory will evolve to include:
-                  </p>
-                  <ul className="list-disc pl-5 mb-10 space-y-2">
-                    <li>An essay collection on technology futures</li>
-                    <li>Interactive simulations that visualize emerging trends</li>
-                    <li>A "futures sandbox" where visitors can experiment with different variables to see how they might shape tomorrow</li>
-                    <li>A curated reading list of forward-thinking books and articles</li>
-                  </ul>
-                </div>
-              </div>
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-heading mb-8 text-center">Emerging Horizons</h2>
+            
+            <div className="bg-parchment p-8 rounded-lg shadow-md mb-12">
+              <p className="text-lg mb-6">
+                This section presents essays, predictions, and thought experiments that examine
+                the intersection of technology, society, and human potential.
+              </p>
+              <p>
+                Observatory invites you to explore emerging trends and ideas that may reshape
+                our technological landscape, offering a forward-looking perspective on our digital future.
+              </p>
             </div>
             
-            {/* Sidebar */}
-            <aside className="lg:col-span-1">
-              <div className="sticky top-24">
-                <div className="bg-matted rounded-lg border border-gray-700 p-6 mb-8 fade-in-up">
-                  <h3 className="text-xl font-heading mb-4 text-white">Connect</h3>
-                  <p className="text-gray-300 mb-6">
-                    Interested in discussing future technologies or speculative ideas? Let's connect and explore these concepts together.
-                  </p>
-                  <Link to="/crossroads" className="btn btn-primary w-full">Reach Out</Link>
-                </div>
-                
-                <div className="bg-gradient-to-br from-blue-900/50 to-purple-900/50 rounded-lg border border-blue-800/30 p-6 fade-in-up text-white">
-                  <h3 className="text-xl font-heading mb-4">Future Dispatch</h3>
-                  <p className="text-gray-200 mb-6">
-                    Join the observatory's regular transmission of insights, predictions, and thought experiments.
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <input 
-                      type="email" 
-                      placeholder="Your email" 
-                      className="bg-black/50 border border-gray-700 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-                      disabled
-                    />
-                    <button className="btn btn-primary whitespace-nowrap opacity-50 cursor-not-allowed">
-                      Subscribe
-                    </button>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-2 italic">Coming soon</p>
-                </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-parchment p-6 rounded-lg shadow-md fade-in-up">
+                <h3 className="text-xl font-heading mb-4">Future Trends</h3>
+                <p>
+                  Analysis and insights into emerging technologies and their potential
+                  impact on industries, society, and individual lives.
+                </p>
+                <div className="mt-4 text-blue-600">Coming soon</div>
               </div>
-            </aside>
+              
+              <div className="bg-parchment p-6 rounded-lg shadow-md fade-in-up">
+                <h3 className="text-xl font-heading mb-4">Thought Experiments</h3>
+                <p>
+                  Speculative explorations of potential futures, considering various
+                  technological, social, and cultural trajectories.
+                </p>
+                <div className="mt-4 text-blue-600">Coming soon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Call to Action - Three.js Experience */}
+      <section className="py-16 bg-gray-100">
+        <div className="container-custom">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-heading mb-6">Enter The Observatory</h2>
+            <p className="text-lg mb-8">
+              A future immersive Three.js experience will allow you to explore this world
+              in an interactive 3D environment. Stay tuned as we develop this feature.
+            </p>
+            <button className="btn btn-outline border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition rounded-md px-8 py-3">
+              Coming Soon
+            </button>
           </div>
         </div>
       </section>
@@ -159,18 +131,11 @@ const Observatory = () => {
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <Link to="/" className="text-xl font-heading block mb-1 text-slate-800">Curtis James</Link>
-              <p className="text-sm text-slate-600">Digital Craftsman & Futurist</p>
+              <h2 className="text-xl font-heading text-slate-800">Curtis James | Lederle </h2>
+              <p className="text-sm text-slate-600">© {new Date().getFullYear()} All rights reserved</p>
             </div>
-            <div className="flex flex-col items-end">
-              <nav className="flex space-x-6 mb-4">
-                <Link to="/" className="text-slate-600 hover:text-slate-900">Home</Link>
-                <Link to="/origin" className="text-slate-600 hover:text-slate-900">Origin</Link>
-                <Link to="/workshop" className="text-slate-600 hover:text-slate-900">Workshop</Link>
-                <Link to="/loft" className="text-slate-600 hover:text-slate-900">Loft</Link>
-                <Link to="/crossroads" className="text-slate-600 hover:text-slate-900">Crossroads</Link>
-              </nav>
-              <p className="text-sm text-slate-500">© {new Date().getFullYear()} All rights reserved.</p>
+            <div>
+              <Link to="/" className="text-slate-600 hover:text-slate-900">Back to Nexus</Link>
             </div>
           </div>
         </div>
