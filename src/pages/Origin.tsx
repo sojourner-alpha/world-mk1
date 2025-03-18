@@ -119,7 +119,7 @@ const Origin = () => {
                         : 'text-gray-300 hover:text-white'}`}
                       onClick={() => setActiveTab('roots')}
                     >
-                      Roots & Family
+                      Roots
                     </button>
                     <button 
                       className={`py-2 px-4 mr-2 ${activeTab === 'athletics' 
@@ -135,7 +135,7 @@ const Origin = () => {
                         : 'text-gray-300 hover:text-white'}`}
                       onClick={() => setActiveTab('outdoor')}
                     >
-                      Outdoor
+                      Nature
                     </button>
                     <button 
                       className={`py-2 px-4 ${activeTab === 'education' 
@@ -143,7 +143,7 @@ const Origin = () => {
                         : 'text-gray-300 hover:text-white'}`}
                       onClick={() => setActiveTab('education')}
                     >
-                      Education & Career
+                      Education
                     </button>
                   </div>
                   
@@ -159,15 +159,11 @@ const Origin = () => {
                           expand your perspective. 
                         </p>
                         <p className="mb-3">
-                          My parents shared passion for curiosity and adventure would shape our family experiences.
-                          From exploring world heritage sites in the American southwest to the Inca Trail, Machu Picchu
-                          and the Galapagos Islands, our family trips were not to .
+                          Discipline of routine
+                          Meditation and yoga early on 
                         </p>
                         <p>
-                          These early influences instilled in me a deep appreciation for both 
-                          intellectual pursuit and practical application—seeing the world not just 
-                          as it is, but envisioning how it could be improved through thoughtful design 
-                          and purposeful innovation.
+                          closing thoughts. 
                         </p>
                       </div>
                     )}
@@ -176,14 +172,14 @@ const Origin = () => {
                     {activeTab === 'athletics' && (
                       <div>
                         <p className="mb-3">
-                          As an active child, I found joy in movement and competition—playing hockey and soccer
-                          throughout my early years. This athletic foundation evolved into high school achievements,
-                          where I competed at the highest levels in both track and diving.
+                          team from hockey and soccer 
+                          competitor of self from track and diving 
                         </p>
                         <p className="mb-3">
-                          My competitive spirit continued into my twenties, where I swam and played squash 
-                          at a competitive level. Today, I maintain a balanced physical practice through yoga, 
-                          meditation, tai chi, and regular strength training.
+                          swimming, squash, 
+                          sailing, biking, surfing, climbing
+                          yoga, meditation, tai chi, strength training
+                          canoeing and walking 
                         </p>
                         <p>
                           These athletic pursuits have taught me discipline, perseverance, and the value of
@@ -245,7 +241,7 @@ const Origin = () => {
             
             {/* World Map Section - Now using the WorldMap component */}
             <div className="mt-8 bg-matted/70 backdrop-blur-sm rounded-lg p-6 max-w-4xl w-full mx-auto text-white fade-in">
-              <h2 className="text-2xl font-heading mb-4">Global Journey</h2>
+              <h2 className="text-2xl font-heading mb-4">Geography</h2>
               
               {/* Replace SVG with WorldMap component */}
               <div className="relative w-full h-80 rounded-lg overflow-hidden">
