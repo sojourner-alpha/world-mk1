@@ -380,6 +380,71 @@
     position: relative;
     z-index: 1;
   }
+
+  /* Map related styles */
+  .world-map-container {
+    @apply bg-gray-800/30 border border-gray-600/30;
+    height: 100%;
+  }
+
+  .ol-popup {
+    @apply z-30;
+  }
+
+  .ol-popup:hover {
+    display: block !important;
+  }
+
+  /* Grayscale map style */
+  .grayscale-layer {
+    filter: grayscale(70%) brightness(100%) contrast(100%);
+    opacity: 1; /* Full opacity */
+  }
+
+  .ol-viewport {
+    @apply rounded-lg;
+  }
+
+  .ol-attribution {
+    @apply text-xs opacity-70 bg-gray-800/50 text-white;
+  }
+
+  .ol-attribution button {
+    @apply text-white;
+  }
+
+  .ol-attribution ul {
+    @apply text-xs;
+  }
+
+  .ol-control button {
+    @apply bg-gray-800/80 text-white border border-gray-700;
+  }
+
+  .ol-control button:hover {
+    @apply bg-gray-700;
+  }
+
+  .map-marker {
+    transition: transform 0.2s ease;
+  }
+
+  .map-marker:hover {
+    transform: scale(1.5);
+    z-index: 10;
+  }
+
+  .current-base-marker {
+    /* No shadow, just pure color */
+  }
+
+  .home-marker {
+    /* No shadow, just pure color */
+  }
+
+  .work-marker {
+    /* No shadow, just pure color */
+  }
 }
 
 /* Custom animations for scroll sections */

@@ -21,11 +21,7 @@ const Header = () => (
       <div className="flex flex-col">
         <div className="flex items-baseline justify-between">
           <h1 className="text-3xl font-heading text-slate-800">Curtis James Lederle</h1>
-          <div className="hidden md:flex space-x-8 text-sm text-slate-600">
-            {/* These will be added later, just placeholders */}
-            <span className="cursor-not-allowed opacity-50">About</span>
-            <span className="cursor-not-allowed opacity-50">Contact</span>
-          </div>
+          {/* Navigation removed - will reconsider header and nav later */}
         </div>
         <p className="text-slate-600 mt-1"> Techologist + Investor + Consultant </p>
         <div className="header-divider"></div>
@@ -397,7 +393,7 @@ const Home = () => {
               Blueprints of Possibility
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 mb-8 animate-slide-up">
-              Where engineering meets imagination and data powers discovery
+              Where engineering meets imagination and data powers discovery.
             </p>
             
             <div className="header-divider mb-8"></div>
