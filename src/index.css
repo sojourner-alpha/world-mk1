@@ -495,3 +495,71 @@
   transform: translateZ(-1px) scale(2);
   transition: transform 0.3s ease-out;
 }
+
+/* Custom Scrollbar Styles */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* For Firefox */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced button styles for Origin page */
+.origin-section-button {
+  @apply relative overflow-hidden transition-all duration-300;
+  transform-origin: center;
+}
+
+.origin-section-button::before {
+  content: '';
+  @apply absolute inset-0 bg-white/10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.origin-section-button:hover::before {
+  opacity: 1;
+}
+
+.origin-section-button::after {
+  content: '';
+  @apply absolute inset-0 border-2 border-white/30;
+  transition: all 0.3s ease;
+}
+
+.origin-section-button:hover::after {
+  @apply border-white/50;
+  transform: scale(1.05);
+}
+
+/* Add glow effect on hover */
+.origin-section-button:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Add subtle animation for the button content */
+.origin-section-button h2 {
+  transition: transform 0.3s ease;
+}
+
+.origin-section-button:hover h2 {
+  transform: translateX(5px);
+}

@@ -26,11 +26,22 @@ interface Place {
 
 interface WorldMapProps {
   places: Place[];
-  onHoverPlace?: (placeName: string | null) => void;
-  hoveredPlace?: string | null;
+  onHoverPlace: (place: string | null) => void;
+  hoveredPlace: string | null;
+  initialCenter?: {
+    lat: number;
+    lng: number;
+  };
+  initialZoom?: number;
 }
 
-const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
+const WorldMap: React.FC<WorldMapProps> = ({ 
+  places, 
+  onHoverPlace, 
+  hoveredPlace,
+  initialCenter = { lat: 45, lng: -90 },
+  initialZoom = 2.5
+}) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<Map | null>(null);
   const popupContainerRef = useRef<HTMLDivElement>(null);
@@ -40,7 +51,7 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
   // Initialize map when component mounts
   useEffect(() => {
     if (!mapRef.current) return;
-    
+
     // Create popup overlay
     if (popupContainerRef.current && popupContentRef.current) {
       popupOverlay.current = new Overlay({
@@ -65,7 +76,7 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
       zIndex: 1
     });
     
-    // Use a stylized OSM base layer to match site aesthetics
+    // Initialize map with base layer
     const map = new Map({
       target: mapRef.current,
       layers: [
@@ -73,20 +84,19 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
           source: new OSM({
             attributions: 'Map data © OpenStreetMap contributors'
           }),
-          className: 'grayscale-layer', // Apply grayscale filter via CSS
+          className: 'grayscale-layer',
         }),
         connectionsLayer,
         pointsLayer
       ],
       view: new View({
-        center: fromLonLat([0, 30]),
-        zoom: 2,
-        maxZoom: 5
+        center: fromLonLat([initialCenter.lng, initialCenter.lat]),
+        zoom: initialZoom
       }),
       controls: defaultControls({
-        zoom: false,
+        zoom: true,
         rotate: false,
-        attribution: true
+        attribution: false
       }),
     });
 
@@ -99,30 +109,28 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
       const { name, type, coordinates } = place;
       const { lat, lng } = coordinates;
       
-      // Create the feature
       const feature = new Feature({
         geometry: new Point(fromLonLat([lng, lat])),
         name,
         type
       });
       
-      // Style based on place type
       let color;
       let radius = 7;
       
       switch (type) {
         case 'Current Base':
-          color = '#38b6ff'; // Brighter blue
-          radius = 9; // Slightly larger for current base
+          color = '#38b6ff';
+          radius = 9;
           break;
         case 'Home':
-          color = '#5cdb95'; // Brighter green
+          color = '#5cdb95';
           break;
         case 'Work':
-          color = '#ff5e5b'; // Brighter red
+          color = '#ff5e5b';
           break;
         default:
-          color = '#ffbd39'; // Brighter orange
+          color = '#ffbd39';
       }
       
       feature.setStyle(new Style({
@@ -141,37 +149,28 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
     
     pointsSource.addFeatures(features);
     
-    // Define custom connections between cities
+    // Define connections between cities
     const connections = [
-      // Montreal connections
       { from: "Montreal", to: "Berlin" },
       { from: "Montreal", to: "Bremen" },
       { from: "Montreal", to: "Necker Island" },
       { from: "Montreal", to: "Isle of Tiree" },
       { from: "Montreal", to: "Halifax" },
-      
-      // San Francisco connections
       { from: "San Francisco", to: "Singapore" },
       { from: "San Francisco", to: "Berlin" },
       { from: "San Francisco", to: "Seoul" },
-      
-      // New York connections
       { from: "New York", to: "Montreal" },
       { from: "New York", to: "Toronto" },
-      
-      // Minneapolis connections
       { from: "Minneapolis", to: "Montreal" },
       { from: "Minneapolis", to: "Toronto" },
       { from: "Minneapolis", to: "San Francisco" },
     ];
     
-    // Create a map of places by name for easy lookup
     const placeMap = new Map();
     places.forEach(place => {
       placeMap.set(place.name, place);
     });
     
-    // Add connections based on the defined relationships
     connections.forEach(connection => {
       const fromPlace = placeMap.get(connection.from);
       const toPlace = placeMap.get(connection.to);
@@ -181,22 +180,18 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
       const origin = fromLonLat([fromPlace.coordinates.lng, fromPlace.coordinates.lat]);
       const destination = fromLonLat([toPlace.coordinates.lng, toPlace.coordinates.lat]);
       
-      // Create a curved line for each connection
       const dx = destination[0] - origin[0];
       const dy = destination[1] - origin[1];
       const midpoint = [origin[0] + dx * 0.5, origin[1] + dy * 0.5];
       
-      // Add some curvature based on distance
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const factor = Math.min(0.3, distance / 10); // Limit curvature for very long lines
+      const factor = Math.min(0.3, distance / 10);
       
-      // Add a control point to create a curve
       const controlPoint = [
         midpoint[0], 
         midpoint[1] - Math.abs(dx) * factor
       ];
       
-      // Create curved connection by using multiple points
       const lineFeature = new Feature({
         geometry: new LineString([
           origin,
@@ -207,12 +202,9 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
         ])
       });
       
-      // Style connection based on fromPlace type
-      let connectionColor = 'rgba(160, 160, 160, 0.6)'; // Unified grey color for all connections
-      
       lineFeature.setStyle(new Style({
         stroke: new Stroke({
-          color: connectionColor,
+          color: 'rgba(160, 160, 160, 0.6)',
           width: 2,
           lineDash: [2, 4],
         })
@@ -223,13 +215,11 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
     
     // Add hover interaction
     map.on('pointermove', (e) => {
-      // Set cursor style
       const hit = map.hasFeatureAtPixel(e.pixel, {
         layerFilter: layer => layer === pointsLayer
       });
       map.getTargetElement().style.cursor = hit ? 'pointer' : '';
       
-      // Handle popup
       if (!hit) {
         if (popupOverlay.current) {
           popupOverlay.current.setPosition(undefined);
@@ -249,7 +239,6 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
         const properties = feature.getProperties();
         popupContentRef.current.innerHTML = `<strong>${properties.name}</strong>`;
         
-        // Get the coordinate of the feature instead of the pointer position
         const geometry = feature.getGeometry() as Point;
         if (geometry) {
           const coordinate = geometry.getCoordinates();
@@ -274,11 +263,11 @@ const WorldMap = ({ places, onHoverPlace }: WorldMapProps) => {
 
     return () => {
       if (mapInstance.current) {
-        mapInstance.current.setTarget(undefined);
+        mapInstance.current.setTarget(null);
         mapInstance.current = null;
       }
     };
-  }, [places, onHoverPlace]);
+  }, [places, onHoverPlace, initialCenter, initialZoom]);
 
   return (
     <>
