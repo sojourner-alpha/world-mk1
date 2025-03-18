@@ -20,7 +20,7 @@ const Header = () => (
     <div className="container-wide">
       <div className="flex flex-col">
         <div className="flex items-baseline justify-between">
-          <h1 className="text-3xl font-heading text-slate-800">Curtis James Lederle</h1>
+          <h1 className="text-3xl font-heading text-slate-800">Curtis James | Lederle</h1>
           {/* Navigation removed - will reconsider header and nav later */}
         </div>
         <p className="text-slate-600 mt-1"> Techologist + Investor + Consultant </p>
@@ -390,7 +390,7 @@ const Home = () => {
         <div className="container-wide">
           <div className="max-w-5xl mx-auto text-center">
             <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-6 animate-fade-in text-slate-800">
-              Blueprints of Possibility
+              Welcome to my world(s).
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 mb-8 animate-slide-up">
               Where engineering meets imagination and data powers discovery.

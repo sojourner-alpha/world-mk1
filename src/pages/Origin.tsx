@@ -154,7 +154,7 @@ const Origin = () => {
                           Canoeing the Boundary Waters, hiking Superior National Forest, and sailing Lake Superior humbled me with nature's scale, while sports instilled discipline and routine. A teenage mountaineering trip in the Sierra Nevadas opened me to the power of meditative stillness.
                         </p>
                         <p>
-                          These experiences forged a mind driven to explore, build, and share.
+                          These experiences forged a mind driven to explore, build, and learn.
                         </p>
                       </div>
                     )}
@@ -163,16 +163,16 @@ const Origin = () => {
                     {activeTab === 'education' && (
                       <div className="space-y-4">
                         <p>
-                          After high school, I landed in Montreal at McGill, a city alive with global thinkers, entrepreneurs, and a unique cultural pulse—an international population with a fiercly independenty spirit, and a hub for research, film, music, science and technology. 
+                          After high school I landed at university in Montreal, in the heart of a thriving international population mixed with a fiercly independent local spirit and a hub of students and entreprenuers in both the sciences and the arts. 
                         </p>
                         <p>
-                          I studied civil engineering and applied sciences, tutored science and math, and led student organizations connecting peers to local projects.
+                          While there, I studied civil engineering and applied sciences, led student organizations connecting peers to local projects, and tutored science and math.
                         </p>
                         <p>
-                          After McGill, I dove into industry—engineering first, then business—learning through action (see <Link to="/workshop" className="text-blue-300 hover:text-blue-100">Workshop</Link>).
+                          After university, I dove into industry headfirst—engineering first, then business—learning through lived experience (see <Link to="/workshop" className="text-blue-300 hover:text-blue-100">Workshop</Link>).
                         </p>
                         <p>
-                          In the years since, I have continued to chase knowledge via an unending self guided cirriculum. It has included game theory, probability, finance, machine learning, and more. 
+                          In the years since, I have continued to chase knowledge via an unending self guided cirriculum. It has ranged from probability and finance to psycology and philosophy to machine learning and more as it continues to evolve. 
                         </p>
                         <p>
                           I strive to devour more books each year as I continue to maintain the learner's mindset.
@@ -193,10 +193,10 @@ const Origin = () => {
                           In my 30s, AI's rise has sparked a scientific explosion and unlocked new frontiers. I see us at the dawn of a new age, where intellect and imagination can create unimaginable things.
                         </p>
                         <p>
-                          As an individual, and especially as aparent, I'm deeply invested in understanding and shaping how these tools are built and used. 
+                          As a parent I am deeply invested in understanding and shaping how these tools are built and used. 
                         </p>
                         <p>
-                          As Narendra Modi said in an interview with Lex Fridman, "knowledge alone isn't enough, we must immerse ourselves in the flow of practice".
+                          As Narendra Modi said in an interview with Lex Fridman... "knowledge alone isn't enough, we must immerse ourselves in the flow of practice". And so we shall. 
                         </p>
                         <p>
                           This is my lens: to build, to explore, to share.
