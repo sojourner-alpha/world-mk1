@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
+import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox } from 'react-icons/fa6';
 import { SiSubstack } from 'react-icons/si';
 import Origin from './pages/Origin';
 import Workshop from './pages/Workshop';
@@ -21,7 +21,11 @@ const Header = () => (
       <div className="flex flex-col">
         <div className="flex items-baseline justify-between">
           <h1 className="text-3xl font-heading text-slate-800">Curtis James | Lederle</h1>
-          {/* Navigation removed - will reconsider header and nav later */}
+          <div className="flex items-center space-x-4">
+            <Link to="/toolbox" className="text-slate-600 hover:text-slate-800 transition-colors">
+              <FaToolbox size={24} />
+            </Link>
+          </div>
         </div>
         <p className="text-slate-600 mt-1"> Techologist + Investor + Consultant </p>
         <div className="header-divider"></div>
@@ -399,10 +403,6 @@ const Home = () => {
             <div className="header-divider mb-8"></div>
             
             <div className="call-to-action animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <p className="text-base">
-                Explore my intersection of <strong>web building</strong> and <strong>world building</strong> through these four portals, 
-                each offering a unique lens into different dimensions of my work, creations and thoughts.
-              </p>
             </div>
           </div>
           
@@ -459,6 +459,12 @@ const Home = () => {
           {/* Social Media Icons */}
           <div className="my-12">
             <div className="header-divider"></div>
+            <div className="max-w-2xl mx-auto">
+              <p className="text-base text-center">
+                Explore my intersection of <strong>web building</strong> and <strong>world building</strong> through these four portals, 
+                each offering a unique lens into different dimensions of my work, creations and thoughts.
+              </p>
+            </div>
             <div className="social-icon-container">
               <SocialIcon 
                 url="https://github.com/sojourner-alpha" 
