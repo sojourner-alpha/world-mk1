@@ -122,128 +122,97 @@ const Origin = () => {
                       Roots
                     </button>
                     <button 
-                      className={`py-2 px-4 mr-2 ${activeTab === 'athletics' 
-                        ? 'border-b-2 border-blue-400 text-blue-300' 
-                        : 'text-gray-300 hover:text-white'}`}
-                      onClick={() => setActiveTab('athletics')}
-                    >
-                      Athletics
-                    </button>
-                    <button 
-                      className={`py-2 px-4 mr-2 ${activeTab === 'outdoor' 
-                        ? 'border-b-2 border-blue-400 text-blue-300' 
-                        : 'text-gray-300 hover:text-white'}`}
-                      onClick={() => setActiveTab('outdoor')}
-                    >
-                      Nature
-                    </button>
-                    <button 
-                      className={`py-2 px-4 ${activeTab === 'education' 
+                      className={`py-2 px-4 mr-2 ${activeTab === 'education' 
                         ? 'border-b-2 border-blue-400 text-blue-300' 
                         : 'text-gray-300 hover:text-white'}`}
                       onClick={() => setActiveTab('education')}
                     >
                       Education
                     </button>
+                    <button 
+                      className={`py-2 px-4 ${activeTab === 'perspective' 
+                        ? 'border-b-2 border-blue-400 text-blue-300' 
+                        : 'text-gray-300 hover:text-white'}`}
+                      onClick={() => setActiveTab('perspective')}
+                    >
+                      Perspective
+                    </button>
                   </div>
                   
-                  {/* Tab Content - No height limitation to show all content */}
+                  {/* Tab Content */}
                   <div className="pr-2">
-                    {/* Roots & Family Content */}
+                    {/* Roots Content */}
                     {activeTab === 'roots' && (
-                      <div>
-                        <p className="mb-3">
-                          Born and raised in the American Midwest, I grew up in a family that valued
-                          family education and travel. Education to maintain a learner's mind and 
-                          continually improve you mind. Travel to experience new cultures and 
-                          expand your perspective. 
-                        </p>
-                        <p className="mb-3">
-                          Discipline of routine
-                          Meditation and yoga early on 
+                      <div className="space-y-4">
+                        <p>
+                          I grew up in the American Midwest surrounded by a family of architects, doctors, and engineers—role models who showed me the power of focus and applied intellect.
                         </p>
                         <p>
-                          closing thoughts. 
+                          My early days were spent tinkering with Legos and my mom's scale models. Watching her return to school for architecture ingrained a learner's mindset. Conversations over years with my dad fueled a love for data and science, while his voracious reading shaped my habits. Nearby, my favorite place was the workshop of my grandfather—a WWII RCAF engineer and master handyman—where anything could be built or fixed.
+                        </p>
+                        <p>
+                          Canoeing the Boundary Waters, hiking Superior National Forest, and sailing Lake Superior humbled me with nature's scale, while sports instilled discipline and routine. A teenage mountaineering trip in the Sierra Nevadas opened me to the power of meditative stillness.
+                        </p>
+                        <p>
+                          These experiences forged a mind driven to explore, build, and share.
                         </p>
                       </div>
                     )}
                     
-                    {/* Athletics Content */}
-                    {activeTab === 'athletics' && (
-                      <div>
-                        <p className="mb-3">
-                          team from hockey and soccer 
-                          competitor of self from track and diving 
-                        </p>
-                        <p className="mb-3">
-                          swimming, squash, 
-                          sailing, biking, surfing, climbing
-                          yoga, meditation, tai chi, strength training
-                          canoeing and walking 
-                        </p>
-                        <p>
-                          These athletic pursuits have taught me discipline, perseverance, and the value of
-                          continuous improvement—principles that extend far beyond physical activity into all
-                          aspects of my professional and personal life.
-                        </p>
-        </div>
-                    )}
-                    
-                    {/* Outdoor Content */}
-                    {activeTab === 'outdoor' && (
-                      <div>
-                        <p className="mb-3">
-                          My summers were spent at a camp in northern Minnesota, where I developed a profound
-                          connection with the natural world. There, I first participated in and eventually led
-                          multi-day expeditions—hiking, canoeing, mountaineering, and sailing through the
-                          wilderness areas of Minnesota and California.
-                        </p>
-                        <p className="mb-3">
-                          These immersive experiences shaped my approach to leadership and problem-solving—learning
-                          to navigate not just geographic terrain, but the complex interpersonal dynamics that
-                          emerge in challenging environments.
-                        </p>
-                        <p>
-                          The wilderness became my classroom for understanding systems thinking, resource management,
-                          and the delicate balance between ambitious goals and practical limitations—lessons that
-                          continue to influence my professional perspective.
-                        </p>
-                      </div>
-                    )}
-                    
-                    {/* Education & Career Content */}
+                    {/* Education Content */}
                     {activeTab === 'education' && (
-        <div>
-                        <p className="mb-3">
-                          As an American-Canadian dual citizen, I've had the privilege of experiencing diverse
-                          perspectives across borders. My academic journey led me to McGill University in Montreal,
-                          where I studied engineering and developed the technical foundation that would launch my
-                          professional path.
-                        </p>
-                        <p className="mb-3">
-                          Post-graduation, I worked with engineering firms in New York and Toronto, applying
-                          theoretical knowledge to real-world challenges. Eventually, my interests evolved toward
-                          the business side of technology, with roles based in Montreal, Toronto, San Francisco,
-                          and now Minneapolis.
+                      <div className="space-y-4">
+                        <p>
+                          After high school, I landed in Montreal at McGill, a city alive with global thinkers, entrepreneurs, and a unique cultural pulse—an international population with a fiercly independenty spirit, and a hub for research, film, music, science and technology. 
                         </p>
                         <p>
-                          For a deeper look into my professional journey and technical expertise, visit the
-                          <Link to="/workshop" className="text-blue-300 hover:text-blue-100 ml-1">Workshop</Link> world.
-                          To explore my creative interests and hobbies, check out the
-                          <Link to="/loft" className="text-blue-300 hover:text-blue-100 ml-1">Loft</Link> world.
+                          I studied civil engineering and applied sciences, tutored science and math, and led student organizations connecting peers to local projects.
+                        </p>
+                        <p>
+                          After McGill, I dove into industry—engineering first, then business—learning through action (see <Link to="/workshop" className="text-blue-300 hover:text-blue-100">Workshop</Link>).
+                        </p>
+                        <p>
+                          In the years since, I have continued to chase knowledge via an unending self guided cirriculum. It has included game theory, probability, finance, machine learning, and more. 
+                        </p>
+                        <p>
+                          I strive to devour more books each year as I continue to maintain the learner's mindset.
+                        </p>
+                      </div>
+                    )}
+                    
+                    {/* Perspective Content */}
+                    {activeTab === 'perspective' && (
+                      <div className="space-y-4">
+                        <p>
+                          I'm curious, optimistic, disciplined, and patient—drawn to creation, from this digital workshop to hands-on builds.
+                        </p>
+                        <p>
+                          Technology has been an evolving tool and near constant companion in my life. From a kid's tape player to teenage smartphones and video games, then software eating the world in apps in my 20s. 
+                        </p>
+                        <p>
+                          In my 30s, AI's rise has sparked a scientific explosion and unlocked new frontiers. I see us at the dawn of a new age, where intellect and imagination can create unimaginable things.
+                        </p>
+                        <p>
+                          As an individual, and especially as aparent, I'm deeply invested in understanding and shaping how these tools are built and used. 
+                        </p>
+                        <p>
+                          As Narendra Modi said in an interview with Lex Fridman, "knowledge alone isn't enough, we must immerse ourselves in the flow of practice".
+                        </p>
+                        <p>
+                          This is my lens: to build, to explore, to share.
                         </p>
                       </div>
                     )}
                   </div>
                 </div>
               )}
-        </div>
+            </div>
             
-            {/* World Map Section - Now using the WorldMap component */}
+            {/* World Map Section */}
             <div className="mt-8 bg-matted/70 backdrop-blur-sm rounded-lg p-6 max-w-4xl w-full mx-auto text-white fade-in">
               <h2 className="text-2xl font-heading mb-4">Geography</h2>
               
-              {/* Replace SVG with WorldMap component */}
+              {/* World Map Component */}
               <div className="relative w-full h-80 rounded-lg overflow-hidden">
                 <WorldMap 
                   places={places} 
@@ -262,17 +231,17 @@ const Origin = () => {
                       case 'Work': return 'bg-red-500';
                       default: return 'bg-orange-500';
                     }
-  };
+                  };
 
-  return (
+                  return (
                     <div key={index} className="flex items-center">
                       <div className={`w-3 h-3 rounded-full ${getColor()} mr-2`}></div>
                       <span className="text-sm">{type}</span>
                     </div>
                   );
                 })}
-      </div>
-      
+              </div>
+              
               {/* Location list */}
               <div className="mt-4 flex flex-wrap gap-2">
                 {places.map((place, index) => {
