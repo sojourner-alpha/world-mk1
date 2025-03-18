@@ -120,17 +120,17 @@ const WorldMap: React.FC<WorldMapProps> = ({
       
       switch (type) {
         case 'Current Base':
-          color = '#38b6ff';
+          color = '#6B7280'; // gray-500
           radius = 9;
           break;
         case 'Home':
-          color = '#5cdb95';
+          color = '#3B82F6'; // blue-500
           break;
         case 'Work':
-          color = '#ff5e5b';
+          color = '#15803D'; // green-700
           break;
         default:
-          color = '#ffbd39';
+          color = '#F59E0B'; // amber-500
       }
       
       feature.setStyle(new Style({
@@ -156,6 +156,7 @@ const WorldMap: React.FC<WorldMapProps> = ({
       { from: "Montreal", to: "Necker Island" },
       { from: "Montreal", to: "Isle of Tiree" },
       { from: "Montreal", to: "Halifax" },
+      { from: "Montreal", to: "Houston" },
       { from: "San Francisco", to: "Singapore" },
       { from: "San Francisco", to: "Berlin" },
       { from: "San Francisco", to: "Seoul" },

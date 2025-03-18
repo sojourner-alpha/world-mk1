@@ -52,6 +52,8 @@ const Origin = () => {
     { name: "Necker Island", region: "Caribbean", type: "Work", coordinates: { lat: 18.5156, lng: -64.3571 } },
     { name: "Isle of Tiree", region: "UK", type: "Work", coordinates: { lat: 56.4911, lng: -6.8873 } },
     { name: "Halifax", region: "Canada", type: "Work", coordinates: { lat: 44.6488, lng: -63.5752 } },
+    { name: "Chicago", region: "Midwest", type: "Work", coordinates: { lat: 41.8781, lng: -87.6298 } },
+    { name: "Houston", region: "South", type: "Work", coordinates: { lat: 29.7604, lng: -95.3698 } },
   ];
 
   // Group places by type for the legend
@@ -227,7 +229,7 @@ const Origin = () => {
                             As a parent I am deeply invested in understanding and shaping how these tools are built and used. 
                           </p>
                           <p>
-                            As Narendra Modi said in an interview with Lex Fridman... "knowledge alone isn't enough, we must immerse ourselves in the flow of practice". And so we shall. 
+                            Knowledge alone isn't enough, we must immerse ourselves in the flow of practice - Modi 
                           </p>
                           <p>
                             This is my lens: to build, to explore, to share.
@@ -287,54 +289,60 @@ const Origin = () => {
                 {/* Expanded Content */}
                 {expandedSections.includes('geo') && (
                   <div className="p-4 pt-0 section-content">
-                    {/* Map Legend - Moved above map */}
-                    <div className="mb-4 flex flex-wrap gap-4">
-                      {placeTypes.map((type, index) => {
-                        const getColor = () => {
-                          switch(type) {
-                            case 'Current Base': return 'bg-blue-500';
-                            case 'Home': return 'bg-green-500';
-                            case 'Work': return 'bg-red-500';
-                            default: return 'bg-orange-500';
-                          }
-                        };
+                    {/* Legend - Now left justified */}
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-gray-500"></div>
+                        <span className="text-sm text-white">Current Base</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                        <span className="text-sm text-white">Home</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-green-700"></div>
+                        <span className="text-sm text-white">Work</span>
+                      </div>
+                    </div>
 
-                        return (
-                          <div key={index} className="flex items-center">
-                            <div className={`w-3 h-3 rounded-full ${getColor()} mr-2`}></div>
-                            <span className="text-sm">{type}</span>
-                          </div>
-                        );
-                      })}
+                    {/* Places List - Now centered */}
+                    <div className="mb-4 flex flex-col items-center">
+                      <div className="flex flex-wrap justify-center gap-2 mb-2">
+                        {places
+                          .filter(place => place.type === 'Current Base' || place.type === 'Home')
+                          .map(place => (
+                            <span
+                              key={place.name}
+                              className={`px-2 py-1 rounded text-sm ${
+                                place.type === 'Current Base' 
+                                  ? 'bg-gray-500' 
+                                  : 'bg-blue-500'
+                              }`}
+                              onMouseEnter={() => setHoveredPlace(place.name)}
+                              onMouseLeave={() => setHoveredPlace(null)}
+                            >
+                              {place.name}
+                            </span>
+                          ))}
+                      </div>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {places
+                          .filter(place => place.type === 'Work')
+                          .map(place => (
+                            <span
+                              key={place.name}
+                              className="px-2 py-1 rounded text-sm bg-green-700"
+                              onMouseEnter={() => setHoveredPlace(place.name)}
+                              onMouseLeave={() => setHoveredPlace(null)}
+                            >
+                              {place.name}
+                            </span>
+                          ))}
+                      </div>
                     </div>
                     
-                    {/* Location list - Moved above map */}
-                    <div className="mb-4 flex flex-wrap gap-2">
-                      {places.map((place, index) => {
-                        const getBgColor = () => {
-                          switch(place.type) {
-                            case 'Current Base': return 'bg-blue-500/20 border border-blue-500/40';
-                            case 'Home': return 'bg-green-500/20 border border-green-500/40';
-                            case 'Work': return 'bg-red-500/20 border border-red-500/40';
-                            default: return 'bg-orange-500/20 border border-orange-500/40';
-                          }
-                        };
-                        
-                        return (
-                          <div 
-                            key={index} 
-                            className={`px-3 py-1 rounded-full text-sm ${getBgColor()} cursor-pointer hover:opacity-80 transition-opacity`}
-                            onMouseEnter={() => setHoveredPlace(place.name)}
-                            onMouseLeave={() => setHoveredPlace(null)}
-                          >
-                            {place.name}
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* World Map Component */}
-                    <div className="relative w-full h-80 rounded-lg overflow-hidden">
+                    {/* World Map Component - Now with higher z-index */}
+                    <div className="relative w-full h-80 rounded-lg overflow-hidden z-50">
                       <WorldMap 
                         places={places} 
                         onHoverPlace={setHoveredPlace} 
