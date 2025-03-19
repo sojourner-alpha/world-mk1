@@ -246,7 +246,7 @@ const Workshop = () => {
     {
       company: "National Organization for Business and Engineering",
       url: "#",
-      role: "Multiple Leadership Roles",
+      role: "Multiple Roles",
       period: "2012 - 2014",
       location: "Montreal · McGill University",
       positions: [
@@ -265,7 +265,7 @@ const Workshop = () => {
     {
       company: "Canadian Society for Civil Engineering",
       url: "#",
-      role: "Multiple Leadership Roles",
+      role: "Multiple Roles",
       period: "2011 - 2013",
       location: "Montreal · McGill University",
       positions: [

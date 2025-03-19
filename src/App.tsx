@@ -66,10 +66,10 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
         
         {/* Card content (always visible at bottom) */}
         <div className="portal-card-content">
-          <h2 className="text-xl font-heading mb-2">{title}</h2>
-          <p className="text-sm text-gray-300 mb-4">{description}</p>
+          <h2 className="text-lg md:text-xl font-heading mb-2">{title}</h2>
+          <p className="text-xs md:text-sm text-gray-300 mb-4">{description}</p>
           <div className="flex justify-center w-full">
-            <Link to={link} className="btn btn-outline py-2 px-6 text-base font-medium">
+            <Link to={link} className="btn btn-outline py-2 px-4 md:px-6 text-sm md:text-base font-medium">
               Explore
             </Link>
           </div>
@@ -77,8 +77,8 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
         
         {/* Description that slides up on hover */}
         <div className="card-description">
-          <h3 className="text-lg font-heading mb-4">{title}</h3>
-          <p className="text-sm leading-relaxed">{longDescription}</p>
+          <h3 className="text-lg font-heading mb-2 md:mb-4">{title}</h3>
+          <p className="text-xs md:text-sm leading-relaxed">{longDescription}</p>
         </div>
       </div>
     </div>
@@ -392,120 +392,99 @@ const Home = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="container-wide">
-          <div className="max-w-5xl mx-auto text-center">
-            <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-6 animate-fade-in text-slate-800">
+      <section className="hero-section flex flex-col py-6">
+        <div className="container-wide flex flex-col">
+          <div className="max-w-5xl mx-auto text-center mb-2">
+            <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800">
               Welcome to my world(s).
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-8 animate-slide-up">
+            <p className="text-xl md:text-2xl text-slate-600 mb-4 animate-slide-up">
               Where engineering meets imagination and data powers discovery.
             </p>
             
-            <div className="header-divider mb-8"></div>
+            <div className="header-divider mb-3"></div>
             
             <div className="call-to-action animate-fade-in" style={{ animationDelay: '0.4s' }}>
             </div>
           </div>
           
-          {/* Portal Cards Row - responsive layout for both mobile and desktop */}
-          <div className="mt-8 md:mt-16">
-            <div className="cards-container animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="card-container">
-                <PortalCard 
-                  title="Workshop" 
-                  description="Professional portfolio & skills" 
-                  image={workshopImage} 
-                  link="/workshop"
-                  tag="TECH"
-                  tagColor="tag-green"
-                  longDescription={portalDescriptions.workshop}
-                />
-              </div>
-              <div className="card-container">
-                <PortalCard 
-                  title="Loft" 
-                  description="Hobbies & creative pursuits" 
-                  image={loftImage} 
-                  link="/loft"
-                  tag="CREATIVE"
-                  tagColor="tag-blue"
-                  longDescription={portalDescriptions.loft}
-                />
-              </div>
-              <div className="card-container">
-                <PortalCard 
-                  title="Observatory" 
-                  description="Ideas & future perspectives" 
-                  image={observatoryImage} 
-                  link="/observatory"
-                  tag="FUTURE"
-                  tagColor="tag-amber"
-                  longDescription={portalDescriptions.observatory}
-                />
+          {/* Portal Cards Row */}
+          <div className="flex items-center justify-center py-4">
+            <div className="w-full">
+              <div className="cards-container flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <div className="card-container md:w-auto">
+                  <PortalCard 
+                    title="Workshop" 
+                    description="Professional portfolio & skills" 
+                    image={workshopImage} 
+                    link="/workshop"
+                    tag="TECH"
+                    tagColor="tag-green"
+                    longDescription={portalDescriptions.workshop}
+                  />
+                </div>
+                <div className="card-container md:w-auto">
+                  <PortalCard 
+                    title="Loft" 
+                    description="Hobbies & creative pursuits" 
+                    image={loftImage} 
+                    link="/loft"
+                    tag="CREATIVE"
+                    tagColor="tag-blue"
+                    longDescription={portalDescriptions.loft}
+                  />
+                </div>
+                <div className="card-container md:w-auto">
+                  <PortalCard 
+                    title="Observatory" 
+                    description="Ideas & future perspectives" 
+                    image={observatoryImage} 
+                    link="/observatory"
+                    tag="FUTURE"
+                    tagColor="tag-amber"
+                    longDescription={portalDescriptions.observatory}
+                  />
+                </div>
               </div>
             </div>
           </div>
           
-          {/* Social Media Icons */}
-          <div className="my-12">
+          {/* Social Media Icons - added responsive padding */}
+          <div className="py-6">
             <div className="header-divider"></div>
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto px-4 py-4">
               <p className="text-base text-center">
                 This site is an experiment in <strong>web building</strong> and <strong>world building</strong> and my digital workshop. Explore the portals above, 
                 each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
               </p>
             </div>
-            <div className="social-icon-container">
-              <SocialIcon 
-                url="https://github.com/sojourner-alpha" 
-                icon={FaGithub}
-                name="GitHub"
-              />
-              <SocialIcon 
-                url="https://x.com/curtlederle" 
-                icon={FaXTwitter}
-                name="Twitter / X"
-              />
-              <SocialIcon 
-                url="https://www.linkedin.com/in/clederle/" 
-                icon={FaLinkedinIn}
-                name="LinkedIn"
-              />
-              <SocialIcon 
-                url="https://curtislederle.substack.com" 
-                icon={SiSubstack}
-                name="Substack"
-              />
+            <div className="flex justify-center my-6">
+              <div className="social-icon-container z-10">
+                <SocialIcon 
+                  url="https://github.com/sojourner-alpha" 
+                  icon={FaGithub}
+                  name="GitHub"
+                />
+                <SocialIcon 
+                  url="https://x.com/curtlederle" 
+                  icon={FaXTwitter}
+                  name="Twitter / X"
+                />
+                <SocialIcon 
+                  url="https://www.linkedin.com/in/clederle/" 
+                  icon={FaLinkedinIn}
+                  name="LinkedIn"
+                />
+                <SocialIcon 
+                  url="https://curtislederle.substack.com" 
+                  icon={SiSubstack}
+                  name="Substack"
+                />
+              </div>
             </div>
-            
-            {/* If using PNG images, you would use this instead:
-            <div className="social-icon-container">
-              <SocialIcon 
-                url="https://github.com/sojourner-alpha" 
-                imageSrc="/images/social/github.png" 
-                name="GitHub"
-              />
-              <SocialIcon 
-                url="https://x.com/curtlederle" 
-                imageSrc="/images/social/twitter.png" 
-                name="Twitter / X"
-              />
-              <SocialIcon 
-                url="https://www.linkedin.com/in/clederle/" 
-                imageSrc="/images/social/linkedin.png" 
-                name="LinkedIn"
-              />
-              <SocialIcon 
-                url="https://curtislederle.substack.com" 
-                imageSrc="/images/social/substack.png" 
-                name="Substack"
-              />
-            </div>
-            */}
             
             {/* Open Source Disclaimer */}
-            <div className="open-source-disclaimer animate-fade-in mt-6" style={{ animationDelay: '0.5s' }}>
+            <div className="open-source-disclaimer animate-fade-in mt-4 mb-8" style={{ animationDelay: '0.5s' }}>
               <p className="text-sm text-center text-slate-600">
                 This website and other projects I build are <strong>open source</strong> and available on <a href="https://github.com/sojourner-alpha" className="text-blue-700 hover:underline">GitHub</a>.
               </p>
@@ -513,6 +492,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      {/* Spacer div to prevent overlap */}
+      <div className="h-16"></div>
       
       {/* Scroll Sections */}
       <div ref={sectionsRef}>
