@@ -1,4 +1,4 @@
-# Curtis James Digital World
+# Open Source Digital World Building 
 
 A digital workshop functioning as a nexus with portals to different "worlds" representing aspects of identity. This project is built with React, TypeScript, and Tailwind CSS.
 
@@ -6,11 +6,21 @@ A digital workshop functioning as a nexus with portals to different "worlds" rep
 
 This website is designed as an immersive digital experience with distinct portal experiences:
 
-1. **Origin** - Personal story & journey
-2. **Workshop** - Professional portfolio & skills
-3. **Loft** - Hobbies & creative pursuits
-4. **Observatory** - Ideas & future perspectives
-5. **Crossroads** - Connect & collaborate
+1. **Workshop** - Professional portfolio & skills
+2. **Loft** - Hobbies & creative pursuits
+3. **Observatory** - Ideas & future perspectives
+4. **Crossroads** - Connect & collaborate
+99. **Origin** - Personal story & journey (easter egg)
+
+## Tech Stack
+
+- **Frontend**: React 18 with TypeScript
+- **Styling**: Tailwind CSS
+- **Routing**: React Router v6
+- **Icons**: React Icons
+- **Maps**: OpenLayers
+- **Hosting**: GitHub Pages
+- **Version Control**: Git
 
 ## Recent Improvements
 
@@ -32,36 +42,26 @@ This website is designed as an immersive digital experience with distinct portal
 
 ## Next Steps
 
-### Phase 1: Portal Enhancement
-1. **Origin Portal**
-   - Enhance the interactive world map
-   - Add personal journey timeline
-   - Implement perspective tabs
+### Phase 1: World Building
+1. **Workshop**
+   - Finalize layout
+   - Create CV download
 
 2. **Loft Portal**
    - Design creative showcase layout
    - Add media gallery
-   - Implement blog/writing section
+   - Implement three.js
 
 3. **Observatory Portal**
    - Create thought experiment space
    - Add prediction timeline
-   - Implement article showcase
+   - Critical systems theory research
 
 4. **Crossroads Portal**
    - Design connection hub
    - Add contact form
    - Implement visitor map
 
-## Tech Stack
-
-- **Frontend**: React 18 with TypeScript
-- **Styling**: Tailwind CSS
-- **Routing**: React Router v6
-- **Icons**: React Icons
-- **Maps**: OpenLayers
-- **Hosting**: GitHub Pages
-- **Version Control**: Git
 
 ## Getting Started
 
