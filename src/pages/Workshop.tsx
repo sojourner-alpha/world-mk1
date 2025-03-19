@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
-import { FaDownload, FaBuilding, FaChartLine, FaCogs, FaGithub, FaLinkedinIn, FaLandmark } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { FaDownload, FaBuilding, FaChartLine, FaCogs, FaGithub, FaLinkedinIn, FaLandmark, FaGraduationCap } from 'react-icons/fa';
 import { SiNotion, SiSubstack } from 'react-icons/si';
 
 // Career timeline interfaces
@@ -26,6 +26,8 @@ interface CareerTimelineItem {
 }
 
 const Workshop = () => {
+  const [showStudentOrgs, setShowStudentOrgs] = useState(false);
+
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
@@ -187,11 +189,6 @@ const Workshop = () => {
           period: "2019 - 2020",
           description: "Asia Pacific Lead - Conversation Solutions Team"
         },
-        {
-          title: "Director Of Business Development",
-          period: "2019 - 2020",
-          description: "Top sales performer from the Smooch.io acquisition."
-        }
       ]
     },
     {
@@ -354,7 +351,7 @@ const Workshop = () => {
       "Board Observer"
     ]
   };
-
+  
   return (
     <div className="bg-parchment text-slate-800 min-h-screen">
       {/* Header */}
@@ -369,7 +366,7 @@ const Workshop = () => {
           </div>
         </div>
       </header>
-
+      
       {/* Hero Section */}
       <section className="relative h-screen">
         <div className="absolute inset-0 bg-gradient-to-r from-matted/70 to-transparent z-10"></div>
@@ -381,10 +378,10 @@ const Workshop = () => {
         
         <div className="absolute inset-0 z-20">
           <div className="h-full flex items-center p-8">
-            <div className="max-w-2xl">
+          <div className="max-w-2xl">
               <div className="bg-matted/60 backdrop-blur-sm text-white p-8 rounded-lg shadow-sm">
                 <div>
-                  <h1 className="text-4xl font-heading mb-4">Workshop</h1>
+              <h1 className="text-4xl font-heading mb-4">Workshop</h1>
                   <p className="text-xl mb-6">Portfolio, Skills & Career</p>
                   <p className="mb-6">A virtual digital lab showcasing open source projects, professional skills, and detailed career path. See Github, LinkedIn, and download CV.</p>
                 </div>
@@ -423,7 +420,7 @@ const Workshop = () => {
           </div>
         </div>
       </section>
-
+      
       {/* Projects Section */}
       <section className="scroll-section py-8 relative mt-8">
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -490,20 +487,20 @@ const Workshop = () => {
                         )}
                       </a>
                     )}
-                  </div>
-                </div>
+              </div>
+              </div>
               ))}
             </div>
           </div>
         </div>
       </section>
-
+      
       {/* Career Timeline Section */}
       <section className="scroll-section py-16 bg-white mt-8">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             {/* Core Tools */}
-            <h2 className="text-3xl font-heading mb-6 text-center">Core Tools</h2>
+            <h2 className="text-3xl font-heading mb-6 text-center">Tools</h2>
             <div className="grid md:grid-cols-3 gap-6 justify-items-center mb-16">
               {/* Ops Tools */}
               <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
@@ -596,7 +593,7 @@ const Workshop = () => {
             <div className="w-full h-px bg-slate-200 mb-16"></div>
 
             {/* Professional Skills */}
-            <h2 className="text-3xl font-heading mb-6 text-center">Professional Skills</h2>
+            <h2 className="text-3xl font-heading mb-6 text-center">Skills</h2>
             <div className="grid md:grid-cols-3 gap-6 justify-items-center mb-16">
               {/* Technical Skills */}
               <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
@@ -660,7 +657,7 @@ const Workshop = () => {
             <div className="w-full h-px bg-slate-200 mb-16"></div>
 
             {/* Career Journey */}
-            <h2 className="text-3xl font-heading mb-8 text-center">Career Journey</h2>
+            <h2 className="text-3xl font-heading mb-8 text-center">Journey</h2>
             
             <div className="space-y-12">
               {careerTimeline.map((position, index) => (
@@ -758,58 +755,63 @@ const Workshop = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Student Organizations Section */}
-      <section className="scroll-section py-16 bg-white mt-8">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-heading mb-8 text-center">Student Organizations</h2>
-            
-            <div className="space-y-12">
-              {studentOrganizations.map((position, index) => (
-                <div key={index} className="bg-parchment p-8 rounded-lg shadow-sm fade-in-up">
-                  <div className="border-l-4 border-red-800 pl-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <a 
-                          href={position.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="text-2xl font-heading text-slate-800 hover:text-red-800 transition-colors"
-                        >
-                          {position.company}
-                        </a>
-                        <p className="text-slate-600">{position.location}</p>
-                      </div>
-                      <p className="text-slate-600 text-right">{position.period}</p>
-                    </div>
-                    <p className="text-slate-700 font-medium">{position.role}</p>
-                    {position.positions && (
-                      <div className="mt-4 space-y-4">
-                        {position.positions.map((subPosition, subIndex) => (
-                          <div key={subIndex} className="border-l-2 border-red-700 pl-4">
-                            <div className="flex justify-between items-start">
-                              <p className="text-slate-800 font-medium">{subPosition.title}</p>
-                              <p className="text-slate-600 text-sm">{subPosition.period}</p>
-                            </div>
-                            {subPosition.description && (
-                              <p className="text-slate-600 mt-2">{subPosition.description}</p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+            {/* Easter Egg - Graduation Cap */}
+            <div className="flex justify-center mt-12">
+              <button 
+                onClick={() => {
+                  console.log('Toggling student orgs:', !showStudentOrgs);
+                  setShowStudentOrgs(!showStudentOrgs);
+                }}
+                className="text-slate-400 hover:text-slate-600 transition-colors duration-300 transform hover:scale-110"
+                aria-label="Toggle student organizations"
+              >
+                <FaGraduationCap size={32} />
+            </button>
             </div>
+
+            {/* Student Organizations Section */}
+            {showStudentOrgs && (
+              <div className="mt-12">
+                <h2 className="text-3xl font-heading mb-8 text-center">Student Organizations</h2>
+                <div className="space-y-8">
+                  {studentOrganizations.map((org, index) => (
+                    <div key={index} className="bg-parchment p-8 rounded-lg shadow-sm">
+                      <div className="border-l-4 border-red-800 pl-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="text-2xl font-heading text-slate-800">{org.company}</h3>
+                            <p className="text-slate-600">{org.location}</p>
+                          </div>
+                          <p className="text-slate-600">{org.period}</p>
+                        </div>
+                        <p className="text-slate-700 font-medium mb-4">{org.role}</p>
+                        
+                        {org.positions && (
+                          <div className="space-y-4">
+                            {org.positions.map((pos, posIndex) => (
+                              <div key={posIndex} className="border-l-2 border-red-700 pl-4">
+                                <div className="flex justify-between items-start mb-2">
+                                  <h4 className="text-slate-800 font-medium">{pos.title}</h4>
+                                  <p className="text-slate-600 text-sm">{pos.period}</p>
+                                </div>
+                                {pos.description && (
+                                  <p className="text-slate-600">{pos.description}</p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
-
+      
       {/* Footer */}
       <footer className="py-12 border-t border-slate-300">
         <div className="container-custom">
