@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  font-size: 85%; /* This will scale everything to ~87.5% of original size */
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -87,7 +91,7 @@
   }
   
   .btn-outline {
-    @apply border-2 border-gray-300 text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300;
+    @apply border border-gray-500 text-gray-200 hover:bg-gray-800;
   }
   
   .container-custom {

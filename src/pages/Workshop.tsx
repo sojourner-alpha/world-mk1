@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { FaDownload, FaBuilding, FaChartLine, FaCogs, FaGithub, FaLinkedinIn } from 'react-icons/fa';
+import { SiNotion, SiSubstack } from 'react-icons/si';
 
 // Career timeline interfaces
 interface Position {
@@ -133,9 +134,13 @@ const Workshop = () => {
       role: "Founding Partner",
       period: "2023 - Present",
       location: "Minneapolis · Remote",
-      description: "Consulting services for founders, executives and researchers. R&D in machine learning applications in operations and finance.",
+      description: "Consulting services for founders, executives and researchers.\nR&D in machine learning applications in operations and finance.",
       skills: ["Investment Management", "Analysis", "Financial Modeling", "Operations Management", "Machine Learning"],
       tags: ["Startup", "Consulting", "AI/ML", "Private", "B2B"],
+      metrics: [
+        "Fundraising readiness for Toronto based startup",
+        "ML applications input to a Stanford Lab",
+      ],
     },
     {
       company: "Tread Technologies",
@@ -145,9 +150,9 @@ const Workshop = () => {
       location: "San Anselmo · Toronto · Minneapolis",
       tags: ["Startup", "SaaS", "Construction Tech", "Private", "B2B", "First US Employee"],
       metrics: [
-        "Led 9x ARR growth in 24 months",
-        "Reduced sales cycle by 85%",
-        "Closed $2.4M new ARR"
+        "9x ARR in 24 months",
+        "500% increase in contract size",
+        "Tech stack, sales ops and website"
       ],
       positions: [
         {
@@ -189,9 +194,8 @@ const Workshop = () => {
       location: "San Francisco · Singapore · Seoul",
       tags: ["Enterprise", "CRM Software", "Public", "B2B/B2C"],
       metrics: [
-        "130% quota attainment",
-        "$1.2M+ ACV deals closed",
-        "Led APAC expansion"
+        "Led APAC expansion of acquired tech",
+        "Point of contact for Corp. Dev. M&A team"
       ],
       positions: [
         {
@@ -215,9 +219,9 @@ const Workshop = () => {
       description: "Unified API communication platform for businesses to manage customer conversations across multiple channels.",
       tags: ["Startup", "Software", "Acquired by Zendesk", "B2B", "First US Employee"],
       metrics: [
-        "15x revenue multiple at acquisition",
-        "$850k average enterprise deal size",
-        "First enterprise sales hire"
+        "20x revenue multiple at acquisition",
+        "Closed 25% of revenue deals",
+        "First business hire"
       ]
     },
     {
@@ -263,7 +267,7 @@ const Workshop = () => {
       url: "#",
       role: "Multiple Leadership Roles",
       period: "2012 - 2014",
-      location: "Montreal, Canada Area",
+      location: "Montreal · McGill University",
       positions: [
         {
           title: "Vice President External, National Board",
@@ -282,7 +286,7 @@ const Workshop = () => {
       url: "#",
       role: "Multiple Leadership Roles",
       period: "2011 - 2013",
-      location: "Montreal, Canada Area",
+      location: "Montreal · McGill University",
       positions: [
         {
           title: "President, McGill Student Chapter",
@@ -298,47 +302,66 @@ const Workshop = () => {
     }
   ];
 
-  // Open source projects data
-  const openSourceProjects = [
+  // Projects data
+  const projects = [
     {
       name: "This Website",
       description: "Open source project combining web building and world building into a personal multiverse. Built with React, TypeScript, and Tailwind CSS.",
       technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
       githubUrl: "https://github.com/sojourner-alpha/world-mk1",
       demoUrl: window.location.origin,
+      type: "github",
       isPublic: true
     },
     {
       name: "AI Financial Analysis",
       description: "Advanced financial analysis platform leveraging AI for market insights and portfolio optimization. Coming soon.",
-      technologies: ["Python", "LLMs","SQL","React","FastAPI"],
+      technologies: ["Python", "LLMs", "SQL", "React", "FastAPI"],
       githubUrl: "https://github.com/sojourner-alpha/dojofi",
+      type: "github",
       isPublic: false
+    },
+    {
+      name: "AI/ML In Precision Neuroscience",
+      description: "Research brief exploring applications of machine learning in RNA sequencing and neuroscience research.",
+      technologies: ["AI/ML", "RNA", "Arc Institute", "Stanford"],
+      url: "https://sojournhabits.notion.site/ai-rna",
+      type: "notion",
+      isPublic: true
+    },
+    {
+      name: "2025 Insight",
+      description: "Analysis of emerging technology trends and their implications for the future of work, society, and innovation.",
+      technologies: ["Substack", "AI/ML", "Projections", "Robotics"],
+      url: "https://substack.com/home/post/p-154955133",
+      type: "substack",
+      isPublic: true
     }
   ];
 
   // Skills categorization
   const skills = {
     business: [
+      "Contract Negotiation",
       "Business Strategy",
       "Sales Management",
-      "Marketing Strategy",
       "Investment Management",
       "Process Improvement",
-      "Contract Negotiation",
-      "Business Development"
+      "Systems Implementation",
+      "Market Analysis",
+
     ],
     technical: [
-      "Machine Learning",
+      "Calculus + Linear Algebra",
+      "Probability Theory",
       "Financial Modeling",
-      "Analytics",
+      "Asset Pricing",
       "Operations Management",
-      "Structural Engineering",
-      "Project Management",
-      "3D Modeling"
+      "Machine Learning",
+      "Python/SQL/FastAPI"
     ],
     leadership: [
-      "C-Level Executive Support",
+      "C-Suite Staff Support",
       "Team Management",
       "Strategic Planning",
       "Cross-functional Leadership",
@@ -391,6 +414,7 @@ const Workshop = () => {
                     >
                       <FaGithub size={24} />
                     </a>
+                    <div className="w-px h-6 bg-white/30"></div>
                     <a 
                       href="https://www.linkedin.com/in/clederle/" 
                       target="_blank" 
@@ -416,59 +440,70 @@ const Workshop = () => {
         </div>
       </section>
 
-      {/* Open Source Projects Section */}
+      {/* Projects Section */}
       <section className="scroll-section py-8 relative mt-8">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
             src="https://cdn.midjourney.com/6c1b299d-eeb6-438d-9b23-07fc83c82d86/0_1.png"
-            alt="Open Source Projects Background"
+            alt="Projects Background"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-white/50"></div>
+          <div className="absolute inset-0 bg-white/10"></div>
         </div>
         <div className="container-custom relative z-10">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-lg shadow-sm mb-8">
-              <h2 className="text-4xl font-heading text-center text-slate-800">Open Source Projects</h2>
-              <p className="text-slate-600 text-center mt-4">A collection of projects that showcase technical expertise and innovation</p>
+            <div className="bg-white/60 backdrop-blur-sm p-6 rounded-lg shadow-sm mb-8">
+              <h2 className="text-4xl font-heading text-center text-slate-800">Projects</h2>
+              <p className="text-slate-800 text-center mt-4">Limited collection of technical projects, research, and publications</p>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
-              {openSourceProjects.map((project, index) => (
-                <div key={index} className="bg-white/80 backdrop-blur-sm p-6 rounded-lg shadow-sm fade-in-up">
+              {projects.map((project, index) => (
+                <div key={index} className="bg-white/60 backdrop-blur-sm p-6 rounded-lg shadow-sm fade-in-up">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-xl font-heading text-slate-800">{project.name}</h3>
-                    {!project.isPublic && (
+                    {project.type === 'github' && !project.isPublic && (
                       <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded">Coming Soon</span>
                     )}
                   </div>
-                  <p className="text-slate-600 mb-4">{project.description}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies.map((tech, techIndex) => (
                       <span 
                         key={techIndex}
-                        className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm"
+                        className="bg-slate-600 text-slate-100 px-3 py-1 rounded-full text-sm border border-slate-500"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-4">
-                    <a 
-                      href={project.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className={`flex items-center ${project.isPublic ? 'text-blue-600 hover:text-blue-800' : 'text-slate-400 cursor-not-allowed'}`}
-                    >
-                      <FaGithub className="mr-1" /> {project.isPublic ? 'Code' : 'Private'}
-                    </a>
-                    {project.demoUrl && (
+                  <p className="text-slate-800 mb-4">{project.description}</p>
+                  <div className="flex justify-center">
+                    {project.type === 'github' ? (
+                      project.isPublic ? (
+                        <a 
+                          href={project.githubUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center text-blue-600 hover:text-blue-800"
+                        >
+                          <FaGithub size={24} className="mr-2" /> View Code
+                        </a>
+                      ) : (
+                        <span className="flex items-center text-slate-800 cursor-not-allowed">
+                          <FaGithub size={24} className="mr-2" /> Private
+                        </span>
+                      )
+                    ) : (
                       <a 
-                        href={project.demoUrl} 
+                        href={project.url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800"
+                        className="flex items-center text-blue-600 hover:text-blue-800"
                       >
-                        Live Demo →
+                        {project.type === 'notion' ? (
+                          <><SiNotion size={24} className="mr-2" /> Read Research</>
+                        ) : (
+                          <><SiSubstack size={24} className="mr-2" /> Read Article</>
+                        )}
                       </a>
                     )}
                   </div>
@@ -479,19 +514,20 @@ const Workshop = () => {
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section className="scroll-section py-8 bg-white mt-8">
+      {/* Career Timeline Section */}
+      <section className="scroll-section py-16 bg-white mt-8">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
+            {/* Professional Skills */}
             <h2 className="text-3xl font-heading mb-6 text-center">Professional Skills</h2>
-            
-            <div className="grid md:grid-cols-3 gap-6 justify-items-center">
+            <div className="grid md:grid-cols-3 gap-6 justify-items-center mb-16">
               {/* Technical Skills */}
               <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
                 <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
                   <FaCogs className="mr-2 text-blue-600" />
                   Technical
                 </h3>
+                <div className="h-px bg-slate-300 mb-4"></div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {skills.technical.map((skill, index) => (
                     <span 
@@ -510,6 +546,7 @@ const Workshop = () => {
                   <FaChartLine className="mr-2 text-green-600" />
                   Business
                 </h3>
+                <div className="h-px bg-slate-300 mb-4"></div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {skills.business.map((skill, index) => (
                     <span 
@@ -528,6 +565,7 @@ const Workshop = () => {
                   <FaBuilding className="mr-2 text-slate-600" />
                   Leadership
                 </h3>
+                <div className="h-px bg-slate-300 mb-4"></div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {skills.leadership.map((skill, index) => (
                     <span 
@@ -540,14 +578,11 @@ const Workshop = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Career Timeline Section */}
-      <section className="scroll-section py-16 bg-white mt-8">
-        <div className="container-custom">
-          <div className="max-w-4xl mx-auto">
+            {/* Divider */}
+            <div className="w-full h-px bg-slate-200 mb-16"></div>
+
+            {/* Career Journey */}
             <h2 className="text-3xl font-heading mb-8 text-center">Career Journey</h2>
             
             <div className="space-y-12">
@@ -586,10 +621,20 @@ const Workshop = () => {
                       <p className="text-slate-600 text-right">{position.period}</p>
                     </div>
                     <p className="text-slate-700 font-medium">{position.role}</p>
-                    {position.description && (
-                      <p className="text-slate-600 mt-4">{position.description}</p>
-                    )}
-                    {position.positions && (
+                    {/* Convert single role positions to use the same format as multiple roles */}
+                    {!position.positions ? (
+                      <div className="mt-4 space-y-4">
+                        <div className="border-l-2 border-blue-300 pl-4">
+                          <div className="flex justify-between items-start">
+                            <p className="text-slate-800 font-medium">{position.role}</p>
+                            <p className="text-slate-600 text-sm">{position.period}</p>
+                          </div>
+                          {position.description && (
+                            <p className="text-slate-600 mt-2">{position.description}</p>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
                       <div className="mt-4 space-y-4">
                         {position.positions.map((subPosition, subIndex) => (
                           <div key={subIndex} className="border-l-2 border-blue-300 pl-4">
@@ -641,14 +686,14 @@ const Workshop = () => {
             <div className="space-y-12">
               {studentOrganizations.map((position, index) => (
                 <div key={index} className="bg-parchment p-8 rounded-lg shadow-sm fade-in-up">
-                  <div className="border-l-4 border-purple-500 pl-6">
+                  <div className="border-l-4 border-red-800 pl-6">
                     <div className="flex justify-between items-start mb-4">
                       <div>
                         <a 
                           href={position.url} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="text-2xl font-heading text-slate-800 hover:text-purple-600 transition-colors"
+                          className="text-2xl font-heading text-slate-800 hover:text-red-800 transition-colors"
                         >
                           {position.company}
                         </a>
@@ -660,7 +705,7 @@ const Workshop = () => {
                     {position.positions && (
                       <div className="mt-4 space-y-4">
                         {position.positions.map((subPosition, subIndex) => (
-                          <div key={subIndex} className="border-l-2 border-purple-300 pl-4">
+                          <div key={subIndex} className="border-l-2 border-red-700 pl-4">
                             <div className="flex justify-between items-start">
                               <p className="text-slate-800 font-medium">{subPosition.title}</p>
                               <p className="text-slate-600 text-sm">{subPosition.period}</p>
