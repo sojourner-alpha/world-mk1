@@ -16,6 +16,8 @@
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "gsap": "^3.12.7",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
     "maplibre-gl": "^5.2.0",
     "ol": "^10.4.0",
     "react": "^18.2.0",

@@ -405,14 +405,13 @@ const Workshop = () => {
                       <FaLinkedinIn size={24} />
                     </a>
                     <div className="w-px h-6 bg-white/30"></div>
-                    <a 
-                      href="/cv.pdf" 
-                      download 
+                    <Link 
+                      to="/cv" 
                       className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
                     >
                       <FaDownload className="mr-2" />
                       <span>Download CV</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

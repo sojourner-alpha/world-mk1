@@ -7,6 +7,7 @@ import Workshop from './pages/Workshop';
 import Loft from './pages/Loft';
 import Observatory from './pages/Observatory';
 import Crossroads from './pages/Crossroads';
+import CvPage from './pages/CvPage';
 
 // Placeholder images (these would be replaced with actual images)
 const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
@@ -551,6 +552,7 @@ function App() {
         <Route path="/loft" element={<Loft />} />
         <Route path="/observatory" element={<Observatory />} />
         <Route path="/crossroads" element={<Crossroads />} />
+        <Route path="/cv" element={<CvPage />} />
       </Routes>
     </Router>
   );
