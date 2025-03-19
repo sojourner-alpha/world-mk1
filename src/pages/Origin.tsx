@@ -6,7 +6,7 @@ const Origin = () => {
   // Track which sections are expanded - now using an array to allow multiple sections
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   // Track which tab is active
-  const [activeTab, setActiveTab] = useState('roots');
+  const [activeTab, setActiveTab] = useState('perspective');
   // Track hovered place for tooltip
   const [hoveredPlace, setHoveredPlace] = useState<string | null>(null);
 
@@ -89,7 +89,7 @@ const Origin = () => {
           {/* Title - Fixed centered position */}
           <div className="absolute top-0 left-0 right-0 py-8 text-center">
             <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Origin</h1>
-            <p className="text-xl text-white">Personal story & journey</p>
+            <p className="text-xl text-white">influences on my perspective</p>
           </div>
           
           {/* Buttons Container - Left justified */}
@@ -145,12 +145,12 @@ const Origin = () => {
                     <div className="flex flex-wrap border-b border-gray-600 mb-4 relative z-50">
                       <button 
                         type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTab === 'roots' 
+                        className={`py-2 px-4 mr-2 relative z-50 ${activeTab === 'perspective' 
                           ? 'border-b-2 border-blue-400 text-blue-300' 
                           : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => setActiveTab('roots')}
+                        onClick={() => setActiveTab('perspective')}
                       >
-                        Roots
+                        Perspective
                       </button>
                       <button 
                         type="button"
@@ -163,31 +163,37 @@ const Origin = () => {
                       </button>
                       <button 
                         type="button"
-                        className={`py-2 px-4 relative z-50 ${activeTab === 'perspective' 
+                        className={`py-2 px-4 relative z-50 ${activeTab === 'roots' 
                           ? 'border-b-2 border-blue-400 text-blue-300' 
                           : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => setActiveTab('perspective')}
+                        onClick={() => setActiveTab('roots')}
                       >
-                        Perspective
+                        Roots
                       </button>
                     </div>
                     
                     {/* Tab Content - Now with lower z-index */}
                     <div className="pr-2 relative z-0">
-                      {/* Roots Content */}
-                      {activeTab === 'roots' && (
+                      {/* Perspective Content */}
+                      {activeTab === 'perspective' && (
                         <div className="space-y-4">
                           <p>
-                            I grew up in the American Midwest surrounded by a family of architects, doctors, and engineers—role models who showed me the power of focus and applied intellect.
+                            I'm curious, optimistic, disciplined, and patient—drawn to creation, from this digital workshop to hands-on builds.
                           </p>
                           <p>
-                            My early days were spent tinkering with Legos and my mom's scale models. Watching her return to school for architecture ingrained a learner's mindset. Conversations over years with my dad fueled a love for data and science, while his voracious reading shaped my habits. Nearby, my favorite place was the workshop of my grandfather—a WWII RCAF engineer and master handyman—where anything could be built or fixed.
+                            Technology has been an evolving tool and near constant companion in my life. From a kid's tape player to teenage smartphones and video games, then software eating the world in apps in my 20s. 
                           </p>
                           <p>
-                            Canoeing the Boundary Waters, hiking Superior National Forest, and sailing Lake Superior humbled me with nature's scale, while sports instilled discipline and routine. A teenage mountaineering trip in the Sierra Nevadas opened me to the power of meditative stillness.
+                            In my 30s, AI's rise has sparked a scientific explosion and unlocked new frontiers. I see us at the dawn of a new age, where intellect and imagination can create unimaginable things.
                           </p>
                           <p>
-                            These experiences forged a mind driven to explore, build, and learn.
+                            As a parent I am deeply invested in understanding and shaping how these tools are built and used. 
+                          </p>
+                          <p>
+                            Knowledge alone isn't enough, we must immerse ourselves in the flow of practice - Modi 
+                          </p>
+                          <p>
+                            This is my lens: to build, to explore, to share.
                           </p>
                         </div>
                       )}
@@ -213,26 +219,20 @@ const Origin = () => {
                         </div>
                       )}
                       
-                      {/* Perspective Content */}
-                      {activeTab === 'perspective' && (
+                      {/* Roots Content */}
+                      {activeTab === 'roots' && (
                         <div className="space-y-4">
                           <p>
-                            I'm curious, optimistic, disciplined, and patient—drawn to creation, from this digital workshop to hands-on builds.
+                            I grew up in the American Midwest surrounded by a family of architects, doctors, and engineers—role models who showed me the power of focus and applied intellect.
                           </p>
                           <p>
-                            Technology has been an evolving tool and near constant companion in my life. From a kid's tape player to teenage smartphones and video games, then software eating the world in apps in my 20s. 
+                            My early days were spent tinkering with Legos and my mom's scale models. Watching her return to school for architecture ingrained a learner's mindset. Conversations over years with my dad fueled a love for data and science, while his voracious reading shaped my habits. Nearby, my favorite place was the workshop of my grandfather—a WWII RCAF engineer and master handyman—where anything could be built or fixed.
                           </p>
                           <p>
-                            In my 30s, AI's rise has sparked a scientific explosion and unlocked new frontiers. I see us at the dawn of a new age, where intellect and imagination can create unimaginable things.
+                            Canoeing the Boundary Waters, hiking Superior National Forest, and sailing Lake Superior humbled me with nature's scale, while sports instilled discipline and routine. A teenage mountaineering trip in the Sierra Nevadas opened me to the power of meditative stillness.
                           </p>
                           <p>
-                            As a parent I am deeply invested in understanding and shaping how these tools are built and used. 
-                          </p>
-                          <p>
-                            Knowledge alone isn't enough, we must immerse ourselves in the flow of practice - Modi 
-                          </p>
-                          <p>
-                            This is my lens: to build, to explore, to share.
+                            These experiences forged a mind driven to explore, build, and learn.
                           </p>
                         </div>
                       )}

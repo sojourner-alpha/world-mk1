@@ -27,7 +27,7 @@ const Header = () => (
             </Link>
           </div>
         </div>
-        <p className="text-slate-600 mt-1"> Techologist + Investor + Consultant </p>
+        <p className="text-slate-600 mt-1"> Analyst + Techologist + Investor + Consultant </p>
         <div className="header-divider"></div>
       </div>
     </div>
@@ -67,10 +67,12 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
         {/* Card content (always visible at bottom) */}
         <div className="portal-card-content">
           <h2 className="text-xl font-heading mb-2">{title}</h2>
-          <p className="text-sm text-gray-300 mb-3">{description}</p>
-          <Link to={link} className="btn btn-outline mt-auto self-start py-1 px-3 text-xs">
-            Explore
-          </Link>
+          <p className="text-sm text-gray-300 mb-4">{description}</p>
+          <div className="flex justify-center w-full">
+            <Link to={link} className="btn btn-outline py-2 px-6 text-base font-medium">
+              Explore
+            </Link>
+          </div>
         </div>
         
         {/* Description that slides up on hover */}
@@ -380,10 +382,9 @@ const Home = () => {
 
   // Portal descriptions that will appear on the back of cards
   const portalDescriptions = {
-    origin: "Origin chronicles my path from engineer to investor, revealing the formative experiences and values that drive my approach to building solutions and analyzing problems.",
-    workshop: "Workshop showcases technical skills and innovations, demonstrating how engineering principles translate into tangible solutions and practical applications across domains.",
-    loft: "Loft unveils creative pursuits that fuel imagination and remind us that technology serves human expression. Here creativity meets technical expertise in unexpected ways.",
-    observatory: "Observatory invites you to explore emerging trends and ideas that may reshape our technological landscape, offering a forward-looking perspective on our digital future."
+    workshop: "Explore my open source projects, professional portfolio, technical skills and career path.",
+    loft: "Discover my creative pursuits, hobby projects, podcasts, music and writing.",
+    observatory: "Consider forward looking musings, predictions, and thought experiments."
   };
 
   return (
@@ -417,7 +418,7 @@ const Home = () => {
                   image={workshopImage} 
                   link="/workshop"
                   tag="TECH"
-                  tagColor="tag-blue"
+                  tagColor="tag-green"
                   longDescription={portalDescriptions.workshop}
                 />
               </div>
@@ -428,7 +429,7 @@ const Home = () => {
                   image={loftImage} 
                   link="/loft"
                   tag="CREATIVE"
-                  tagColor="tag-green"
+                  tagColor="tag-blue"
                   longDescription={portalDescriptions.loft}
                 />
               </div>
@@ -439,7 +440,7 @@ const Home = () => {
                   image={observatoryImage} 
                   link="/observatory"
                   tag="FUTURE"
-                  tagColor="tag-purple"
+                  tagColor="tag-amber"
                   longDescription={portalDescriptions.observatory}
                 />
               </div>

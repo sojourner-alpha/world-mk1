@@ -34,8 +34,8 @@ const Workshop = () => {
   // Career timeline data
   const careerTimeline = [
     {
-      company: "Sojourn Insight LLC",
-      url: "#",
+      company: "Sojourn Insight",
+      url: "https://www.sojourninsight.com",
       role: "Partner",
       period: "2023 - Present",
       location: "Minneapolis, Minnesota · Remote",
@@ -44,7 +44,7 @@ const Workshop = () => {
     },
     {
       company: "Tread",
-      url: "#",
+      url: "https://www.tread.io",
       role: "Multiple Roles",
       period: "2021 - 2024",
       location: "Minneapolis, Minnesota",
@@ -82,7 +82,7 @@ const Workshop = () => {
     },
     {
       company: "Zendesk",
-      url: "#",
+      url: "https://www.zendesk.com",
       role: "Multiple Roles",
       period: "2020 - 2022",
       location: "San Francisco Bay Area",
@@ -99,8 +99,8 @@ const Workshop = () => {
       ]
     },
     {
-      company: "Enercon Canada Inc.",
-      url: "#",
+      company: "Enercon",
+      url: "https://www.enercon.de/en",
       role: "Multiple Roles",
       period: "2013 - 2015",
       location: "Toronto, Canada Area",
@@ -119,8 +119,8 @@ const Workshop = () => {
       ]
     },
     {
-      company: "Sigmund Soudack & Associates Inc.",
-      url: "#",
+      company: "Sigmund Soudack & Associates",
+      url: "https://www.soudack.com",
       role: "Engineer",
       period: "2013",
       location: "Toronto, Canada Area",
@@ -255,8 +255,8 @@ const Workshop = () => {
             <div className="bg-matted/60 backdrop-blur-sm text-white p-8 rounded-lg">
               <div>
                 <h1 className="text-4xl font-heading mb-4">Workshop</h1>
-                <p className="text-xl mb-6">Professional portfolio & skills</p>
-                <p className="mb-6">A high-tech digital lab showcasing professional projects, skills, and technical innovations that demonstrate expertise.</p>
+                <p className="text-xl mb-6">Portfolio, Skills & Career</p>
+                <p className="mb-6">A virtual digital lab showcasing open source projects, professional skills, and detailed career path. See Github, LinkedIn, and download CV.</p>
               </div>
               <div className="flex justify-end items-center gap-4">
                 <div className="flex gap-4 items-center">
@@ -471,7 +471,7 @@ const Workshop = () => {
       <section className="py-16 bg-gray-100">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-heading mb-8 text-center">Student Leadership</h2>
+            <h2 className="text-3xl font-heading mb-8 text-center">Student Organizations</h2>
             
             <div className="space-y-12">
               {studentOrganizations.map((position, index) => (

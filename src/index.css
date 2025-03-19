@@ -87,7 +87,7 @@
   }
   
   .btn-outline {
-    @apply border border-gray-500 text-gray-200 hover:bg-gray-800;
+    @apply border-2 border-gray-300 text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300;
   }
   
   .container-custom {
