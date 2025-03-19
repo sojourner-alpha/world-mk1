@@ -230,7 +230,7 @@ const Workshop = () => {
       role: "Multiple Roles",
       period: "2013 - 2016",
       location: "Montreal · Toronto · San Francisco",
-      tags: ["Enterprise", "Manufacturing", "Energy", "Private", "B2B", "Utility Scale", "First US Employee"],
+      tags: ["Enterprise", "Manufacturing", "Energy", "Private", "B2B", "First US Employee"],
       metrics: [
         "$450M+ contracts negotiated",
         "300MW project portfolio",
@@ -454,7 +454,7 @@ const Workshop = () => {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white/60 backdrop-blur-sm p-6 rounded-lg shadow-sm mb-8">
               <h2 className="text-4xl font-heading text-center text-slate-800">Projects</h2>
-              <p className="text-slate-800 text-center mt-4">Limited collection of technical projects, research, and publications</p>
+              <p className="text-slate-800 text-center mt-4">Limited collection of technical projects, research, and publications.</p>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
               {projects.map((project, index) => (
