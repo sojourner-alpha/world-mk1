@@ -75,7 +75,7 @@ const Origin = () => {
       <header className="relative z-10 py-4 px-6">
         <div className="container mx-auto">
           <div className="flex items-center justify-between">
-            <Link to="/" className="text-2xl font-heading text-white">Curtis James</Link>
+            <Link to="/" className="text-2xl font-heading text-white">Curtis James | Lederle</Link>
             <div>
               <Link to="/" className="text-white hover:text-blue-300 transition">← Back to Nexus</Link>
             </div>

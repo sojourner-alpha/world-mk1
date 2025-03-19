@@ -125,17 +125,12 @@ const SocialIcon = ({ url, imageSrc, name }: SocialIconProps) => (
 
 // Easter egg component for the Crossroads
 const CrossroadsEasterEgg = () => {
-  const [hovered, setHovered] = useState(false);
-  
   return (
     <Link 
-      to="/crossroads" 
-      className="easter-egg"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {hovered ? '🔥' : '?'}
-    </Link>
+      to="/origin" 
+      className="fixed bottom-16 left-16 w-4 h-4 rounded-full bg-white/80 hover:bg-yellow-200/90 transition-all duration-500 shadow-glow animate-pulse-slower z-[100]"
+      aria-label="Hidden portal"
+    />
   );
 };
 
@@ -241,11 +236,17 @@ const ObservatorySection = () => (
 
 const CrossroadsSection = () => (
   <section id="crossroads" className="scroll-section relative">
-    <div className="section-transition top"></div>
     <div className="absolute inset-0 z-0">
       <img src={crossroadsImage} alt="Crossroads" className="w-full h-full object-cover object-center" style={{aspectRatio: "16/9", objectPosition: "center 70%"}} />
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
     </div>
+    {/* Firefly */}
+    <Link 
+      to="/origin" 
+      className="absolute bottom-64 left-32 w-4 h-4 rounded-full bg-white/80 hover:bg-yellow-200/90 transition-all duration-500 shadow-glow animate-pulse-slower z-[100]"
+      aria-label="Hidden portal"
+    />
+    <div className="section-transition top"></div>
     <div className="container-wide relative z-10 h-full flex items-center">
       <div className="max-w-lg ml-auto mr-20 text-white">
         <div className="content-container content-container-right">
@@ -411,17 +412,6 @@ const Home = () => {
             <div className="cards-container animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <div className="card-container">
                 <PortalCard 
-                  title="Origin" 
-                  description="Personal story & journey" 
-                  image={originImage} 
-                  link="/origin"
-                  tag="STORY"
-                  tagColor="tag-amber"
-                  longDescription={portalDescriptions.origin}
-                />
-              </div>
-              <div className="card-container">
-                <PortalCard 
                   title="Workshop" 
                   description="Professional portfolio & skills" 
                   image={workshopImage} 
@@ -461,8 +451,8 @@ const Home = () => {
             <div className="header-divider"></div>
             <div className="max-w-2xl mx-auto">
               <p className="text-base text-center">
-                Explore my intersection of <strong>web building</strong> and <strong>world building</strong> through these four portals, 
-                each offering a unique lens into different dimensions of my work, creations and thoughts.
+                This site is an experiment in <strong>web building</strong> and <strong>world building</strong> and my digital workshop. Explore the portals above, 
+                each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
               </p>
             </div>
             <div className="social-icon-container">
@@ -523,12 +513,8 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Crossroads Easter Egg */}
-      <CrossroadsEasterEgg />
-      
       {/* Scroll Sections */}
       <div ref={sectionsRef}>
-        <OriginSection />
         <WorkshopSection />
         <LoftSection />
         <ObservatorySection />

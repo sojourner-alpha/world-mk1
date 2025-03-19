@@ -13,8 +13,9 @@
     "deploy": "dotenv -- gh-pages -d dist -r https://$GH_TOKEN@github.com/Sojourn-Insight-LLC/alpha.github.io.git"
   },
   "dependencies": {
-    "@react-three/drei": "^9.102.6",
-    "@react-three/fiber": "^8.15.19",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "gsap": "^3.12.7",
     "maplibre-gl": "^5.2.0",
     "ol": "^10.4.0",
     "react": "^18.2.0",

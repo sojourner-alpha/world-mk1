@@ -563,3 +563,43 @@
 .origin-section-button:hover h2 {
   transform: translateX(5px);
 }
+
+/* Custom animations for firefly */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-slower {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-pulse-slower {
+  animation: pulse-slower 3s ease-in-out infinite;
+}
+
+/* Shadow glow effect */
+.shadow-glow {
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
+}
+
+.shadow-glow:hover {
+  box-shadow: 0 0 20px 8px rgba(255, 255, 255, 0.4);
+}
