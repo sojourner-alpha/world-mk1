@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { FaDownload, FaBuilding, FaChartLine, FaCogs, FaGithub, FaLinkedinIn } from 'react-icons/fa';
+import { FaDownload, FaBuilding, FaChartLine, FaCogs, FaGithub, FaLinkedinIn, FaLandmark } from 'react-icons/fa';
 import { SiNotion, SiSubstack } from 'react-icons/si';
 
 // Career timeline interfaces
@@ -14,16 +14,15 @@ interface Position {
 
 interface CareerTimelineItem {
   company: string;
-  url: string;
-  role: string;
-  period: string;
+  url?: string;
+  role?: string;
+  period?: string;
   location: string;
   description?: string;
-  skills?: string[];
-  responsibilities?: string[];
   positions?: Position[];
-  tags?: string[];
+  tags: string[];
   metrics?: string[];
+  skills?: string[];
 }
 
 const Workshop = () => {
@@ -31,7 +30,7 @@ const Workshop = () => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
     
-    // Animation for scroll elements
+    // Observer for fade-in animations
     const fadeObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -43,22 +42,15 @@ const Workshop = () => {
     // Observer for section transitions
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        // When a section enters the viewport
         if (entry.isIntersecting) {
-          // Add active class to current section
           entry.target.classList.add('active-section');
-          
-          // Get the background image and transition elements
           const bgImage = entry.target.querySelector('img');
           if (bgImage) {
             bgImage.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
             bgImage.style.opacity = '1';
           }
         } else {
-          // Remove active class from sections that are not in viewport
           entry.target.classList.remove('active-section');
-          
-          // Fade out background when section is not in view
           const bgImage = entry.target.querySelector('img');
           if (bgImage) {
             bgImage.style.opacity = '0.8';
@@ -67,7 +59,7 @@ const Workshop = () => {
       });
     }, { 
       threshold: [0.1, 0.5, 0.9],
-      rootMargin: '-10% 0px -10% 0px' // Add margin to trigger earlier/later
+      rootMargin: '-10% 0px -10% 0px'
     });
 
     // Apply observers to elements
@@ -82,11 +74,9 @@ const Workshop = () => {
     });
 
     return () => {
-      // Cleanup
       fadeElements.forEach(element => {
         fadeObserver.unobserve(element);
       });
-      
       sections.forEach(section => {
         sectionObserver.unobserve(section);
       });
@@ -102,25 +92,18 @@ const Workshop = () => {
       sections.forEach((section) => {
         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
         const sectionHeight = section.clientHeight;
-        
-        // Calculate how far into the section we've scrolled (as a percentage)
         const scrollPercent = (scrollPosition - sectionTop + window.innerHeight) / (sectionHeight + window.innerHeight);
         
-        // Apply parallax effect to the background image
         const bgImage = section.querySelector('img');
         if (bgImage && scrollPercent >= 0 && scrollPercent <= 1) {
-          // Subtle parallax effect - move slower than scroll
-          const translateY = scrollPercent * 50; // 50px max movement
+          const translateY = scrollPercent * 50;
           bgImage.style.transform = `translateY(${translateY}px)`;
         }
       });
     };
 
     window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Workshop image from App.tsx
@@ -131,12 +114,12 @@ const Workshop = () => {
     {
       company: "Sojourn Insight",
       url: "https://www.sojourninsight.com",
-      role: "Founding Partner",
+      role: "Partner",
       period: "2023 - Present",
       location: "Minneapolis · Remote",
       description: "Consulting services for founders, executives and researchers.\nR&D in machine learning applications in operations and finance.",
       skills: ["Investment Management", "Analysis", "Financial Modeling", "Operations Management", "Machine Learning"],
-      tags: ["Startup", "Consulting", "AI/ML", "Private", "B2B"],
+      tags: ["Startup", "Consulting", "AI/ML", "Private", "B2B", "Founder"],
       metrics: [
         "Fundraising readiness for Toronto based startup",
         "ML applications input to a Stanford Lab",
@@ -150,16 +133,17 @@ const Workshop = () => {
       location: "San Anselmo · Toronto · Minneapolis",
       tags: ["Startup", "SaaS", "Construction Tech", "Private", "B2B", "First US Employee"],
       metrics: [
-        "9x ARR in 24 months",
-        "500% increase in contract size",
-        "Tech stack, sales ops and website"
+        "9x ARR growth in 24 months",
+        "500% increased avg. contract size",
+        "Deployed CRM, sales ops and website"
       ],
       positions: [
         {
           title: "Strategic Advisor",
           period: "2023 - 2024",
           description: "Provided strategic guidance on product development, go-to-market strategy, and organizational structure during key transition period.",
-          skills: ["Business Strategy", "Management"]
+          skills: ["Business Strategy", "Management"],
+          
         },
         {
           title: "Chief of Staff",
@@ -206,7 +190,7 @@ const Workshop = () => {
         {
           title: "Director Of Business Development",
           period: "2019 - 2020",
-          description: "Top sales performer from the Smooch.io acquisition.mm"
+          description: "Top sales performer from the Smooch.io acquisition."
         }
       ]
     },
@@ -221,7 +205,7 @@ const Workshop = () => {
       metrics: [
         "20x revenue multiple at acquisition",
         "Closed 25% of revenue deals",
-        "First business hire"
+        "First business hire under C-Suite"
       ]
     },
     {
@@ -232,9 +216,9 @@ const Workshop = () => {
       location: "Montreal · Toronto · San Francisco",
       tags: ["Enterprise", "Manufacturing", "Energy", "Private", "B2B", "First US Employee"],
       metrics: [
-        "$450M+ contracts negotiated",
-        "300MW project portfolio",
-        "Expanded to 3 new markets"
+        "$320M+ contracts negotiated",
+        "140MW project portfolio",
+        "Utility scale negotiations"
       ],
       positions: [
         {
@@ -448,7 +432,7 @@ const Workshop = () => {
             alt="Projects Background"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-white/10"></div>
+          <div className="absolute inset-0 bg-white/30"></div>
         </div>
         <div className="container-custom relative z-10">
           <div className="max-w-4xl mx-auto">
@@ -518,6 +502,99 @@ const Workshop = () => {
       <section className="scroll-section py-16 bg-white mt-8">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
+            {/* Core Tools */}
+            <h2 className="text-3xl font-heading mb-6 text-center">Core Tools</h2>
+            <div className="grid md:grid-cols-3 gap-6 justify-items-center mb-16">
+              {/* Ops Tools */}
+              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
+                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
+                  <FaCogs className="mr-2 text-slate-600" />
+                  Ops
+                </h3>
+                <div className="h-px bg-slate-300 mb-4"></div>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {[
+                    { name: "Notion", url: "https://www.notion.so" },
+                    { name: "Cursor", url: "https://cursor.sh" },
+                    { name: "Midjourney", url: "https://www.midjourney.com" },
+                    { name: "Perplexity", url: "https://www.perplexity.ai" },
+                    { name: "Google Suite", url: "https://workspace.google.com" }
+                  ].map((tool, index) => (
+                    <a 
+                      key={index}
+                      href={tool.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200 hover:bg-slate-100 transition-all duration-200 hover:scale-110 hover:shadow-md"
+                    >
+                      {tool.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* AI/ML Tools */}
+              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
+                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
+                  <FaChartLine className="mr-2 text-slate-600" />
+                  AI/ML
+                </h3>
+                <div className="h-px bg-slate-300 mb-4"></div>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {[
+                    { name: "OpenAI", url: "https://openai.com" },
+                    { name: "Grok", url: "https://grok.x.com" },
+                    { name: "Claude", url: "https://anthropic.com/claude" },
+                    { name: "LLaMA", url: "https://ai.meta.com/llama" },
+                    { name: "Deepseek", url: "https://deepseek.ai" },
+                    { name: "Ollama", url: "https://ollama.ai" },
+                    { name: "MCP", url: "https://mcp.ai" }
+                  ].map((tool, index) => (
+                    <a 
+                      key={index}
+                      href={tool.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200 hover:bg-slate-100 transition-all duration-200 hover:scale-110 hover:shadow-md"
+                    >
+                      {tool.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* FinTech Tools */}
+              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
+                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
+                  <FaLandmark className="mr-2 text-slate-600" />
+                  FinTech
+                </h3>
+                <div className="h-px bg-slate-300 mb-4"></div>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {[
+                    { name: "thinkorswim", url: "https://www.tdameritrade.com/tools-and-platforms/thinkorswim/desktop.page" },
+                    { name: "Finviz", url: "https://finviz.com" },
+                    { name: "TradingView", url: "https://www.tradingview.com" },
+                    { name: "Tradezella", url: "https://tradezella.com" },
+                    { name: "APIs", url: "https://www.programmableweb.com" }
+                  ].map((tool, index) => (
+                    <a 
+                      key={index}
+                      href={tool.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200 hover:bg-slate-100 transition-all duration-200 hover:scale-110 hover:shadow-md"
+                    >
+                      {tool.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="w-full h-px bg-slate-200 mb-16"></div>
+
             {/* Professional Skills */}
             <h2 className="text-3xl font-heading mb-6 text-center">Professional Skills</h2>
             <div className="grid md:grid-cols-3 gap-6 justify-items-center mb-16">
@@ -588,88 +665,96 @@ const Workshop = () => {
             <div className="space-y-12">
               {careerTimeline.map((position, index) => (
                 <div key={index} className="bg-parchment p-8 rounded-lg shadow-sm fade-in-up">
-                  <div className="border-l-4 border-blue-500 pl-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <a 
-                          href={position.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="text-2xl font-heading text-slate-800 hover:text-blue-600 transition-colors"
-                        >
-                          {position.company}
-                        </a>
-                        <div className="h-px bg-slate-300 my-2"></div>
-                        {position.tags && (
-                          <div className="flex flex-wrap gap-2 mb-2">
-                            {position.tags.map((tag, tagIndex) => (
-                              <span 
-                                key={tagIndex}
-                                className={`px-3 py-1 rounded-full text-sm ${
-                                  tag === "First US Employee" 
-                                    ? "bg-slate-600 text-slate-100 border border-slate-500 font-medium" 
-                                    : "bg-blue-50 text-blue-700"
-                                }`}
-                              >
-                                {tag}
-                              </span>
+                  {/* Company Name */}
+                  <div className="mb-4">
+                    <a 
+                      href={position.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-2xl font-heading text-slate-800 hover:text-blue-600 transition-colors"
+                    >
+                      {position.company}
+                    </a>
+                    <div className="h-px bg-slate-300 my-4"></div>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {position.tags.map((tag, tagIndex) => (
+                      <span 
+                        key={tagIndex}
+                        className={`px-3 py-1 rounded-full text-sm ${
+                          tag === "First US Employee" || tag === "Founder"
+                            ? "bg-slate-600 text-slate-100 border border-slate-500 font-medium" 
+                            : "bg-blue-50 text-blue-700"
+                        }`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Location */}
+                  <p className="text-slate-600 mb-6">{position.location}</p>
+
+                  {/* Roles and Details */}
+                  <div className="mt-4 space-y-4">
+                    {position.positions ? (
+                      // Multiple positions
+                      position.positions.map((subPosition, subIndex) => (
+                        <div key={subIndex} className="border-l-2 border-blue-300 pl-4">
+                          <div className="flex justify-between items-start">
+                            <p className="text-slate-800 font-medium">{subPosition.title}</p>
+                            <p className="text-slate-600 text-sm">{subPosition.period}</p>
+                          </div>
+                          {subPosition.description && (
+                            <p className="text-slate-600 mt-2">{subPosition.description}</p>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      // Single position
+                      <div className="border-l-2 border-blue-300 pl-4">
+                        <div className="flex justify-between items-start">
+                          <p className="text-slate-800 font-medium">{position.role}</p>
+                          <p className="text-slate-600 text-sm">{position.period}</p>
+                        </div>
+                        {position.description && (
+                          <div className="text-slate-600 mt-2">
+                            {position.description.split('\n').map((line, i) => (
+                              <p key={i}>{line}</p>
                             ))}
                           </div>
                         )}
-                        <p className="text-slate-600">{position.location}</p>
-                      </div>
-                      <p className="text-slate-600 text-right">{position.period}</p>
-                    </div>
-                    <p className="text-slate-700 font-medium">{position.role}</p>
-                    {/* Convert single role positions to use the same format as multiple roles */}
-                    {!position.positions ? (
-                      <div className="mt-4 space-y-4">
-                        <div className="border-l-2 border-blue-300 pl-4">
-                          <div className="flex justify-between items-start">
-                            <p className="text-slate-800 font-medium">{position.role}</p>
-                            <p className="text-slate-600 text-sm">{position.period}</p>
-                          </div>
-                          {position.description && (
-                            <p className="text-slate-600 mt-2">{position.description}</p>
-                          )}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="mt-4 space-y-4">
-                        {position.positions.map((subPosition, subIndex) => (
-                          <div key={subIndex} className="border-l-2 border-blue-300 pl-4">
-                            <div className="flex justify-between items-start">
-                              <p className="text-slate-800 font-medium">{subPosition.title}</p>
-                              <p className="text-slate-600 text-sm">{subPosition.period}</p>
-                            </div>
-                            {subPosition.description && (
-                              <p className="text-slate-600 mt-2">{subPosition.description}</p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {position.responsibilities && (
-                      <ul className="mt-4 list-disc list-inside text-slate-600 space-y-1">
-                        {position.responsibilities.map((resp, respIndex) => (
-                          <li key={respIndex}>{resp}</li>
-                        ))}
-                      </ul>
-                    )}
-                    {position.metrics && (
-                      <div className="mt-4 bg-blue-50/50 p-3 rounded-md border border-blue-100">
-                        <p className="text-sm font-medium text-blue-800 mb-2">Key Achievements</p>
-                        <div className="flex flex-wrap gap-3">
-                          {position.metrics.map((metric, metricIndex) => (
-                            <div key={metricIndex} className="flex items-center">
-                              <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                              <span className="text-sm text-blue-900">{metric}</span>
-                            </div>
-                          ))}
-                        </div>
                       </div>
                     )}
                   </div>
+
+                  {/* Key Achievements - Moved to bottom of card */}
+                  {(position.metrics || position.positions?.some(p => p.metrics)) && (
+                    <div className="mt-8 bg-blue-50/50 rounded-lg p-4">
+                      <p className="text-sm font-medium text-blue-800 mb-2">Key Achievements</p>
+                      <ul className="flex flex-wrap gap-2">
+                        {position.metrics ? (
+                          position.metrics.map((metric, metricIndex) => (
+                            <li key={metricIndex} className="text-slate-700 text-sm flex items-center">
+                              <span className="text-blue-500 mr-1">•</span>
+                              {metric}
+                            </li>
+                          ))
+                        ) : (
+                          position.positions?.map((subPosition, subIndex) => 
+                            subPosition.metrics?.map((metric, metricIndex) => (
+                              <li key={`${subIndex}-${metricIndex}`} className="text-slate-700 text-sm flex items-center">
+                                <span className="text-blue-500 mr-1">•</span>
+                                {metric}
+                              </li>
+                            ))
+                          ).flat()
+                        )}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
