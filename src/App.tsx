@@ -29,7 +29,7 @@ const Header = () => (
             </Link>
           </div>
         </div>
-        <p className="text-slate-600 mt-1"> Analyst + Techologist + Investor + Consultant </p>
+        <p className="text-slate-600 mt-1"> techologist + analyst + investor + consultant </p>
         <div className="header-divider"></div>
       </div>
     </div>
@@ -154,7 +154,7 @@ const OriginSection = () => (
 */
 
 const WorkshopSection = () => (
-  <section id="workshop" className="scroll-section relative">
+  <section id="workshop" className="scroll-section relative mt-8 md:mt-16 lg:mt-20 z-10">
     <div className="section-transition top"></div>
     <div className="absolute inset-0 z-0">
       <img src={workshopImage} alt="Workshop" className="w-full h-full object-cover object-center" style={{aspectRatio: "16/9"}} />
@@ -380,7 +380,7 @@ const Home = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="hero-section flex flex-col py-6">
+      <section className="hero-section flex flex-col py-6 md:py-12 pb-24 md:pb-24 min-h-[200vh] md:min-h-0 relative z-30">
         <div className="container-wide flex flex-col">
           <div className="max-w-5xl mx-auto text-center mb-2">
             <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800">
@@ -399,7 +399,7 @@ const Home = () => {
           {/* Portal Cards Row */}
           <div className="flex items-center justify-center py-4">
             <div className="w-full">
-              <div className="cards-container flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 px-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="cards-container flex flex-col md:flex-row items-center justify-center gap-12 md:gap-8 px-4 mb-16 md:mb-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
                 <div className="card-container md:w-auto">
                   <PortalCard 
                     title="Workshop" 
@@ -442,12 +442,12 @@ const Home = () => {
             <div className="header-divider"></div>
             <div className="max-w-2xl mx-auto px-4 py-4">
               <p className="text-base text-center">
-                This site is an experiment in <strong>web building</strong> and <strong>world building</strong> and my digital workshop. Everything you see here is built by me, with the help of AI. 
+                This is my digital workshop and an experiment in <strong>web building</strong> + <strong>world building</strong>. Everything you see here is built by me, with the help of AI. 
                 <br />  <br /> Explore the portals above, each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
               </p>
             </div>
-            <div className="flex justify-center my-6">
-              <div className="social-icon-container z-10">
+            <div className="flex justify-center my-6 mb-16 md:mb-6">
+              <div className="social-icon-container z-30">
                 <SocialIcon 
                   url="https://github.com/sojourner-alpha" 
                   icon={FaGithub}
@@ -472,7 +472,7 @@ const Home = () => {
             </div>
             
             {/* Open Source Disclaimer */}
-            <div className="open-source-disclaimer animate-fade-in mt-4 mb-8" style={{ animationDelay: '0.5s' }}>
+            <div className="open-source-disclaimer animate-fade-in mt-4 mb-12 md:mb-16" style={{ animationDelay: '0.5s' }}>
               <p className="text-sm text-center text-slate-600">
                 This website and other projects I build are <strong>open source</strong> and available on <a href="https://github.com/sojourner-alpha" className="text-blue-700 hover:underline">GitHub</a>.
               </p>
@@ -481,11 +481,11 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Spacer div to prevent overlap */}
-      <div className="h-16"></div>
+      {/* Spacer div to prevent overlap - increased height and made responsive */}
+      <div className="h-40 md:h-36 lg:h-48"></div>
       
       {/* Scroll Sections */}
-      <div ref={sectionsRef}>
+      <div ref={sectionsRef} className="relative z-20">
         <WorkshopSection />
         <LoftSection />
         <ObservatorySection />
