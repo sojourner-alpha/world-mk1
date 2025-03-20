@@ -67,7 +67,7 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
         <img src={image} alt={title} className="portal-card-image" />
         
         {/* Card content (always visible at bottom) */}
-        <div className="portal-card-content">
+        <div className="portal-card-content bg-matted/60 backdrop-blur-sm p-4 rounded-lg m-2">
           <h2 className="text-lg md:text-xl font-heading mb-2">{title}</h2>
           <p className="text-xs md:text-sm text-gray-300 mb-4">{description}</p>
           <div className="flex justify-center w-full">
@@ -442,8 +442,8 @@ const Home = () => {
             <div className="header-divider"></div>
             <div className="max-w-2xl mx-auto px-4 py-4">
               <p className="text-base text-center">
-                This site is an experiment in <strong>web building</strong> and <strong>world building</strong> and my digital workshop. Everything you see here is built by me, with the help of AI. Explore the portals above, 
-                each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
+                This site is an experiment in <strong>web building</strong> and <strong>world building</strong> and my digital workshop. Everything you see here is built by me, with the help of AI. 
+                <br />  <br /> Explore the portals above, each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
               </p>
             </div>
             <div className="flex justify-center my-6">
