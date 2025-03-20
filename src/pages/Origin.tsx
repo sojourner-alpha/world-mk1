@@ -57,7 +57,7 @@ const Origin = () => {
   ];
 
   // Group places by type for the legend
-  const placeTypes = [...new Set(places.map(place => place.type))];
+  // const placeTypes = [...new Set(places.map(place => place.type))];
 
   return (
     <div className="h-screen overflow-hidden relative">
@@ -346,7 +346,6 @@ const Origin = () => {
                       <WorldMap 
                         places={places} 
                         onHoverPlace={setHoveredPlace} 
-                        hoveredPlace={hoveredPlace}
                         initialCenter={{ lat: 45, lng: -90 }}
                         initialZoom={2.5}
                       />

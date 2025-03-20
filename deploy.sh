@@ -3,6 +3,9 @@
 # Build the project
 npm run build
 
+# Copy CNAME file to dist directory
+cp public/CNAME dist/
+
 # Go to the dist folder
 cd dist
 
@@ -15,9 +18,9 @@ git add -A
 git commit -m 'Deploy to GitHub Pages'
 
 # Force push to the gh-pages branch
-git push -f https://github.com/Sojourn-Insight-LLC/alpha.github.io.git main:gh-pages
+git push -f https://github.com/sojourner-alpha/world-mk1.git main:gh-pages
 
 # Go back to the previous directory
 cd -
 
-echo "Deployed to https://sojourn-insight-llc.github.io/alpha.github.io/"
+echo "Deployed to https://sojourner-alpha.github.io/world-mk1/ (or alpha.sojourninsight.com if domain is configured)"

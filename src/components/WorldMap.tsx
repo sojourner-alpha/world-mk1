@@ -27,7 +27,6 @@ interface Place {
 interface WorldMapProps {
   places: Place[];
   onHoverPlace: (place: string | null) => void;
-  hoveredPlace: string | null;
   initialCenter?: {
     lat: number;
     lng: number;
@@ -38,7 +37,6 @@ interface WorldMapProps {
 const WorldMap: React.FC<WorldMapProps> = ({ 
   places, 
   onHoverPlace, 
-  hoveredPlace,
   initialCenter = { lat: 45, lng: -90 },
   initialZoom = 2.5
 }) => {
@@ -264,8 +262,7 @@ const WorldMap: React.FC<WorldMapProps> = ({
 
     return () => {
       if (mapInstance.current) {
-        mapInstance.current.setTarget(null);
-        mapInstance.current = null;
+        mapInstance.current.setTarget('');
       }
     };
   }, [places, onHoverPlace, initialCenter, initialZoom]);

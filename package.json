@@ -3,14 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://sojourn-insight-llc.github.io/alpha.github.io",
+  "homepage": "https://sojourner-alpha.github.io/world-mk1",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "type-check": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "dotenv -- gh-pages -d dist -r https://$GH_TOKEN@github.com/Sojourn-Insight-LLC/alpha.github.io.git"
+    "predeploy": "npm run build && copy public\\CNAME dist\\CNAME",
+    "deploy": "dotenv -- gh-pages -d dist -r https://$GH_TOKEN@github.com/sojourner-alpha/world-mk1.git"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox } from 'react-icons/fa6';
 import { SiSubstack } from 'react-icons/si';
 import Origin from './pages/Origin';
@@ -10,7 +10,7 @@ import Crossroads from './pages/Crossroads';
 import CvPage from './pages/CvPage';
 
 // Placeholder images (these would be replaced with actual images)
-const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
+// const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
 const workshopImage = "https://cdn.midjourney.com/2a89e5b4-ee6a-42bd-991e-8561a9b2fbe7/0_1.png";
 const loftImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_2.png";
 const observatoryImage = "https://cdn.midjourney.com/ed339c2f-a4e1-431f-96fe-79f1da80128a/0_0.png";
@@ -126,18 +126,8 @@ const SocialIcon = ({ url, imageSrc, name }: SocialIconProps) => (
 );
 */
 
-// Easter egg component for the Crossroads
-const CrossroadsEasterEgg = () => {
-  return (
-    <Link 
-      to="/origin" 
-      className="fixed bottom-16 left-16 w-4 h-4 rounded-full bg-white/80 hover:bg-yellow-200/90 transition-all duration-500 shadow-glow animate-pulse-slower z-[100]"
-      aria-label="Hidden portal"
-    />
-  );
-};
-
 // Section components for each portal area
+/*
 const OriginSection = () => (
   <section id="origin" className="scroll-section relative">
     <div className="absolute inset-0 z-0">
@@ -160,6 +150,7 @@ const OriginSection = () => (
     </div>
   </section>
 );
+*/
 
 const WorkshopSection = () => (
   <section id="workshop" className="scroll-section relative">
@@ -539,7 +530,7 @@ const Home = () => {
 
 function App() {
   return (
-    <Router basename="/alpha.github.io">
+    <Router basename="/world-mk1">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/origin" element={<Origin />} />
