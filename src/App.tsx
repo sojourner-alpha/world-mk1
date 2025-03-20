@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
-import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox } from 'react-icons/fa6';
+import { useEffect, useRef, useState } from 'react';
+import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox, FaLightbulb } from 'react-icons/fa6';
 import { SiSubstack } from 'react-icons/si';
 import Origin from './pages/Origin';
 import Workshop from './pages/Workshop';
@@ -24,9 +24,38 @@ const Header = () => (
         <div className="flex items-baseline justify-between">
           <h1 className="text-3xl font-heading text-slate-800">Curtis James | Lederle</h1>
           <div className="flex items-center space-x-4">
-            <Link to="/toolbox" className="text-slate-600 hover:text-slate-800 transition-colors">
-              <FaToolbox size={24} />
-            </Link>
+            <a 
+              href="https://github.com/sojourner-alpha" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-slate-600 hover:text-slate-800 transition-colors"
+            >
+              <FaGithub size={20} />
+            </a>
+            <a 
+              href="https://x.com/curtlederle" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-slate-600 hover:text-slate-800 transition-colors"
+            >
+              <FaXTwitter size={20} />
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/clederle/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-slate-600 hover:text-slate-800 transition-colors"
+            >
+              <FaLinkedinIn size={20} />
+            </a>
+            <a 
+              href="https://curtislederle.substack.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-slate-600 hover:text-slate-800 transition-colors"
+            >
+              <SiSubstack size={20} />
+            </a>
           </div>
         </div>
         <p className="text-slate-600 mt-1"> techologist + analyst + investor + consultant </p>
@@ -45,9 +74,10 @@ interface PortalCardProps {
   tag: string;
   tagColor: string;
   longDescription: string;
+  shadowActive: boolean;
 }
 
-const PortalCard = ({ title, description, image, link, tag, tagColor, longDescription }: PortalCardProps) => {
+const PortalCard = ({ title, description, image, link, tag, tagColor, longDescription, shadowActive }: PortalCardProps) => {
   // Map tag colors to actual Tailwind classes
   const getTagColorClass = () => {
     switch(tagColor) {
@@ -62,7 +92,7 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
 
   return (
     <div className="card-container">
-      <div className="portal-card">
+      <div className={`portal-card ${shadowActive ? 'shadow-active' : ''}`}>
         <span className={`card-tag ${getTagColorClass()}`}>{tag}</span>
         <img src={image} alt={title} className="portal-card-image" />
         
@@ -256,6 +286,18 @@ const CrossroadsSection = () => (
 // Home component with elegant layout
 const Home = () => {
   const sectionsRef = useRef<HTMLDivElement>(null);
+  const [shadowsActive, setShadowsActive] = useState(() => {
+    // Get saved preference from localStorage on initial render
+    const saved = localStorage.getItem('shadowsActive');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  const toggleShadows = () => {
+    const newValue = !shadowsActive;
+    setShadowsActive(newValue);
+    // Save preference to localStorage
+    localStorage.setItem('shadowsActive', JSON.stringify(newValue));
+  };
 
   // Animation for scroll sections
   useEffect(() => {
@@ -375,12 +417,22 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-parchment">
+    <div className={`bg-parchment ${shadowsActive ? 'shadows-active-bg' : ''}`}>
       <Header />
       
       {/* Hero Section */}
       <section className="hero-section flex flex-col py-6 md:py-12 pb-24 md:pb-24 min-h-[200vh] md:min-h-0 relative z-30">
         <div className="container-wide flex flex-col">
+          {/* Light Toggle Button - adjusted position */}
+          <div 
+            className={`light-toggle ${shadowsActive ? 'active' : ''}`}
+            onClick={toggleShadows}
+            aria-label="Toggle light effects"
+            style={{ position: 'absolute', right: '2rem', top: '2rem', zIndex: 50 }}
+          >
+            <FaLightbulb size={20} />
+          </div>
+        
           <div className="max-w-5xl mx-auto text-center mb-2">
             <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800">
               Welcome to my world(s).
@@ -398,7 +450,7 @@ const Home = () => {
           {/* Portal Cards Row */}
           <div className="flex items-center justify-center py-4">
             <div className="w-full">
-              <div className="cards-container flex flex-col md:flex-row items-center justify-center gap-12 md:gap-8 px-4 mb-16 md:mb-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="cards-container flex flex-col md:flex-row items-center justify-center gap-12 md:gap-4 px-4 mb-16 md:mb-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
                 <div className="card-container md:w-auto">
                   <PortalCard 
                     title="Workshop" 
@@ -408,6 +460,7 @@ const Home = () => {
                     tag="TECH"
                     tagColor="tag-green"
                     longDescription={portalDescriptions.workshop}
+                    shadowActive={shadowsActive}
                   />
                 </div>
                 <div className="card-container md:w-auto">
@@ -419,6 +472,7 @@ const Home = () => {
                     tag="CREATIVE"
                     tagColor="tag-blue"
                     longDescription={portalDescriptions.loft}
+                    shadowActive={shadowsActive}
                   />
                 </div>
                 <div className="card-container md:w-auto">
@@ -430,51 +484,52 @@ const Home = () => {
                     tag="FUTURE"
                     tagColor="tag-amber"
                     longDescription={portalDescriptions.observatory}
+                    shadowActive={shadowsActive}
                   />
                 </div>
               </div>
-            </div>
-          </div>
-          
-          {/* Social Media Icons - added responsive padding */}
-          <div className="py-6">
-            <div className="header-divider"></div>
-            <div className="max-w-2xl mx-auto px-4 py-4">
-              <p className="text-base text-center">
-                This is my digital workshop and an experiment in <strong>web building</strong> + <strong>world building</strong>. Everything you see here is built by me, with the help of AI. 
-                <br />  <br /> Explore the portals above, each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
-              </p>
-            </div>
-            <div className="flex justify-center my-6 mb-16 md:mb-6">
-              <div className="social-icon-container z-30">
-                <SocialIcon 
-                  url="https://github.com/sojourner-alpha" 
-                  icon={FaGithub}
-                  name="GitHub"
-                />
-                <SocialIcon 
-                  url="https://x.com/curtlederle" 
-                  icon={FaXTwitter}
-                  name="Twitter / X"
-                />
-                <SocialIcon 
-                  url="https://www.linkedin.com/in/clederle/" 
-                  icon={FaLinkedinIn}
-                  name="LinkedIn"
-                />
-                <SocialIcon 
-                  url="https://curtislederle.substack.com" 
-                  icon={SiSubstack}
-                  name="Substack"
-                />
+              
+              {/* Social Media Icons - added responsive padding */}
+              <div className="py-6">
+                <div className="header-divider"></div>
+                <div className="max-w-2xl mx-auto px-4 py-4">
+                  <p className="text-base text-center">
+                    This is my digital workshop and an experiment in <strong>web building</strong> + <strong>world building</strong>. Everything you see here is built by me, with the help of AI. 
+                    <br />  <br /> Explore the portals above, each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
+                  </p>
+                </div>
+                <div className="flex justify-center my-6 mb-16 md:mb-6">
+                  <div className="social-icon-container z-30">
+                    <SocialIcon 
+                      url="https://github.com/sojourner-alpha" 
+                      icon={FaGithub}
+                      name="GitHub"
+                    />
+                    <SocialIcon 
+                      url="https://x.com/curtlederle" 
+                      icon={FaXTwitter}
+                      name="Twitter / X"
+                    />
+                    <SocialIcon 
+                      url="https://www.linkedin.com/in/clederle/" 
+                      icon={FaLinkedinIn}
+                      name="LinkedIn"
+                    />
+                    <SocialIcon 
+                      url="https://curtislederle.substack.com" 
+                      icon={SiSubstack}
+                      name="Substack"
+                    />
+                  </div>
+                </div>
+                
+                {/* Open Source Disclaimer */}
+                <div className="open-source-disclaimer animate-fade-in mt-4 mb-12 md:mb-16" style={{ animationDelay: '0.5s' }}>
+                  <p className="text-sm text-center text-slate-600">
+                    This website and other projects I build are <strong>open source</strong> and available on <a href="https://github.com/sojourner-alpha" className="text-blue-700 hover:underline">GitHub</a>.
+                  </p>
+                </div>
               </div>
-            </div>
-            
-            {/* Open Source Disclaimer */}
-            <div className="open-source-disclaimer animate-fade-in mt-4 mb-12 md:mb-16" style={{ animationDelay: '0.5s' }}>
-              <p className="text-sm text-center text-slate-600">
-                This website and other projects I build are <strong>open source</strong> and available on <a href="https://github.com/sojourner-alpha" className="text-blue-700 hover:underline">GitHub</a>.
-              </p>
             </div>
           </div>
         </div>
