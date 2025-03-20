@@ -78,9 +78,8 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
         </div>
         
         {/* Description that slides up on hover */}
-        <div className="card-description">
-          <h3 className="text-lg font-heading mb-2 md:mb-4">{title}</h3>
-          <p className="text-xs md:text-sm leading-relaxed">{longDescription}</p>
+        <div className="card-description flex items-center justify-center">
+          <p className="text-sm md:text-base leading-relaxed px-6 text-center">{longDescription}</p>
         </div>
       </div>
     </div>
