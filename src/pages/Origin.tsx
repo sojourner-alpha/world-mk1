@@ -98,7 +98,7 @@ const Origin = () => {
             <div 
               className={`transition-all duration-500 ease-in-out ${
                 expandedSections.includes('bio') 
-                  ? 'w-full max-w-4xl' 
+                  ? 'w-full max-w-4xl self-center' 
                   : 'w-64 cursor-pointer hover:scale-105'
               }`}
             >
@@ -246,7 +246,7 @@ const Origin = () => {
             <div 
               className={`transition-all duration-500 ease-in-out ${
                 expandedSections.includes('geo') 
-                  ? 'w-full max-w-4xl' 
+                  ? 'w-full max-w-4xl self-center' 
                   : 'w-64 cursor-pointer hover:scale-105'
               }`}
             >

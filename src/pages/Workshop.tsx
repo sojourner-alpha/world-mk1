@@ -463,13 +463,13 @@ const Workshop = () => {
                           href={project.githubUrl} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="flex items-center text-blue-600 hover:text-blue-800"
+                          className="flex items-center justify-center px-4 py-2 rounded-md bg-white/80 border border-slate-300 text-blue-600 hover:text-blue-800 hover:bg-white/90 transition-all shadow-sm"
                         >
-                          <FaGithub size={24} className="mr-2" /> View Code
+                          <FaGithub size={22} className="mr-2" /> View Code
                         </a>
                       ) : (
-                        <span className="flex items-center text-slate-800 cursor-not-allowed">
-                          <FaGithub size={24} className="mr-2" /> Private
+                        <span className="flex items-center justify-center px-4 py-2 rounded-md bg-white/80 border border-slate-300 text-slate-800 cursor-not-allowed shadow-sm">
+                          <FaGithub size={22} className="mr-2" /> Private
                         </span>
                       )
                     ) : (
@@ -477,17 +477,17 @@ const Workshop = () => {
                         href={project.url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="flex items-center text-blue-600 hover:text-blue-800"
+                        className="flex items-center justify-center px-4 py-2 rounded-md bg-white/80 border border-slate-300 text-blue-600 hover:text-blue-800 hover:bg-white/90 transition-all shadow-sm"
                       >
                         {project.type === 'notion' ? (
-                          <><SiNotion size={24} className="mr-2" /> Read Research</>
+                          <><SiNotion size={22} className="mr-2" /> Read Research</>
                         ) : (
-                          <><SiSubstack size={24} className="mr-2" /> Read Article</>
+                          <><SiSubstack size={22} className="mr-2" /> Read Article</>
                         )}
                       </a>
                     )}
-              </div>
-              </div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -663,27 +663,37 @@ const Workshop = () => {
                 <div key={index} className="bg-parchment p-8 rounded-lg shadow-sm fade-in-up">
                   {/* Company Name */}
                   <div className="mb-4">
-                    <a 
-                      href={position.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-2xl font-heading text-slate-800 hover:text-blue-600 transition-colors"
-                    >
-                      {position.company}
-                    </a>
+                    <div className="flex justify-between items-center">
+                      <a 
+                        href={position.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-2xl font-heading text-slate-800 hover:text-blue-600 transition-colors"
+                      >
+                        {position.company}
+                      </a>
+                      
+                      {/* Special tags in upper right */}
+                      <div className="flex gap-2">
+                        {position.tags.filter(tag => tag === "Founder" || tag === "First US Employee").map((tag, tagIndex) => (
+                          <span 
+                            key={`special-${tagIndex}`}
+                            className="px-3 py-1 rounded-full text-sm bg-slate-600 text-slate-100 border border-slate-500 font-medium"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                     <div className="h-px bg-slate-300 my-4"></div>
                   </div>
 
-                  {/* Tags */}
+                  {/* Tags - excluding special tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {position.tags.map((tag, tagIndex) => (
+                    {position.tags.filter(tag => tag !== "Founder" && tag !== "First US Employee").map((tag, tagIndex) => (
                       <span 
                         key={tagIndex}
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          tag === "First US Employee" || tag === "Founder"
-                            ? "bg-slate-600 text-slate-100 border border-slate-500 font-medium" 
-                            : "bg-blue-50 text-blue-700"
-                        }`}
+                        className="px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-700"
                       >
                         {tag}
                       </span>
@@ -756,56 +766,78 @@ const Workshop = () => {
             </div>
 
             {/* Easter Egg - Graduation Cap */}
-            <div className="flex justify-center mt-12">
+            <div className="flex flex-col items-center mt-12">
               <button 
                 onClick={() => {
                   console.log('Toggling student orgs:', !showStudentOrgs);
+                  console.log('Student orgs data:', studentOrganizations);
                   setShowStudentOrgs(!showStudentOrgs);
                 }}
-                className="text-slate-400 hover:text-slate-600 transition-colors duration-300 transform hover:scale-110"
+                className="text-slate-600 hover:text-blue-600 transition-colors duration-300 transform hover:scale-110 bg-parchment p-3 rounded-full shadow-sm"
                 aria-label="Toggle student organizations"
               >
-                <FaGraduationCap size={32} />
-            </button>
+                <FaGraduationCap size={28} />
+              </button>
             </div>
 
             {/* Student Organizations Section */}
             {showStudentOrgs && (
-              <div className="mt-12">
-                <h2 className="text-3xl font-heading mb-8 text-center">Student Organizations</h2>
-                <div className="space-y-8">
-                  {studentOrganizations.map((org, index) => (
-                    <div key={index} className="bg-parchment p-8 rounded-lg shadow-sm">
-                      <div className="border-l-4 border-red-800 pl-6">
-                        <div className="flex justify-between items-start mb-4">
-                          <div>
-                            <h3 className="text-2xl font-heading text-slate-800">{org.company}</h3>
-                            <p className="text-slate-600">{org.location}</p>
-                          </div>
-                          <p className="text-slate-600">{org.period}</p>
-                        </div>
-                        <p className="text-slate-700 font-medium mb-4">{org.role}</p>
-                        
-                        {org.positions && (
-                          <div className="space-y-4">
-                            {org.positions.map((pos, posIndex) => (
-                              <div key={posIndex} className="border-l-2 border-red-700 pl-4">
-                                <div className="flex justify-between items-start mb-2">
-                                  <h4 className="text-slate-800 font-medium">{pos.title}</h4>
-                                  <p className="text-slate-600 text-sm">{pos.period}</p>
-                                </div>
-                                {pos.description && (
-                                  <p className="text-slate-600">{pos.description}</p>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+              <>
+                <div className="mt-12">
+                  <h2 className="text-3xl font-heading mb-8 text-center">Student Organizations</h2>
+                  <p className="text-center mb-8 text-slate-600">Educational leadership positions during university</p>
                 </div>
-              </div>
+                
+                {studentOrganizations && studentOrganizations.length > 0 ? (
+                  <div className="space-y-8">
+                    {studentOrganizations.map((org, index) => (
+                      <div key={index} className="bg-parchment p-8 rounded-lg shadow-sm">
+                        {/* Organization Name */}
+                        <div className="mb-4">
+                          <div className="flex justify-between items-center">
+                            <h3 className="text-2xl font-heading text-slate-800">
+                              {org.company}
+                            </h3>
+                            
+                            {/* Period removed from upper right */}
+                          </div>
+                          <div className="h-px bg-slate-300 my-4"></div>
+                        </div>
+
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <span className="px-3 py-1 rounded-full text-sm bg-red-50 text-red-700">
+                            Student Organization
+                          </span>
+                          <span className="px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-700">
+                            Education
+                          </span>
+                        </div>
+
+                        {/* Location */}
+                        <p className="text-slate-600 mb-6">{org.location}</p>
+
+                        {/* Roles and Details */}
+                        <div className="mt-4 space-y-4">
+                          {org.positions && org.positions.map((pos, posIndex) => (
+                            <div key={posIndex} className="border-l-2 border-blue-300 pl-4">
+                              <div className="flex justify-between items-start">
+                                <p className="text-slate-800 font-medium">{pos.title}</p>
+                                <p className="text-slate-600 text-sm">{pos.period}</p>
+                              </div>
+                              {pos.description && (
+                                <p className="text-slate-600 mt-2">{pos.description}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-slate-600">No student organization data available.</p>
+                )}
+              </>
             )}
           </div>
         </div>

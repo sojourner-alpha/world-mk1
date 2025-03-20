@@ -151,8 +151,7 @@ const OriginSection = () => (
           <h2 className="section-title text-white content-title text-center">Origin</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A space where you can discover the journey and personal story that shaped my identity and values.</p>
-              <p className="mb-6">This section features an interactive timeline, personal values exploration, and hidden insights that reveal more about who I am beyond my professional identity.</p>
+              <p className="text-lg mb-6">A space where you can discover the journey and personal story that shaped my identity and perspective.</p>
             </div>
             <Link to="/origin" className="btn btn-primary content-button"><span>Explore Origin</span></Link>
           </div>
@@ -200,8 +199,7 @@ const LoftSection = () => (
           <h2 className="section-title text-white content-title text-center">Loft</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A vibrant studio space that houses creative pursuits, hobbies, and artistic expressions beyond the professional realm.</p>
-              <p className="mb-6">This section features a gallery of creative projects, music, writing, and other passion-driven work that showcases the more personal side of creativity.</p>
+              <p className="text-lg mb-6">A studio space that houses creative pursuits, hobbies, and artistic expressions beyond the professional realm.</p>
             </div>
             <Link to="/loft" className="btn btn-primary content-button"><span>Discover Loft</span></Link>
           </div>
@@ -226,7 +224,6 @@ const ObservatorySection = () => (
           <div className="content-text">
             <div className="text-left w-full">
               <p className="text-lg mb-6">A futuristic lookout point where thoughts on emerging technologies, future trends, and speculative ideas come together.</p>
-              <p className="mb-6">Explore essays, predictions, and thought experiments that examine the intersection of technology, society, and human potential.</p>
             </div>
             <Link to="/observatory" className="btn btn-primary content-button"><span>Visit Observatory</span></Link>
           </div>
@@ -256,7 +253,6 @@ const CrossroadsSection = () => (
           <div className="content-text">
             <div className="text-left w-full">
               <p className="text-lg mb-6">A central meeting place designed for connection, collaboration, and community engagement.</p>
-              <p className="mb-6">Here you can reach out for collaborations, leave your mark on an interactive visitor map, or find various ways to connect through social channels.</p>
             </div>
             <Link to="/crossroads" className="btn btn-primary content-button"><span>Join At Crossroads</span></Link>
           </div>
