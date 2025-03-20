@@ -38,7 +38,7 @@ const Observatory = () => {
   }, []);
 
   // Observatory image from App.tsx
-  const observatoryImage = "https://cdn.midjourney.com/ed339c2f-a4e1-431f-96fe-79f1da80128a/0_0.png";
+  const observatoryImage = "/world-mk1/assets/images/observatory.png";
 
   // Handle tab change
   const handleTabChange = (section: string, tab: string) => {

@@ -109,7 +109,7 @@ const Workshop = () => {
   }, []);
 
   // Workshop image from App.tsx
-  const workshopImage = "https://cdn.midjourney.com/2a89e5b4-ee6a-42bd-991e-8561a9b2fbe7/0_1.png";
+  const workshopImage = "/world-mk1/assets/images/workshop.png";
 
   // Career timeline data
   const careerTimeline: CareerTimelineItem[] = [
@@ -424,7 +424,7 @@ const Workshop = () => {
       <section className="scroll-section py-8 relative mt-8">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="https://cdn.midjourney.com/6c1b299d-eeb6-438d-9b23-07fc83c82d86/0_1.png"
+            src="/world-mk1/assets/images/projects.png"
             alt="Projects Background"
             className="w-full h-full object-cover"
           />

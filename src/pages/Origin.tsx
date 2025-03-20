@@ -36,7 +36,7 @@ const Origin = () => {
   }, []);
 
   // Origin image from App.tsx
-  const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
+  const originImage = "/world-mk1/assets/images/origin.png";
   
   // Places with proper lat/lng coordinates
   const places = [
@@ -223,7 +223,7 @@ const Origin = () => {
                       {activeTab === 'roots' && (
                         <div className="space-y-4">
                           <p>
-                            I grew up in the American Midwest surrounded by a family of architects, doctors, and engineers—role models who showed me the power of focus and applied intellect.
+                            I grew up incredibly fortunate. I was a child of the American Midwest surrounded by a family of architects, doctors, and engineers—role models who showed me the power of focus and applied intellect.
                           </p>
                           <p>
                             My early days were spent tinkering with Legos and my mom's scale models. Watching her return to school for architecture ingrained a learner's mindset. Conversations over years with my dad fueled a love for data and science, while his voracious reading shaped my habits. Nearby, my favorite place was the workshop of my grandfather—a WWII RCAF engineer and master handyman—where anything could be built or fixed.

@@ -28,7 +28,7 @@ const Crossroads = () => {
   }, []);
 
   // Crossroads image from App.tsx
-  const crossroadsImage = "https://cdn.midjourney.com/01674c0c-001d-406e-8efb-b56fb7e5e95a/0_3.png";
+  const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
   
   return (
     <div className="bg-parchment text-slate-800 min-h-screen">

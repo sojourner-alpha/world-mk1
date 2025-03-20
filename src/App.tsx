@@ -11,10 +11,11 @@ import CvPage from './pages/CvPage';
 
 // Placeholder images (these would be replaced with actual images)
 // const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
-const workshopImage = "https://cdn.midjourney.com/2a89e5b4-ee6a-42bd-991e-8561a9b2fbe7/0_1.png";
-const loftImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_2.png";
-const observatoryImage = "https://cdn.midjourney.com/ed339c2f-a4e1-431f-96fe-79f1da80128a/0_0.png";
-const crossroadsImage = "https://cdn.midjourney.com/01674c0c-001d-406e-8efb-b56fb7e5e95a/0_3.png";
+const originImage = "/world-mk1/assets/images/origin.png";
+const workshopImage = "/world-mk1/assets/images/workshop.png";
+const loftImage = "/world-mk1/assets/images/loft.png";
+const observatoryImage = "/world-mk1/assets/images/observatory.png";
+const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
 
 const Header = () => (
   <header className="py-6">
@@ -441,7 +442,7 @@ const Home = () => {
             <div className="header-divider"></div>
             <div className="max-w-2xl mx-auto px-4 py-4">
               <p className="text-base text-center">
-                This site is an experiment in <strong>web building</strong> and <strong>world building</strong> and my digital workshop. Explore the portals above, 
+                This site is an experiment in <strong>web building</strong> and <strong>world building</strong> and my digital workshop. Everything you see here is built by me, with the help of AI. Explore the portals above, 
                 each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
               </p>
             </div>

@@ -28,7 +28,7 @@ const Loft = () => {
   }, []);
 
   // Loft image from App.tsx
-  const loftImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_2.png";
+  const loftImage = "/world-mk1/assets/images/loft.png";
   
   return (
     <div className="bg-parchment text-slate-800 min-h-screen">
