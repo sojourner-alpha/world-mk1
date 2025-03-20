@@ -176,8 +176,7 @@ const WorkshopSection = () => (
           <h2 className="section-title text-white content-title text-center">Workshop</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A high-tech digital lab showcasing professional projects, skills, and technical innovations that demonstrate expertise.</p>
-              <p className="mb-6">Here you'll find an interactive portfolio of case studies, project demos, and a visual representation of technical skills applied across different domains.</p>
+              <p className="text-lg mb-6">A virtual digital lab showcasing open source projects, professional skills, and detailed career path. See Github, LinkedIn, and download CV.</p>
             </div>
             <Link to="/workshop" className="btn btn-primary content-button"><span>Enter Workshop</span></Link>
           </div>

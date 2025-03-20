@@ -77,7 +77,7 @@ const Origin = () => {
           <div className="flex items-center justify-between">
             <Link to="/" className="text-2xl font-heading text-white">Curtis James | Lederle</Link>
             <div>
-              <Link to="/" className="text-white hover:text-blue-300 transition">← Back to Nexus</Link>
+              <Link to="/" className="text-white hover:text-blue-300 transition">← Home</Link>
             </div>
           </div>
         </div>
