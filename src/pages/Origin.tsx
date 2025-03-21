@@ -223,7 +223,7 @@ const Origin = () => {
                       {activeTab === 'roots' && (
                         <div className="space-y-4">
                           <p>
-                            I grew up incredibly fortunate. I was a child of the American Midwest surrounded by a family of architects, doctors, and engineers—role models who showed me the power of focus and applied intellect.
+                            I grew up incredibly fortunate. I was a child of the American Midwest surrounded by a loving and supportive family of architects, doctors, and engineers—role models who showed me the power of focus and applied intellect.
                           </p>
                           <p>
                             My early days were spent tinkering with Legos and my mom's scale models. Watching her return to school for architecture ingrained a learner's mindset. Conversations over years with my dad fueled a love for data and science, while his voracious reading shaped my habits. Nearby, my favorite place was the workshop of my grandfather—a WWII RCAF engineer and master handyman—where anything could be built or fixed.
