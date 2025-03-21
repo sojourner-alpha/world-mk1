@@ -35,75 +35,121 @@ const Observatory = () => {
 
   // Projects/Research data for Markets section
   const marketProjects: Record<string, ProjectType[]> = {
-    research: [
+    macroMetrics: [
       {
-        title: "AI in Financial Markets",
-        description: "Research on the application of large language models for predictive analytics in financial market forecasting.",
-        technologies: ["Python", "PyTorch", "Financial Data", "LLMs"],
+        title: "Equity Market Trends 2025",
+        description: "Analysis of global equity market trends and emerging patterns in sector rotation, valuations, and investment flows.",
+        technologies: ["Market Analysis", "Equities", "Valuation Models", "Data Visualization"],
         status: "In Progress"
       },
       {
-        title: "Neurotechnology Trends 2025",
-        description: "Comprehensive analysis of emerging neurotechnology and brain-computer interface advancements and their implications.",
-        technologies: ["Neural Interfaces", "Neuroscience", "Emerging Tech"],
-        link: "https://example.com/neurotechnology-trends",
+        title: "Bond Market Dynamics",
+        description: "Examination of changing yield curve structures, credit spreads, and the evolving role of fixed income in portfolio construction.",
+        technologies: ["Fixed Income", "Yield Curves", "Interest Rates", "Credit Analysis"],
+        link: "https://example.com/bond-dynamics",
         status: "Completed",
         media: {
           type: "pdf",
-          url: "/research/neurotechnology-trends.pdf"
+          url: "/research/bond-dynamics.pdf"
         }
       },
       {
-        title: "Quantum Computing in Drug Discovery",
-        description: "Exploration of quantum algorithms for accelerating molecular simulation and drug discovery processes.",
-        technologies: ["Quantum Computing", "Biochemistry", "Simulation"],
-        status: "Planned"
-      }
-    ],
-    forecasts: [
-      {
-        title: "The Future of Remote Work",
-        description: "Analysis of how AI, XR, and robotics will transform remote work experiences by 2030.",
-        technologies: ["Workplace Tech", "XR", "AI"],
-        link: "https://example.com/remote-work-future",
-        status: "Completed",
-        media: {
-          type: "video",
-          url: "https://youtube.com/watch?v=example"
-        }
-      },
-      {
-        title: "Climate Tech Investment Outlook",
-        description: "Market and technology forecast for climate tech investments for the next decade.",
-        technologies: ["CleanTech", "Market Analysis", "Energy Systems"],
+        title: "Commodity Supercycles",
+        description: "Investigation into the cyclical nature of commodity markets, supply constraints, and the impact of geopolitical factors on prices.",
+        technologies: ["Commodities", "Cyclical Analysis", "Supply Chains", "Geopolitics"],
         status: "In Progress"
       },
       {
-        title: "Neuromorphic Computing Impact",
-        description: "Forecast on how neuromorphic chips will reshape computing architecture and AI capabilities.",
-        technologies: ["Neuromorphic Computing", "Chip Design", "AI Hardware"],
+        title: "Currency Market Evolution",
+        description: "Study of global forex markets, reserve currency shifts, and the impact of central bank policies on currency valuations.",
+        technologies: ["Forex", "Monetary Policy", "Central Banks", "Currency Pairs"],
+        status: "Planned"
+      },
+      {
+        title: "Cryptocurrency Ecosystem",
+        description: "Mapping the evolving landscape of digital assets, blockchain technologies, and their integration with traditional financial systems.",
+        technologies: ["Blockchain", "Crypto", "DeFi", "Digital Assets"],
+        link: "https://example.com/crypto-ecosystem",
+        status: "Completed"
+      }
+    ],
+    criticalSystems: [
+      {
+        title: "Energy Transition Dynamics",
+        description: "Analysis of the global shift from fossil fuels to renewable energy sources and its implications for markets, corporations, and governments.",
+        technologies: ["Renewable Energy", "Grid Systems", "Energy Markets", "Climate Policy"],
+        status: "In Progress"
+      },
+      {
+        title: "Infrastructure Investment Outlook",
+        description: "Assessment of global infrastructure needs, funding mechanisms, and investment opportunities in transportation, utilities, and digital networks.",
+        technologies: ["Infrastructure", "Project Finance", "Public-Private Partnerships", "Capital Allocation"],
+        link: "https://example.com/infrastructure-outlook",
+        status: "Completed",
+        media: {
+          type: "pdf",
+          url: "/research/infrastructure-outlook.pdf"
+        }
+      },
+      {
+        title: "Information System Resilience",
+        description: "Evaluation of critical information infrastructure, data governance frameworks, and cybersecurity challenges in an increasingly connected world.",
+        technologies: ["Information Systems", "Cybersecurity", "Data Governance", "Digital Resilience"],
+        status: "Planned"
+      },
+      {
+        title: "Robotics Supply Chain Revolution",
+        description: "Investigation into how advanced robotics and automation are transforming manufacturing, logistics, and global supply chains.",
+        technologies: ["Robotics", "Manufacturing", "Logistics", "Supply Chain"],
+        status: "In Progress"
+      },
+      {
+        title: "Space Economy Development",
+        description: "Mapping the emerging commercial space sector, from launch services and satellite networks to resource utilization and space manufacturing.",
+        technologies: ["Space Tech", "Satellite Networks", "Launch Services", "Aerospace"],
         status: "Planned"
       }
     ],
-    analyses: [
+    ai: [
       {
-        title: "AI Governance Frameworks",
-        description: "Comparative analysis of emerging AI governance frameworks across North America, EU, and Asia.",
-        technologies: ["AI Ethics", "Policy", "Regulation"],
-        link: "https://example.com/ai-governance",
+        title: "AI Economic Impact Assessment",
+        description: "Comprehensive analysis of how artificial intelligence is reshaping economic structures, labor markets, and productivity across sectors.",
+        technologies: ["Economics", "Labor Markets", "Productivity Analysis", "AI Systems"],
+        status: "In Progress",
+        media: {
+          type: "video",
+          url: "https://example.com/ai-economic-impact"
+        }
+      },
+      {
+        title: "Financial Services AI Transformation",
+        description: "Study of AI applications in banking, investment management, insurance, and regulatory compliance within financial services.",
+        technologies: ["FinTech", "AI Models", "Banking", "RegTech"],
+        link: "https://example.com/finserv-ai",
         status: "Completed"
       },
       {
-        title: "Synthetic Biology Market Analysis",
-        description: "Deep dive into the commercial applications and market potential of synthetic biology advances.",
-        technologies: ["SynBio", "Market Analysis", "Biotechnology"],
+        title: "Healthcare AI Revolution",
+        description: "Examination of AI's impact on healthcare delivery, drug discovery, diagnostics, and personalized medicine approaches.",
+        technologies: ["HealthTech", "Drug Discovery", "Diagnostics", "Medical AI"],
         status: "In Progress"
       },
       {
-        title: "Implications of Advanced Language Models",
-        description: "Analysis of the economic, social, and technological implications of increasingly capable language models.",
-        technologies: ["LLMs", "AI Safety", "Economic Impact"],
+        title: "Manufacturing & Logistics AI Integration",
+        description: "Analysis of AI implementation in smart factories, predictive maintenance, supply chain optimization, and logistics networks.",
+        technologies: ["Industrial AI", "Smart Manufacturing", "Predictive Systems", "Logistics"],
         status: "Planned"
+      },
+      {
+        title: "AI Governance Frameworks",
+        description: "Evaluation of emerging regulatory approaches, ethical guidelines, and governance structures for artificial intelligence technologies.",
+        technologies: ["AI Ethics", "Regulation", "Governance", "Policy Development"],
+        link: "https://example.com/ai-governance",
+        status: "Completed",
+        media: {
+          type: "pdf",
+          url: "/research/ai-governance.pdf"
+        }
       }
     ]
   };
@@ -244,7 +290,7 @@ const Observatory = () => {
       }
     ]
   };
-
+  
   return (
     <div className="h-screen overflow-hidden relative">
       {/* Full-screen background image */}
@@ -276,7 +322,7 @@ const Observatory = () => {
           {/* Title - Fixed centered position */}
           <div className="absolute top-0 left-0 right-0 py-8 text-center">
             <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Observatory</h1>
-            <p className="text-xl text-white">illuminating the inner and outer cosmos</p>
+            <p className="text-xl text-white">inspecting the inner and outer cosmos</p>
           </div>
           
           {/* Buttons Container - Right justified when collapsed, centered when open */}
@@ -313,7 +359,7 @@ const Observatory = () => {
                 <div className="flex items-center justify-between p-4 section-header">
                   <h2 className="text-2xl font-heading text-slate-800">Markets</h2>
                   {expandedSections.includes('markets') && (
-                    <button
+                    <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         setExpandedSections(prev => prev.filter(section => section !== 'markets'));
@@ -340,7 +386,7 @@ const Observatory = () => {
                     {/* Tabs */}
                     <div className="flex flex-wrap justify-center mb-8 gap-2 relative z-50">
                       {Object.keys(marketProjects).map((section) => (
-                        <button
+                      <button 
                           key={section}
                           onClick={(e) => {
                             e.stopPropagation(); // Stop event propagation
@@ -353,7 +399,7 @@ const Observatory = () => {
                           } transition-all duration-300`}
                         >
                           {section.charAt(0).toUpperCase() + section.slice(1)}
-                        </button>
+                      </button>
                       ))}
                     </div>
                     
@@ -488,7 +534,7 @@ const Observatory = () => {
                     {/* Tabs */}
                     <div className="flex flex-wrap justify-center mb-8 gap-2 relative z-50">
                       {Object.keys(mentalModelProjects).map((section) => (
-                        <button
+                      <button 
                           key={section}
                           onClick={(e) => {
                             e.stopPropagation(); // Stop event propagation
@@ -501,7 +547,7 @@ const Observatory = () => {
                           } transition-all duration-300`}
                         >
                           {section.charAt(0).toUpperCase() + section.slice(1)}
-                        </button>
+                      </button>
                       ))}
                     </div>
                     
@@ -518,7 +564,7 @@ const Observatory = () => {
                             }`}>
                               {project.status}
                             </span>
-                          </div>
+                        </div>
                           
                           <p className="text-slate-700 mb-4">{project.description}</p>
                           
@@ -532,7 +578,7 @@ const Observatory = () => {
                                 {tech}
                               </span>
                             ))}
-                          </div>
+                        </div>
                           
                           {/* Media & Links */}
                           <div className="flex justify-end">
@@ -636,7 +682,7 @@ const Observatory = () => {
                     {/* Tabs */}
                     <div className="flex flex-wrap justify-center mb-8 gap-2 relative z-50">
                       {Object.keys(meditationProjects).map((section) => (
-                        <button
+                      <button 
                           key={section}
                           onClick={(e) => {
                             e.stopPropagation(); // Stop event propagation
@@ -649,7 +695,7 @@ const Observatory = () => {
                           } transition-all duration-300`}
                         >
                           {section.charAt(0).toUpperCase() + section.slice(1)}
-                        </button>
+                      </button>
                       ))}
                     </div>
                     
