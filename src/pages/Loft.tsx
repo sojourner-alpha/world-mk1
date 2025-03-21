@@ -34,7 +34,7 @@ const Loft = () => {
   const [showGlobeDisplay, setShowGlobeDisplay] = useState(false);
   const [activePodcast, setActivePodcast] = useState<number | null>(null);
   const [activeGame, setActiveGame] = useState<number | null>(null);
-  const [hoveredBook, setHoveredBook] = useState<number | null>(null);
+  const [clickedBook, setClickedBook] = useState<number | null>(null);
   
   // Use shared animations
   useAnimations();
@@ -70,6 +70,24 @@ const Loft = () => {
       tags: ["Science Fiction", "Cyberpunk", "Virtual Reality"],
       link: "https://en.wikipedia.org/wiki/Snow_Crash",
       color: "bg-slate-800"
+    },
+    {
+      title: "The Three-Body Problem",
+      creator: "Liu Cixin",
+      year: "2008",
+      description: "A hard science fiction masterpiece that begins during China's Cultural Revolution and spans to a future where humanity faces an existential threat from an alien civilization.",
+      tags: ["Science Fiction", "First Contact", "Physics"],
+      link: "https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)",
+      color: "bg-green-700"
+    },
+    {
+      title: "The Dawn of Everything",
+      creator: "David Graeber & David Wengrow",
+      year: "2021",
+      description: "A groundbreaking exploration of human history that challenges conventional narratives about the development of civilization, inequality, and political systems.",
+      tags: ["Anthropology", "History", "Politics"],
+      link: "https://en.wikipedia.org/wiki/The_Dawn_of_Everything",
+      color: "bg-red-700"
     }
   ];
 
@@ -228,27 +246,27 @@ const Loft = () => {
           </div>
           
           {/* Globe Easter Egg - moved to hero section and restyled */}
-          <div className="absolute bottom-8 right-80">
+          <div className="absolute bottom-8 right-8 md:right-16 lg:right-24">
             <button 
               onClick={toggleGlobeDisplay}
-              className="text-white hover:text-blue-300 transition-all transform hover:scale-110 focus:outline-none"
+              className="text-white hover:text-blue-300 transition-all transform hover:scale-110 focus:outline-none bg-black/30 backdrop-blur-sm p-3 rounded-full"
               aria-label="Open 3D showcase"
             >
-              <GiWorld size={32} />
+              <GiWorld size={28} />
             </button>
           </div>
         </div>
       </section>
       
       {/* Main Loft Space - Immersive Layout */}
-      <section className="relative py-12 bg-slate-100">
-        <div className="container mx-auto px-4">
+      <section className="relative py-8 md:py-12 bg-slate-100">
+        <div className="container mx-auto px-2 md:px-4">
           <div className="relative max-w-7xl mx-auto">
             {/* Wood Panel Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-amber-800/20 to-amber-900/30 rounded-xl"></div>
             
             {/* Loft Grid Layout */}
-            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 p-3 md:p-6">
               
               {/* Bookshelf Section - 3 columns on large screens */}
               <div className="lg:col-span-3 bg-amber-900/30 p-5 rounded-lg shadow-inner">
@@ -270,19 +288,20 @@ const Loft = () => {
                       <div 
                         key={index} 
                         className="relative"
-                        onMouseEnter={() => setHoveredBook(index)}
-                        onMouseLeave={() => setHoveredBook(null)}
                       >
                         {/* Book spine */}
-                        <div className={`${book.color} h-32 rounded-sm shadow-md flex items-center relative transform transition-all duration-300 ${hoveredBook === index ? 'translate-x-4' : ''}`}>
+                        <div 
+                          className={`${book.color} h-32 rounded-sm shadow-md flex items-center relative transform transition-all duration-300 ${clickedBook === index ? 'translate-x-4' : ''}`}
+                          onClick={() => setClickedBook(clickedBook === index ? null : index)}
+                        >
                           <h3 className="text-white font-medium px-3 py-2 text-center rotate-90 absolute inset-0 flex items-center justify-center">
                             {book.title}
                           </h3>
                         </div>
                         
                         {/* Book details popup */}
-                        {hoveredBook === index && (
-                          <div className="absolute left-full top-0 ml-6 w-64 bg-white/95 rounded-lg shadow-lg p-4 z-50">
+                        {clickedBook === index && (
+                          <div className="absolute left-0 lg:left-full top-0 lg:ml-6 w-64 bg-white/95 rounded-lg shadow-lg p-4 z-50 transform lg:transform-none translate-x-16 lg:translate-x-0">
                             <h4 className="font-heading text-slate-800 text-lg">{book.title}</h4>
                             <p className="text-slate-600 text-sm">{book.creator} • {book.year}</p>
                             <div className="my-2 h-px bg-slate-200"></div>
@@ -309,6 +328,17 @@ const Loft = () => {
                                 </svg>
                               </a>
                             )}
+                            
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setClickedBook(null);
+                              }}
+                              className="absolute top-2 right-2 text-slate-400 hover:text-slate-600"
+                              aria-label="Close book details"
+                            >
+                              ×
+                            </button>
                           </div>
                         )}
                       </div>
@@ -560,16 +590,16 @@ const Loft = () => {
       
       {/* 3D Showcase Overlay */}
       {showGlobeDisplay && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center">
-          <div className="w-full h-full max-w-7xl max-h-[90vh] bg-black rounded-lg overflow-hidden relative">
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-2 md:p-8">
+          <div className="w-full h-full max-w-4xl max-h-[80vh] bg-black rounded-lg overflow-hidden relative">
             {/* Placeholder for Three.js content - will be replaced with actual Three.js implementation */}
             <div className="w-full h-full flex items-center justify-center text-white">
-              <div className="text-center">
-                <h2 className="text-3xl font-heading mb-4">3D Showcase Coming Soon</h2>
-                <p className="max-w-md mx-auto mb-6">This space will feature interactive 3D exhibits of world building projects and experiments.</p>
+              <div className="text-center p-4 md:p-8">
+                <h2 className="text-2xl md:text-3xl font-heading mb-4">3D Showcase Coming Soon</h2>
+                <p className="max-w-md mx-auto mb-6 text-sm md:text-base">This space will feature interactive 3D exhibits of world building projects and experiments.</p>
                 <button 
                   onClick={toggleGlobeDisplay}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                  className="px-4 py-2 md:px-6 md:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg text-sm md:text-base"
                 >
                   Close Preview
                 </button>
@@ -579,7 +609,7 @@ const Loft = () => {
             {/* Close button */}
             <button 
               onClick={toggleGlobeDisplay}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all"
+              className="absolute top-2 right-2 md:top-4 md:right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all"
               aria-label="Close showcase"
             >
               ×

@@ -196,7 +196,7 @@ const WorkshopSection = () => (
           <h2 className="section-title text-white content-title text-center">Workshop</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A virtual digital lab showcasing open source projects, professional skills, and detailed career path. See Github, LinkedIn, and download CV.</p>
+              <p className="text-lg mb-6">A professional portfolio featuring open source projects, technical skills, and career history with links to GitHub, LinkedIn, and CV.</p>
             </div>
             <Link to="/workshop" className="btn btn-primary content-button"><span>Enter Workshop</span></Link>
           </div>
@@ -220,7 +220,7 @@ const LoftSection = () => (
           <h2 className="section-title text-white content-title text-center">Loft</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A studio space that houses creative pursuits, hobbies, and artistic expressions beyond the professional realm.</p>
+              <p className="text-lg mb-6">A creative space showcasing books, art, games, and media that have shaped my perspective and sparked imagination.</p>
             </div>
             <Link to="/loft" className="btn btn-primary content-button"><span>Discover Loft</span></Link>
           </div>
