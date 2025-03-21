@@ -133,7 +133,7 @@ const Workshop = () => {
       role: "Multiple Roles",
       period: "2021 - 2024",
       location: "San Anselmo · Toronto · Minneapolis",
-      tags: ["Startup", "SaaS", "Construction Tech", "Private", "B2B", "First US Employee"],
+      tags: ["Startup", "SaaS", "Data Tracking", "Private", "B2B", "First US Employee"],
       metrics: [
         "9x ARR growth in 24 months",
         "500% increased avg. contract size",
@@ -178,7 +178,7 @@ const Workshop = () => {
       role: "Multiple Roles",
       period: "2020 - 2022",
       location: "San Francisco · Singapore · Seoul",
-      tags: ["Enterprise", "CRM Software", "Public", "B2B/B2C"],
+      tags: ["Enterprise", "SaaS", "CRM", "Public", "B2B/B2C"],
       metrics: [
         "Led APAC expansion of acquired tech",
         "Point of contact for Corp. Dev. M&A team"
@@ -198,7 +198,7 @@ const Workshop = () => {
       period: "2016 - 2019",
       location: "San Francisco · Montreal",
       description: "Unified API communication platform for businesses to manage customer conversations across multiple channels.",
-      tags: ["Startup", "Software", "Acquired by Zendesk", "B2B", "First US Employee"],
+      tags: ["Startup", "APIs", "Acquired by Zendesk", "B2B", "First US Employee"],
       metrics: [
         "20x revenue multiple at acquisition",
         "Closed 25% of revenue deals",
@@ -211,7 +211,7 @@ const Workshop = () => {
       role: "Multiple Roles",
       period: "2013 - 2016",
       location: "Montreal · Toronto · San Francisco",
-      tags: ["Enterprise", "Manufacturing", "Energy", "Private", "B2B", "First US Employee"],
+      tags: ["Enterprise", "OEM", "Energy", "Private", "B2B", "First US Employee"],
       metrics: [
         "$320M+ contracts negotiated",
         "140MW project portfolio",
@@ -237,7 +237,7 @@ const Workshop = () => {
       period: "2013",
       location: "Toronto",
       description: "Designing junior engineer on projects ranging from skyscraper condominiums to single family residential homes across the Greater Toronto Area.",
-      tags: ["Enterprise", "Engineering", "Construction", "Private", "B2B"]
+      tags: ["Enterprise", "Engineering", "Private", "B2B"]
     }
   ];
 
@@ -333,13 +333,13 @@ const Workshop = () => {
 
     ],
     technical: [
-      "Calculus + Linear Algebra",
-      "Probability Theory",
       "Financial Modeling",
       "Asset Pricing",
       "Operations Management",
       "Machine Learning",
-      "Python/SQL/FastAPI"
+      "Python/SQL/FastAPI",
+      "Calculus + Linear Algebra",
+      "Probability Theory",
     ],
     leadership: [
       "C-Suite Staff Support",
@@ -383,7 +383,9 @@ const Workshop = () => {
                 <div>
               <h1 className="text-4xl font-heading mb-4">Workshop</h1>
                   <p className="text-xl mb-6">Portfolio, Skills & Career</p>
-                  <p className="mb-6">A virtual digital lab showcasing open source projects, professional skills, and detailed career path. See Github, LinkedIn, and download CV.</p>
+                  <p className="mb-6">A virtual digital lab showcasing open source projects, professional skills, and detailed career path.  
+                  <br/> <br/>Background in scaling startups, driving revenue, and supporting executive decision-making with a unique blend of technical and business expertise. 
+                  <br/> <br/>See Github, LinkedIn, and download CV for more.</p>
                 </div>
                 <div className="flex justify-end items-center gap-4">
                   <div className="flex gap-4 items-center">
@@ -445,6 +447,10 @@ const Workshop = () => {
                       <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded">Coming Soon</span>
                     )}
                   </div>
+                  
+                  {/* Divider between title and tags */}
+                  <div className="h-px bg-slate-300 my-3"></div>
+                  
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies.map((tech, techIndex) => (
                       <span 
