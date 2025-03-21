@@ -111,26 +111,45 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
     }
   };
 
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpand = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setExpanded(!expanded);
+  };
+
   return (
     <div className="card-container">
       <div className={`portal-card ${shadowActive ? 'shadow-active' : ''}`}>
         <span className={`card-tag ${getTagColorClass()}`}>{tag}</span>
         <img src={image} alt={title} className="portal-card-image" />
         
-        {/* Card content (always visible at bottom) */}
-        <div className="portal-card-content bg-matted/60 backdrop-blur-sm p-4 rounded-lg m-2">
+        {/* Card content (centered vertically) */}
+        <div className={`portal-card-content animate-slide-up ${expanded ? 'expanded' : ''}`} style={{ animationDelay: '2s' }}>
           <h2 className="text-lg md:text-xl font-heading mb-2">{title}</h2>
-          <p className="text-xs md:text-sm text-gray-300 mb-4">{description}</p>
-          <div className="flex justify-center w-full">
-            <Link to={link} className="btn btn-outline py-2 px-4 md:px-6 text-sm md:text-base font-medium">
+          <p className="text-xs md:text-sm text-gray-300 mb-3">{description}</p>
+          
+          {/* Description section that expands in place */}
+          <div className={`card-expandable-description ${expanded ? 'expanded' : 'collapsed'}`}>
+            {expanded && (
+              <p className="text-xs md:text-sm text-gray-200 mb-3 leading-relaxed">{longDescription}</p>
+            )}
+          </div>
+          
+          <div className="flex flex-col items-center justify-center w-full gap-2">
+            <Link to={link} className="btn btn-outline py-2 px-4 md:px-6 text-sm md:text-base font-medium w-full text-center">
               Explore
             </Link>
+            <button 
+              onClick={toggleExpand} 
+              className="expand-btn text-xs text-gray-300 hover:text-white flex items-center justify-center gap-1 py-1"
+            >
+              {expanded ? 'Less info' : 'More info'}
+              <span className={`transform transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}>
+                ▾
+              </span>
+            </button>
           </div>
-        </div>
-        
-        {/* Description that slides up on hover */}
-        <div className="card-description flex items-center justify-center">
-          <p className="text-sm md:text-base leading-relaxed px-6 text-center">{longDescription}</p>
         </div>
       </div>
     </div>

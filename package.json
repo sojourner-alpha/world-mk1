@@ -10,8 +10,8 @@
     "type-check": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build && copy public\\CNAME dist\\CNAME",
-    "deploy": "dotenv -- gh-pages -d dist -r https://$GH_TOKEN@github.com/sojourner-alpha/world-mk1.git"
+    "predeploy": "npm run build && cpy public/CNAME dist",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",
@@ -34,6 +34,7 @@
     "@types/three": "^0.162.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.19",
+    "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^7.4.4",
     "eslint": "^9.21.0",

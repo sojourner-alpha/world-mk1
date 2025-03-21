@@ -63,9 +63,45 @@
   }
   
   .portal-card-content {
-    @apply flex flex-col text-white absolute bottom-0 left-0 right-0 z-10 pt-5 px-6 pb-4;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%);
+    @apply flex flex-col text-white absolute left-0 right-0 z-10 p-5 px-6;
+    background: linear-gradient(to bottom, 
+      rgba(0,0,0,0.8) 0%, 
+      rgba(0,0,0,0.7) 50%,
+      rgba(0,0,0,0.8) 100%
+    );
     min-height: 80px; /* Ensure consistent height for the content area */
+    bottom: 5%; /* Default position at bottom */
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 0.75rem;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    opacity: 0; /* Start invisible */
+    transition: transform 0.5s ease-out, bottom 0.4s ease-out;
+  }
+  
+  /* When the card content is expanded, move to vertical center */
+  .portal-card-content.expanded {
+    bottom: 50%;
+    transform: translateY(50%);
+    transition: transform 0.4s ease-out, bottom 0.4s ease-out;
+  }
+
+  /* Expandable description */
+  .card-expandable-description {
+    width: 100%;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+  }
+  
+  .card-expandable-description.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+  
+  .card-expandable-description.expanded {
+    max-height: 300px; /* Increased max height for longer content */
+    opacity: 1;
   }
 
   /* Sliding description that appears on hover */
@@ -300,8 +336,18 @@
     }
     
     .portal-card-content {
-      @apply pt-3 px-4 pb-3;
+      @apply p-4;
       min-height: 70px; /* Shorter content area on mobile */
+      width: 95%;  /* Slightly wider on mobile */
+      bottom: 4%; /* Adjust bottom position for mobile */
+    }
+    
+    .portal-card-content.expanded {
+      bottom: 50%;
+    }
+    
+    .card-expandable-description.expanded {
+      max-height: 250px; /* Slightly smaller on mobile */
     }
     
     .portal-card-content h2 {
@@ -666,12 +712,13 @@
 
   /* Enhance card content when shadows are active */
   .portal-card.shadow-active .portal-card-content {
-    background: linear-gradient(to top, 
+    background: linear-gradient(to bottom, 
       rgba(0, 0, 0, 0.85) 0%, 
-      rgba(40, 40, 40, 0.5) 70%, 
-      rgba(40, 40, 40, 0) 100%
+      rgba(40, 40, 40, 0.75) 50%, 
+      rgba(0, 0, 0, 0.85) 100%
     );
     transition: background 0.5s ease;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
   }
   
   /* Make the content text slightly brighter with shadows active */
@@ -747,9 +794,19 @@
   }
 
   .portal-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Enhance the card content on hover */
+  .portal-card:hover .portal-card-content {
+    background: linear-gradient(to bottom, 
+      rgba(0,0,0,0.85) 0%, 
+      rgba(0,0,0,0.75) 50%,
+      rgba(0,0,0,0.85) 100%
+    );
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   }
 
   /* Social icons in header */
@@ -827,10 +884,12 @@
   from {
     opacity: 0;
     transform: translateY(20px);
+    bottom: 0;
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    bottom: 5%;
   }
 }
 
