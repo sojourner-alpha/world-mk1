@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox, FaLightbulb } from 'react-icons/fa6';
+import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox, FaLightbulb, FaEllipsis } from 'react-icons/fa6';
 import { SiSubstack } from 'react-icons/si';
 import Origin from './pages/Origin';
 import Workshop from './pages/Workshop';
@@ -17,53 +17,74 @@ const loftImage = "/world-mk1/assets/images/loft.png";
 const observatoryImage = "/world-mk1/assets/images/observatory.png";
 const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
 
-const Header = () => (
-  <header className="py-6">
-    <div className="container-wide">
-      <div className="flex flex-col">
-        <div className="flex items-baseline justify-between">
-          <h1 className="text-3xl font-heading text-slate-800">Curtis James | Lederle</h1>
-          <div className="flex items-center space-x-4">
-            <a 
-              href="https://github.com/sojourner-alpha" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-slate-600 hover:text-slate-800 transition-colors"
-            >
-              <FaGithub size={20} />
-            </a>
-            <a 
-              href="https://x.com/curtlederle" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-slate-600 hover:text-slate-800 transition-colors"
-            >
-              <FaXTwitter size={20} />
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/clederle/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-slate-600 hover:text-slate-800 transition-colors"
-            >
-              <FaLinkedinIn size={20} />
-            </a>
-            <a 
-              href="https://curtislederle.substack.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-slate-600 hover:text-slate-800 transition-colors"
-            >
-              <SiSubstack size={20} />
-            </a>
+const Header = () => {
+  const [socialExpanded, setSocialExpanded] = useState(false);
+  
+  const toggleSocial = () => {
+    setSocialExpanded(!socialExpanded);
+  };
+  
+  return (
+    <header className="py-6">
+      <div className="container-wide">
+        <div className="flex flex-col">
+          <div className="flex items-baseline justify-between">
+            <h1 className="text-3xl font-heading text-slate-800">Curtis James | Lederle</h1>
+            <div className="flex items-center">
+              <div className={`social-icons-header flex items-center ${socialExpanded ? 'expanded' : 'collapsed'}`}>
+                {socialExpanded && (
+                  <>
+                    <a 
+                      href="https://github.com/sojourner-alpha" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                    >
+                      <FaGithub size={20} />
+                    </a>
+                    <a 
+                      href="https://www.linkedin.com/in/clederle/" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                    >
+                      <FaLinkedinIn size={20} />
+                    </a>
+                    <a 
+                      href="https://x.com/curtlederle" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                    >
+                      <FaXTwitter size={20} />
+                    </a>
+                    <a 
+                      href="https://curtislederle.substack.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                    >
+                      <SiSubstack size={20} />
+                    </a>
+                  </>
+                )}
+                <button 
+                  onClick={toggleSocial} 
+                  className="text-slate-600 hover:text-slate-800 transition-colors ml-2 p-1 rounded-full hover:bg-slate-200"
+                  aria-label="Toggle social media links"
+                >
+                  <FaEllipsis size={20} />
+                </button>
+              </div>
+            </div>
           </div>
+          <p className="text-slate-600 mt-1"> techologist + analyst + investor + consultant </p>
+          <div className="header-divider"></div>
         </div>
-        <p className="text-slate-600 mt-1"> techologist + analyst + investor + consultant </p>
-        <div className="header-divider"></div>
       </div>
-    </div>
-  </header>
-);
+    </header>
+  );
+}
 
 // Interface for our portal card props
 interface PortalCardProps {
@@ -423,21 +444,12 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero-section flex flex-col py-6 md:py-12 pb-24 md:pb-24 min-h-[200vh] md:min-h-0 relative z-30">
         <div className="container-wide flex flex-col">
-          {/* Light Toggle Button - adjusted position */}
-          <div 
-            className={`light-toggle ${shadowsActive ? 'active' : ''}`}
-            onClick={toggleShadows}
-            aria-label="Toggle light effects"
-            style={{ position: 'absolute', right: '2rem', top: '2rem', zIndex: 50 }}
-          >
-            <FaLightbulb size={20} />
-          </div>
         
           <div className="max-w-5xl mx-auto text-center mb-2">
             <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800">
               Welcome to my world(s).
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-4 animate-slide-up">
+            <p className="text-xl md:text-2xl text-slate-600 mb-4 animate-slide-up" style={{ animationDelay: '2s' }}>
               Where engineering meets imagination and data powers discovery.
             </p>
             
@@ -506,14 +518,23 @@ const Home = () => {
                       name="GitHub"
                     />
                     <SocialIcon 
-                      url="https://x.com/curtlederle" 
-                      icon={FaXTwitter}
-                      name="Twitter / X"
-                    />
-                    <SocialIcon 
                       url="https://www.linkedin.com/in/clederle/" 
                       icon={FaLinkedinIn}
                       name="LinkedIn"
+                    />
+                    {/* Add lightbulb toggle as a social icon */}
+                    <div 
+                      className={`social-icon light-toggle ${shadowsActive ? 'active' : ''}`}
+                      onClick={toggleShadows}
+                      aria-label="Toggle light effects"
+                      style={{ backgroundColor: shadowsActive ? 'rgba(100, 100, 100, 0.7)' : '#d1d5db' }}
+                    >
+                      <FaLightbulb size={24} />
+                    </div>
+                    <SocialIcon 
+                      url="https://x.com/curtlederle" 
+                      icon={FaXTwitter}
+                      name="Twitter / X"
                     />
                     <SocialIcon 
                       url="https://curtislederle.substack.com" 

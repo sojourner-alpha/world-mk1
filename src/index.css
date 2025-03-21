@@ -210,6 +210,29 @@
     @apply transform scale-110 bg-blue-700;
   }
 
+  /* Social Icon Light Toggle */
+  .social-icon.light-toggle {
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .social-icon.light-toggle:hover {
+    @apply bg-gray-400;
+    transform: scale(1.1);
+  }
+  
+  .social-icon.light-toggle.active {
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px 5px rgba(150, 150, 150, 0.4);
+    animation: togglePulse 3s infinite alternate;
+  }
+  
+  .social-icon.light-toggle.active svg {
+    @apply text-white;
+    transform: rotate(45deg) scale(1.2);
+    animation: iconGlow 3s infinite alternate;
+  }
+
   /* Footer-specific social icons */
   footer .social-icon {
     @apply w-10 h-10 bg-slate-200;
@@ -728,6 +751,64 @@
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
     border-color: rgba(255, 255, 255, 0.35);
   }
+
+  /* Social icons in header */
+  .social-icons-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .social-icons-header.collapsed a {
+    width: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .social-icons-header.expanded a {
+    width: auto;
+    opacity: 1;
+    margin: 0 0.25rem;
+    transition: all 0.3s ease-in-out;
+    animation: fadeInRight 0.3s forwards;
+  }
+
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Add a subtle pulse to the toggle button when collapsed */
+  .social-icons-header.collapsed button {
+    animation: subtlePulse 2s infinite;
+  }
+
+  @keyframes subtlePulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .social-icons-header button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  }
 }
 
 /* Custom animations for scroll sections */
@@ -740,6 +821,22 @@
 .fade-in-up.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+  opacity: 0;
 }
 
 /* Custom animations */
