@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -14,7 +14,7 @@ import { Style, Circle as CircleStyle, Fill, Stroke } from 'ol/style';
 import Overlay from 'ol/Overlay';
 import { defaults as defaultControls } from 'ol/control';
 
-interface Place {
+export interface Place {
   name: string;
   region: string;
   type: string;
@@ -24,9 +24,9 @@ interface Place {
   };
 }
 
-interface WorldMapProps {
-  places: Place[];
-  onHoverPlace: (place: string | null) => void;
+export interface WorldMapProps {
+  places?: Place[];
+  onHoverPlace?: (place: string | null) => void;
   initialCenter?: {
     lat: number;
     lng: number;
@@ -34,9 +34,91 @@ interface WorldMapProps {
   initialZoom?: number;
 }
 
+// Default places data
+const defaultPlaces: Place[] = [
+  {
+    name: "Montreal",
+    region: "Canada",
+    type: "Current Base",
+    coordinates: { lat: 45.5017, lng: -73.5673 }
+  },
+  {
+    name: "New York",
+    region: "USA",
+    type: "Work",
+    coordinates: { lat: 40.7128, lng: -74.0060 }
+  },
+  {
+    name: "San Francisco",
+    region: "USA",
+    type: "Work",
+    coordinates: { lat: 37.7749, lng: -122.4194 }
+  },
+  {
+    name: "Berlin",
+    region: "Germany",
+    type: "Home",
+    coordinates: { lat: 52.5200, lng: 13.4050 }
+  },
+  {
+    name: "Singapore",
+    region: "Singapore",
+    type: "Work",
+    coordinates: { lat: 1.3521, lng: 103.8198 }
+  },
+  {
+    name: "Seoul",
+    region: "South Korea",
+    type: "Home",
+    coordinates: { lat: 37.5665, lng: 126.9780 }
+  },
+  {
+    name: "Bremen",
+    region: "Germany",
+    type: "Home",
+    coordinates: { lat: 53.0793, lng: 8.8017 }
+  },
+  {
+    name: "Toronto",
+    region: "Canada",
+    type: "Work",
+    coordinates: { lat: 43.6532, lng: -79.3832 }
+  },
+  {
+    name: "Minneapolis",
+    region: "USA",
+    type: "Work",
+    coordinates: { lat: 44.9778, lng: -93.2650 }
+  },
+  {
+    name: "Houston",
+    region: "USA",
+    type: "Work",
+    coordinates: { lat: 29.7604, lng: -95.3698 }
+  },
+  {
+    name: "Necker Island",
+    region: "British Virgin Islands",
+    type: "Home",
+    coordinates: { lat: 18.5321, lng: -64.3568 }
+  },
+  {
+    name: "Isle of Tiree",
+    region: "Scotland",
+    type: "Home",
+    coordinates: { lat: 56.5255, lng: -6.8035 }
+  },
+  {
+    name: "Halifax",
+    region: "Canada",
+    type: "Home",
+    coordinates: { lat: 44.6488, lng: -63.5752 }
+  }
+];
+
 const WorldMap: React.FC<WorldMapProps> = ({ 
-  places, 
-  onHoverPlace, 
+  places = defaultPlaces, 
+  onHoverPlace = () => {}, 
   initialCenter = { lat: 45, lng: -90 },
   initialZoom = 2.5
 }) => {
@@ -45,6 +127,13 @@ const WorldMap: React.FC<WorldMapProps> = ({
   const popupContainerRef = useRef<HTMLDivElement>(null);
   const popupContentRef = useRef<HTMLDivElement>(null);
   const popupOverlay = useRef<Overlay | null>(null);
+  const [hoveredPlace, setHoveredPlace] = useState<string | null>(null);
+
+  // Helper function to handle hover events
+  const handleHoverPlace = (place: string | null) => {
+    setHoveredPlace(place);
+    onHoverPlace(place);
+  };
 
   // Initialize map when component mounts
   useEffect(() => {
@@ -226,7 +315,7 @@ const WorldMap: React.FC<WorldMapProps> = ({
             popupContainerRef.current.style.display = 'none';
           }
         }
-        if (onHoverPlace) onHoverPlace(null);
+        handleHoverPlace(null);
         return;
       }
 
@@ -247,7 +336,7 @@ const WorldMap: React.FC<WorldMapProps> = ({
           }
         }
         
-        if (onHoverPlace) onHoverPlace(properties.name);
+        handleHoverPlace(properties.name);
       }
     });
 

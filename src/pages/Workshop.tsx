@@ -1,7 +1,18 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaDownload, FaBuilding, FaChartLine, FaCogs, FaGithub, FaLinkedinIn, FaLandmark, FaGraduationCap } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { SiNotion, SiSubstack } from 'react-icons/si';
+
+// Custom components
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
+import ProjectCard, { ProjectCardProps } from '../components/ProjectCard';
+import ToolBox from '../components/ToolBox';
+import SkillTags from '../components/SkillTags';
+
+// Custom hooks
+import { useAnimations } from '../hooks/useAnimations';
 
 // Career timeline interfaces
 interface Position {
@@ -27,86 +38,9 @@ interface CareerTimelineItem {
 
 const Workshop = () => {
   const [showStudentOrgs, setShowStudentOrgs] = useState(false);
-
-  useEffect(() => {
-    // Scroll to top when component mounts
-    window.scrollTo(0, 0);
-    
-    // Observer for fade-in animations
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    // Observer for section transitions
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active-section');
-          const bgImage = entry.target.querySelector('img');
-          if (bgImage) {
-            bgImage.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
-            bgImage.style.opacity = '1';
-          }
-        } else {
-          entry.target.classList.remove('active-section');
-          const bgImage = entry.target.querySelector('img');
-          if (bgImage) {
-            bgImage.style.opacity = '0.8';
-          }
-        }
-      });
-    }, { 
-      threshold: [0.1, 0.5, 0.9],
-      rootMargin: '-10% 0px -10% 0px'
-    });
-
-    // Apply observers to elements
-    const fadeElements = document.querySelectorAll('.fade-in-up');
-    fadeElements.forEach(element => {
-      fadeObserver.observe(element);
-    });
-    
-    const sections = document.querySelectorAll('.scroll-section');
-    sections.forEach(section => {
-      sectionObserver.observe(section);
-    });
-
-    return () => {
-      fadeElements.forEach(element => {
-        fadeObserver.unobserve(element);
-      });
-      sections.forEach(section => {
-        sectionObserver.unobserve(section);
-      });
-    };
-  }, []);
-
-  // Add scrolling effects for parallax
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const sections = document.querySelectorAll('.scroll-section');
-      
-      sections.forEach((section) => {
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        const sectionHeight = section.clientHeight;
-        const scrollPercent = (scrollPosition - sectionTop + window.innerHeight) / (sectionHeight + window.innerHeight);
-        
-        const bgImage = section.querySelector('img');
-        if (bgImage && scrollPercent >= 0 && scrollPercent <= 1) {
-          const translateY = scrollPercent * 50;
-          bgImage.style.transform = `translateY(${translateY}px)`;
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  
+  // Use shared animations
+  useAnimations();
 
   // Workshop image from App.tsx
   const workshopImage = "/world-mk1/assets/images/workshop.png";
@@ -284,13 +218,12 @@ const Workshop = () => {
   ];
 
   // Projects data
-  const projects = [
+  const projects: ProjectCardProps[] = [
     {
       name: "This Website",
       description: "Open source project combining web building and world building into a personal multiverse. Built with React, TypeScript, and Tailwind CSS.",
       technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
       githubUrl: "https://github.com/sojourner-alpha/world-mk1",
-      demoUrl: window.location.origin,
       type: "github",
       isPublic: true
     },
@@ -320,52 +253,95 @@ const Workshop = () => {
     }
   ];
 
-  // Skills categorization
-  const skills = {
-    business: [
-      "Contract Negotiation",
-      "Business Strategy",
-      "Sales Management",
-      "Investment Management",
-      "Process Improvement",
-      "Systems Implementation",
-      "Market Analysis",
+  // Tool categories
+  const toolCategories = [
+    {
+      title: "Ops",
+      icon: FaCogs,
+      tools: [
+        { name: "Notion", url: "https://www.notion.so" },
+        { name: "Cursor", url: "https://cursor.sh" },
+        { name: "Midjourney", url: "https://www.midjourney.com" },
+        { name: "Perplexity", url: "https://www.perplexity.ai" },
+        { name: "Google Suite", url: "https://workspace.google.com" }
+      ]
+    },
+    {
+      title: "AI/ML",
+      icon: FaChartLine,
+      tools: [
+        { name: "OpenAI", url: "https://openai.com" },
+        { name: "Grok", url: "https://grok.x.com" },
+        { name: "Claude", url: "https://anthropic.com/claude" },
+        { name: "LLaMA", url: "https://ai.meta.com/llama" },
+        { name: "Deepseek", url: "https://deepseek.ai" },
+        { name: "Ollama", url: "https://ollama.ai" },
+        { name: "MCP", url: "https://mcp.ai" }
+      ]
+    },
+    {
+      title: "FinTech",
+      icon: FaLandmark,
+      tools: [
+        { name: "thinkorswim", url: "https://www.tdameritrade.com/tools-and-platforms/thinkorswim/desktop.page" },
+        { name: "Finviz", url: "https://finviz.com" },
+        { name: "TradingView", url: "https://www.tradingview.com" },
+        { name: "Tradezella", url: "https://tradezella.com" },
+        { name: "APIs", url: "https://www.programmableweb.com" }
+      ]
+    }
+  ];
 
-    ],
-    technical: [
-      "Financial Modeling",
-      "Asset Pricing",
-      "Operations Management",
-      "Machine Learning",
-      "Python/SQL/FastAPI",
-      "Calculus + Linear Algebra",
-      "Probability Theory",
-    ],
-    leadership: [
-      "C-Suite Staff Support",
-      "Team Management",
-      "Strategic Planning",
-      "Cross-functional Leadership",
-      "Organizational Development",
-      "Partnership Building",
-      "Board Observer"
-    ]
-  };
+  // Skills categorization
+  const skillCategories = [
+    {
+      title: "Technical",
+      icon: FaCogs,
+      skills: [
+        "Financial Modeling",
+        "Asset Pricing",
+        "Operations Management",
+        "Machine Learning",
+        "Python/SQL/FastAPI",
+        "Calculus + Linear Algebra",
+        "Probability Theory",
+      ],
+      colorClass: "bg-blue-50"
+    },
+    {
+      title: "Business",
+      icon: FaChartLine,
+      skills: [
+        "Contract Negotiation",
+        "Business Strategy",
+        "Sales Management",
+        "Investment Management",
+        "Process Improvement",
+        "Systems Implementation",
+        "Market Analysis",
+      ],
+      colorClass: "bg-green-50"
+    },
+    {
+      title: "Leadership",
+      icon: FaBuilding,
+      skills: [
+        "C-Suite Staff Support",
+        "Team Management",
+        "Strategic Planning",
+        "Cross-functional Leadership",
+        "Organizational Development",
+        "Partnership Building",
+        "Board Observer"
+      ],
+      colorClass: "bg-slate-50"
+    }
+  ];
   
   return (
     <div className="bg-parchment text-slate-800 min-h-screen">
-      {/* Header */}
-      <header className="py-6 border-b border-slate-300 sticky top-0 bg-parchment/95 backdrop-blur-sm z-50">
-        <div className="container-custom">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="text-2xl font-heading text-slate-800">Curtis James | Lederle</Link>
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-slate-600 hover:text-slate-900 text-sm">Home</Link>
-              <span className="text-blue-600 text-sm">Workshop</span>
-            </nav>
-          </div>
-        </div>
-      </header>
+      {/* Header - using reusable component */}
+      <PageHeader pageName="Workshop" />
       
       {/* Hero Section */}
       <section className="relative h-screen">
@@ -381,7 +357,7 @@ const Workshop = () => {
           <div className="max-w-2xl">
               <div className="bg-matted/60 backdrop-blur-sm text-white p-8 rounded-lg shadow-sm">
                 <div>
-              <h1 className="text-4xl font-heading mb-4">Workshop</h1>
+                  <h1 className="text-4xl font-heading mb-4">Workshop</h1>
                   <p className="text-xl mb-6">Portfolio, Skills & Career</p>
                   <p className="mb-6">A virtual digital lab showcasing open source projects, professional skills, and detailed career path.  
                   <br/> <br/>Background in scaling startups, driving revenue, and supporting executive decision-making with a unique blend of technical and business expertise. 
@@ -422,7 +398,7 @@ const Workshop = () => {
         </div>
       </section>
       
-      {/* Projects Section */}
+      {/* Projects Section - using ProjectCard component */}
       <section className="scroll-section py-8 relative mt-8">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
@@ -440,60 +416,10 @@ const Workshop = () => {
             </div>
             <div className="grid md:grid-cols-2 gap-8">
               {projects.map((project, index) => (
-                <div key={index} className="bg-white/60 backdrop-blur-sm p-6 rounded-lg shadow-sm fade-in-up">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-heading text-slate-800">{project.name}</h3>
-                    {project.type === 'github' && !project.isPublic && (
-                      <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded">Coming Soon</span>
-                    )}
-                  </div>
-                  
-                  {/* Divider between title and tags */}
-                  <div className="h-px bg-slate-300 my-3"></div>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span 
-                        key={techIndex}
-                        className="bg-slate-600 text-slate-100 px-3 py-1 rounded-full text-sm border border-slate-500"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-slate-800 mb-4">{project.description}</p>
-                  <div className="flex justify-center">
-                    {project.type === 'github' ? (
-                      project.isPublic ? (
-                        <a 
-                          href={project.githubUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center px-4 py-2 rounded-md bg-white/80 border border-slate-300 text-blue-600 hover:text-blue-800 hover:bg-white/90 transition-all shadow-sm"
-                        >
-                          <FaGithub size={22} className="mr-2" /> View Code
-                        </a>
-                      ) : (
-                        <span className="flex items-center justify-center px-4 py-2 rounded-md bg-white/80 border border-slate-300 text-slate-800 cursor-not-allowed shadow-sm">
-                          <FaGithub size={22} className="mr-2" /> Private
-                        </span>
-                      )
-                    ) : (
-                      <a 
-                        href={project.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center px-4 py-2 rounded-md bg-white/80 border border-slate-300 text-blue-600 hover:text-blue-800 hover:bg-white/90 transition-all shadow-sm"
-                      >
-                        {project.type === 'notion' ? (
-                          <><SiNotion size={22} className="mr-2" /> Read Research</>
-                        ) : (
-                          <><SiSubstack size={22} className="mr-2" /> Read Article</>
-                        )}
-                      </a>
-                    )}
-                  </div>
-                </div>
+                <ProjectCard 
+                  key={index}
+                  {...project}
+                />
               ))}
             </div>
           </div>
@@ -504,158 +430,34 @@ const Workshop = () => {
       <section className="scroll-section py-16 bg-white mt-8">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            {/* Core Tools */}
+            {/* Tools Section - using ToolBox component */}
             <h2 className="text-3xl font-heading mb-6 text-center">Tools</h2>
             <div className="grid md:grid-cols-3 gap-6 justify-items-center mb-16">
-              {/* Ops Tools */}
-              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
-                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
-                  <FaCogs className="mr-2 text-slate-600" />
-                  Ops
-                </h3>
-                <div className="h-px bg-slate-300 mb-4"></div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {[
-                    { name: "Notion", url: "https://www.notion.so" },
-                    { name: "Cursor", url: "https://cursor.sh" },
-                    { name: "Midjourney", url: "https://www.midjourney.com" },
-                    { name: "Perplexity", url: "https://www.perplexity.ai" },
-                    { name: "Google Suite", url: "https://workspace.google.com" }
-                  ].map((tool, index) => (
-                    <a 
-                      key={index}
-                      href={tool.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200 hover:bg-slate-100 transition-all duration-200 hover:scale-110 hover:shadow-md"
-                    >
-                      {tool.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* AI/ML Tools */}
-              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
-                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
-                  <FaChartLine className="mr-2 text-slate-600" />
-                  AI/ML
-                </h3>
-                <div className="h-px bg-slate-300 mb-4"></div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {[
-                    { name: "OpenAI", url: "https://openai.com" },
-                    { name: "Grok", url: "https://grok.x.com" },
-                    { name: "Claude", url: "https://anthropic.com/claude" },
-                    { name: "LLaMA", url: "https://ai.meta.com/llama" },
-                    { name: "Deepseek", url: "https://deepseek.ai" },
-                    { name: "Ollama", url: "https://ollama.ai" },
-                    { name: "MCP", url: "https://mcp.ai" }
-                  ].map((tool, index) => (
-                    <a 
-                      key={index}
-                      href={tool.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200 hover:bg-slate-100 transition-all duration-200 hover:scale-110 hover:shadow-md"
-                    >
-                      {tool.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* FinTech Tools */}
-              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
-                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
-                  <FaLandmark className="mr-2 text-slate-600" />
-                  FinTech
-                </h3>
-                <div className="h-px bg-slate-300 mb-4"></div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {[
-                    { name: "thinkorswim", url: "https://www.tdameritrade.com/tools-and-platforms/thinkorswim/desktop.page" },
-                    { name: "Finviz", url: "https://finviz.com" },
-                    { name: "TradingView", url: "https://www.tradingview.com" },
-                    { name: "Tradezella", url: "https://tradezella.com" },
-                    { name: "APIs", url: "https://www.programmableweb.com" }
-                  ].map((tool, index) => (
-                    <a 
-                      key={index}
-                      href={tool.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200 hover:bg-slate-100 transition-all duration-200 hover:scale-110 hover:shadow-md"
-                    >
-                      {tool.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
+              {toolCategories.map((category, index) => (
+                <ToolBox 
+                  key={index} 
+                  title={category.title} 
+                  icon={category.icon} 
+                  tools={category.tools} 
+                />
+              ))}
             </div>
 
             {/* Divider */}
             <div className="w-full h-px bg-slate-200 mb-16"></div>
 
-            {/* Professional Skills */}
+            {/* Skills Section - using SkillTags component */}
             <h2 className="text-3xl font-heading mb-6 text-center">Skills</h2>
             <div className="grid md:grid-cols-3 gap-6 justify-items-center mb-16">
-              {/* Technical Skills */}
-              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
-                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
-                  <FaCogs className="mr-2 text-blue-600" />
-                  Technical
-                </h3>
-                <div className="h-px bg-slate-300 mb-4"></div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {skills.technical.map((skill, index) => (
-                    <span 
-                      key={index}
-                      className="bg-blue-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-blue-200"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Business Skills */}
-              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
-                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
-                  <FaChartLine className="mr-2 text-green-600" />
-                  Business
-                </h3>
-                <div className="h-px bg-slate-300 mb-4"></div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {skills.business.map((skill, index) => (
-                    <span 
-                      key={index}
-                      className="bg-green-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-green-200"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Leadership Skills */}
-              <div className="bg-parchment p-4 rounded-lg shadow-sm fade-in-up w-full">
-                <h3 className="text-xl font-heading mb-3 flex items-center justify-center text-slate-700">
-                  <FaBuilding className="mr-2 text-slate-600" />
-                  Leadership
-                </h3>
-                <div className="h-px bg-slate-300 mb-4"></div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {skills.leadership.map((skill, index) => (
-                    <span 
-                      key={index}
-                      className="bg-slate-50 text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              {skillCategories.map((category, index) => (
+                <SkillTags 
+                  key={index} 
+                  title={category.title} 
+                  icon={category.icon} 
+                  skills={category.skills} 
+                  colorClass={category.colorClass} 
+                />
+              ))}
             </div>
 
             {/* Divider */}
@@ -849,20 +651,8 @@ const Workshop = () => {
         </div>
       </section>
       
-      {/* Footer */}
-      <footer className="py-12 border-t border-slate-300">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <h2 className="text-xl font-heading text-slate-800">Curtis James | Lederle </h2>
-              <p className="text-sm text-slate-600">© {new Date().getFullYear()} All rights reserved</p>
-            </div>
-            <div>
-              <Link to="/" className="text-slate-600 hover:text-slate-900">Back to Nexus</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Footer - using reusable component */}
+      <PageFooter />
     </div>
   );
 };

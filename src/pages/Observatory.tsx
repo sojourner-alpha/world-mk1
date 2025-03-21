@@ -1,53 +1,250 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { FaArrowRight, FaFilePdf, FaVideo } from 'react-icons/fa';
+
+// Custom components
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
+
+// Custom hooks
+import { useAnimations } from '../hooks/useAnimations';
+
+// Interfaces
+interface ProjectType {
+  title: string;
+  description: string;
+  technologies: string[];
+  link?: string;
+  status: 'Completed' | 'In Progress' | 'Planned';
+  media?: {
+    type: 'pdf' | 'video';
+    url: string;
+  };
+}
 
 const Observatory = () => {
   // Track which sections are expanded - using an array to allow multiple sections
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
-  // Track which tab is active for each section
-  const [activeTabs, setActiveTabs] = useState({
-    systems: 'energy',
-    robotics: 'overview',
-    space: 'overview',
-    economics: 'overview'
-  });
-
-  useEffect(() => {
-    // Scroll to top when component mounts
-    window.scrollTo(0, 0);
-    
-    // Animation for elements
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    const fadeElements = document.querySelectorAll('.fade-in');
-    fadeElements.forEach(element => {
-      observer.observe(element);
-    });
-
-    return () => {
-      fadeElements.forEach(element => {
-        observer.unobserve(element);
-      });
-    };
-  }, []);
+  const [activeSection, setActiveSection] = useState<string>('research');
+  
+  // Use shared animations
+  useAnimations();
 
   // Observatory image from App.tsx
   const observatoryImage = "/world-mk1/assets/images/observatory.png";
 
-  // Handle tab change
-  const handleTabChange = (section: string, tab: string) => {
-    setActiveTabs(prev => ({
-      ...prev,
-      [section]: tab
-    }));
+  // Projects/Research data for Markets section
+  const marketProjects: Record<string, ProjectType[]> = {
+    research: [
+      {
+        title: "AI in Financial Markets",
+        description: "Research on the application of large language models for predictive analytics in financial market forecasting.",
+        technologies: ["Python", "PyTorch", "Financial Data", "LLMs"],
+        status: "In Progress"
+      },
+      {
+        title: "Neurotechnology Trends 2025",
+        description: "Comprehensive analysis of emerging neurotechnology and brain-computer interface advancements and their implications.",
+        technologies: ["Neural Interfaces", "Neuroscience", "Emerging Tech"],
+        link: "https://example.com/neurotechnology-trends",
+        status: "Completed",
+        media: {
+          type: "pdf",
+          url: "/research/neurotechnology-trends.pdf"
+        }
+      },
+      {
+        title: "Quantum Computing in Drug Discovery",
+        description: "Exploration of quantum algorithms for accelerating molecular simulation and drug discovery processes.",
+        technologies: ["Quantum Computing", "Biochemistry", "Simulation"],
+        status: "Planned"
+      }
+    ],
+    forecasts: [
+      {
+        title: "The Future of Remote Work",
+        description: "Analysis of how AI, XR, and robotics will transform remote work experiences by 2030.",
+        technologies: ["Workplace Tech", "XR", "AI"],
+        link: "https://example.com/remote-work-future",
+        status: "Completed",
+        media: {
+          type: "video",
+          url: "https://youtube.com/watch?v=example"
+        }
+      },
+      {
+        title: "Climate Tech Investment Outlook",
+        description: "Market and technology forecast for climate tech investments for the next decade.",
+        technologies: ["CleanTech", "Market Analysis", "Energy Systems"],
+        status: "In Progress"
+      },
+      {
+        title: "Neuromorphic Computing Impact",
+        description: "Forecast on how neuromorphic chips will reshape computing architecture and AI capabilities.",
+        technologies: ["Neuromorphic Computing", "Chip Design", "AI Hardware"],
+        status: "Planned"
+      }
+    ],
+    analyses: [
+      {
+        title: "AI Governance Frameworks",
+        description: "Comparative analysis of emerging AI governance frameworks across North America, EU, and Asia.",
+        technologies: ["AI Ethics", "Policy", "Regulation"],
+        link: "https://example.com/ai-governance",
+        status: "Completed"
+      },
+      {
+        title: "Synthetic Biology Market Analysis",
+        description: "Deep dive into the commercial applications and market potential of synthetic biology advances.",
+        technologies: ["SynBio", "Market Analysis", "Biotechnology"],
+        status: "In Progress"
+      },
+      {
+        title: "Implications of Advanced Language Models",
+        description: "Analysis of the economic, social, and technological implications of increasingly capable language models.",
+        technologies: ["LLMs", "AI Safety", "Economic Impact"],
+        status: "Planned"
+      }
+    ]
   };
-  
+
+  // Projects/Research data for Mental Models section
+  const mentalModelProjects: Record<string, ProjectType[]> = {
+    psychology: [
+      {
+        title: "Trading Psychology",
+        description: "Deep exploration of emotional triggers in financial decision-making and techniques for developing emotional resilience.",
+        technologies: ["Psychology", "Trading", "Decision Science"],
+        status: "In Progress"
+      },
+      {
+        title: "Cognitive Biases in Investment",
+        description: "Cataloging and analyzing common cognitive biases that affect investment decisions and strategies to overcome them.",
+        technologies: ["Behavioral Economics", "Psychology", "Investing"],
+        status: "Completed"
+      },
+      {
+        title: "Risk: A Comprehensive Framework",
+        description: "Understanding the dual nature of risk - the necessity of taking calculated risks and the importance of risk mitigation.",
+        technologies: ["Risk Analysis", "Psychology", "Decision Theory"],
+        status: "In Progress"
+      }
+    ],
+    criticalThinking: [
+      {
+        title: "USAF Cognitive Frameworks",
+        description: "Analysis of critical thinking frameworks developed by the US Air Force and their application to decision-making.",
+        technologies: ["Military Strategy", "Critical Thinking", "OODA Loop"],
+        link: "https://example.com/usaf-thinking",
+        status: "Completed",
+        media: {
+          type: "pdf",
+          url: "/research/usaf-thinking.pdf"
+        }
+      },
+      {
+        title: "Boyd's Theories in Modern Context",
+        description: "Applying John Boyd's strategic theories to contemporary business and technology landscapes.",
+        technologies: ["OODA Loop", "Strategy", "Decision-Making"],
+        status: "Planned"
+      },
+      {
+        title: "The Art of Clear Thinking",
+        description: "Distillation of principles from various disciplines to create a framework for clear, rational thought processes.",
+        technologies: ["Cognitive Science", "Logic", "Philosophy"],
+        status: "In Progress"
+      }
+    ],
+    mentalModels: [
+      {
+        title: "Munger's Mental Models",
+        description: "Examination of Charlie Munger's multidisciplinary approach to decision-making and problem-solving.",
+        technologies: ["Mental Models", "Decision Theory", "Interdisciplinary"],
+        status: "Completed"
+      },
+      {
+        title: "Latticework of Models",
+        description: "Building a comprehensive framework of interconnected mental models from various disciplines.",
+        technologies: ["Systems Thinking", "Philosophy", "Science"],
+        status: "In Progress"
+      },
+      {
+        title: "Practical Applications of Mental Models",
+        description: "Case studies on applying mental models to real-world problems and decisions.",
+        technologies: ["Decision Science", "Problem Solving", "Case Studies"],
+        status: "Planned"
+      }
+    ]
+  };
+
+  // Projects/Research data for Meditations section
+  const meditationProjects: Record<string, ProjectType[]> = {
+    stillness: [
+      {
+        title: "The Practice of Presence",
+        description: "Exploration of mindfulness techniques and their impact on creativity, focus, and decision-making quality.",
+        technologies: ["Mindfulness", "Neuroscience", "Productivity"],
+        status: "In Progress"
+      },
+      {
+        title: "Digital Sabbaticals",
+        description: "Research on the benefits of periodic digital disconnection and its effects on cognitive restoration.",
+        technologies: ["Digital Wellbeing", "Psychology", "Attention"],
+        status: "Completed"
+      },
+      {
+        title: "Stillness in Motion",
+        description: "Finding meditative states within active pursuits and high-performance environments.",
+        technologies: ["Flow State", "Sports Psychology", "Meditation"],
+        status: "Planned"
+      }
+    ],
+    routines: [
+      {
+        title: "The Power of Daily Practice",
+        description: "Analysis of how consistent routines build mastery and create conditions for sustained creativity.",
+        technologies: ["Habit Formation", "Expertise", "Productivity"],
+        status: "Completed",
+        media: {
+          type: "pdf",
+          url: "/research/daily-practice.pdf"
+        }
+      },
+      {
+        title: "Morning Routines of High Performers",
+        description: "Comparative study of morning rituals across various disciplines and their impact on daily performance.",
+        technologies: ["Productivity", "Habits", "Performance"],
+        status: "In Progress"
+      },
+      {
+        title: "Deliberate Practice Framework",
+        description: "Structured approach to developing expertise through focused, intentional practice methods.",
+        technologies: ["Expertise", "Skill Acquisition", "Performance"],
+        status: "Planned"
+      }
+    ],
+    digitalCraft: [
+      {
+        title: "Digital Spaces as Meditation",
+        description: "Conceptualizing digital creation as a form of meditative practice and artistic expression.",
+        technologies: ["Digital Art", "Meditation", "Web Design"],
+        status: "Completed"
+      },
+      {
+        title: "Code as Craft",
+        description: "Exploring programming as a creative medium and form of applied meditation.",
+        technologies: ["Programming", "Craftsmanship", "Flow State"],
+        status: "In Progress"
+      },
+      {
+        title: "Modern Zen Gardens",
+        description: "Drawing parallels between traditional contemplative practices and digital creation spaces.",
+        technologies: ["Design", "Zen Philosophy", "Digital Craft"],
+        status: "Planned"
+      }
+    ]
+  };
+
   return (
     <div className="h-screen overflow-hidden relative">
       {/* Full-screen background image */}
@@ -58,7 +255,7 @@ const Observatory = () => {
           className="w-full h-full object-cover"
           style={{objectPosition: "center 15%"}}
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-25"></div>
       </div>
       
       {/* Header */}
@@ -79,22 +276,22 @@ const Observatory = () => {
           {/* Title - Fixed centered position */}
           <div className="absolute top-0 left-0 right-0 py-8 text-center">
             <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Observatory</h1>
-            <p className="text-xl text-white">visions of emerging horizons</p>
+            <p className="text-xl text-white">illuminating the inner and outer cosmos</p>
           </div>
           
           {/* Buttons Container - Right justified when collapsed, centered when open */}
           <div className="mt-32 flex flex-col gap-8 items-end">
-            {/* Critical Systems Section */}
+            {/* Markets Section */}
             <div 
               className={`transition-all duration-500 ease-in-out ${
-                expandedSections.includes('systems') 
+                expandedSections.includes('markets') 
                   ? 'w-full max-w-4xl self-center' 
                   : 'w-64 cursor-pointer hover:scale-105'
               }`}
             >
               <div 
-                className={`bg-matted/70 backdrop-blur-sm rounded-lg text-white fade-in origin-section-button ${
-                  !expandedSections.includes('systems') ? 'border border-white/30 hover:border-white/50' : ''
+                className={`bg-white/80 backdrop-blur-sm rounded-lg text-slate-800 shadow-sm fade-in origin-section-button ${
+                  !expandedSections.includes('markets') ? 'border border-slate-200 hover:border-slate-300' : ''
                 }`}
                 onClick={(e) => {
                   // Check if the click is on the header or content
@@ -103,25 +300,25 @@ const Observatory = () => {
                   const isContent = target.closest('.section-content');
                   
                   // Only handle click if not clicking on content or header
-                  if (!expandedSections.includes('systems') || (!isHeader && !isContent)) {
+                  if (!expandedSections.includes('markets') || (!isHeader && !isContent)) {
                     setExpandedSections(prev => 
-                      prev.includes('systems') 
-                        ? prev.filter(section => section !== 'systems')
-                        : [...prev, 'systems']
+                      prev.includes('markets') 
+                        ? prev.filter(section => section !== 'markets')
+                        : [...prev, 'markets']
                     );
                   }
                 }}
               >
                 {/* Section Header */}
                 <div className="flex items-center justify-between p-4 section-header">
-                  <h2 className="text-2xl font-heading">Critical Systems</h2>
-                  {expandedSections.includes('systems') && (
-                    <button 
+                  <h2 className="text-2xl font-heading text-slate-800">Markets</h2>
+                  {expandedSections.includes('markets') && (
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setExpandedSections(prev => prev.filter(section => section !== 'systems'));
+                        setExpandedSections(prev => prev.filter(section => section !== 'markets'));
                       }}
-                      className="text-lg hover:text-blue-300 transition"
+                      className="text-lg hover:text-blue-600 transition"
                     >
                       ×
                     </button>
@@ -129,177 +326,120 @@ const Observatory = () => {
                 </div>
                 
                 {/* Expanded Content */}
-                {expandedSections.includes('systems') && (
+                {expandedSections.includes('markets') && (
                   <div className="p-4 pt-0 section-content">
-                    {/* Tabs */}
-                    <div className="flex flex-wrap border-b border-gray-600 mb-4 relative z-50">
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.systems === 'energy' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('systems', 'energy')}
-                      >
-                        Energy
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.systems === 'infrastructure' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('systems', 'infrastructure')}
-                      >
-                        Infrastructure
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 relative z-50 ${activeTabs.systems === 'information' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('systems', 'information')}
-                      >
-                        Information
-                      </button>
+                    <div className="space-y-4 mb-6">
+                      <p className="text-slate-700">
+                        Understanding markets is about seeing the complex interplay of companies, industries, and systems that form our economic landscape. Beyond financial analysis, this is about grasping the deeper patterns and forces that shape our world.
+                      </p>
+                      <p className="text-slate-700">
+                        Here, the focus is on critical systems, emerging trends, and the frameworks we use to make sense of an increasingly complex marketplace.
+                      </p>
                     </div>
                     
-                    {/* Tab Content */}
-                    <div className="pr-2 relative z-0">
-                      {/* Energy Content */}
-                      {activeTabs.systems === 'energy' && (
-                        <div className="space-y-6">
-                          <div className="space-y-4">
-                            <p>
-                              Energy systems form the foundation of modern civilization, powering everything from homes and transportation to industrial processes and digital infrastructure.
-                            </p>
-                            <p>
-                              As we transition toward sustainable energy sources, AI is revolutionizing how we generate, distribute, and consume energy at all scales.
-                            </p>
-                            <p>
-                              This section explores first-principles thinking on energy systems as a fundamental constraint and enabler of civilizational advancement.
-                            </p>
+                    {/* Tabs */}
+                    <div className="flex flex-wrap justify-center mb-8 gap-2 relative z-50">
+                      {Object.keys(marketProjects).map((section) => (
+                        <button
+                          key={section}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Stop event propagation
+                            setActiveSection(section);
+                          }}
+                          className={`px-4 py-2 rounded-full font-medium text-sm relative z-50 ${
+                            activeSection === section 
+                              ? 'bg-blue-600 text-white shadow-sm' 
+                              : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
+                          } transition-all duration-300`}
+                        >
+                          {section.charAt(0).toUpperCase() + section.slice(1)}
+                        </button>
+                      ))}
+                    </div>
+                    
+                    {/* Project Cards */}
+                    <div className="grid gap-6">
+                      {marketProjects[activeSection]?.map((project, index) => (
+                        <div key={index} className="bg-white/90 border border-slate-200 rounded-lg p-4 hover:border-slate-300 hover:shadow-md transition">
+                          <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-xl text-blue-700">{project.title}</h3>
+                            <span className={`text-xs px-2 py-1 rounded ${
+                              project.status === 'Completed' ? 'bg-green-100 text-green-800 border border-green-200' :
+                              project.status === 'In Progress' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                              'bg-blue-100 text-blue-800 border border-blue-200'
+                            }`}>
+                              {project.status}
+                            </span>
                           </div>
                           
-                          {/* Project Cards */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                            {/* Project Card 1 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Fusion Energy Economics</h3>
-                              <p className="text-white/80 mb-3">A techno-economic assessment of commercial fusion energy deployment pathways and their potential impact on global energy markets.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">In progress</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Report</button>
-                              </div>
-                            </div>
-                            
-                            {/* Project Card 2 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">AI-Optimized Grid Systems</h3>
-                              <p className="text-white/80 mb-3">Exploring how machine learning algorithms can improve grid stability, demand forecasting, and renewable integration at continental scale.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Upcoming</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Project</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Infrastructure Content */}
-                      {activeTabs.systems === 'infrastructure' && (
-                        <div className="space-y-6">
-                          <div className="space-y-4">
-                            <p>
-                              Infrastructure represents the physical and organizational structures that enable society to function and thrive.
-                            </p>
-                            <p>
-                              AI-enhanced infrastructure systems are transforming how we build cities, manage resources, handle logistics, and develop resilient systems for an uncertain future.
-                            </p>
-                            <p>
-                              This section examines emerging paradigms in infrastructure development that could overcome current bottlenecks to human flourishing.
-                            </p>
+                          <p className="text-slate-700 mb-4">{project.description}</p>
+                          
+                          {/* Technologies */}
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {project.technologies.map((tech, techIndex) => (
+                              <span 
+                                key={techIndex}
+                                className="bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1 rounded-full text-xs"
+                              >
+                                {tech}
+                              </span>
+                            ))}
                           </div>
                           
-                          {/* Project Cards */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                            {/* Project Card 1 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Autonomous Construction Systems</h3>
-                              <p className="text-white/80 mb-3">Investigating how robotics and AI will revolutionize construction through prefabrication, on-site automation, and novel materials.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">In progress</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Report</button>
-                              </div>
-                            </div>
+                          {/* Media & Links */}
+                          <div className="flex justify-end">
+                            {project.media && (
+                              <a 
+                                href={project.media.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center mr-4 text-blue-600 hover:text-blue-800"
+                              >
+                                {project.media.type === 'pdf' ? (
+                                  <>
+                                    <FaFilePdf className="mr-1" />
+                                    <span>PDF</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <FaVideo className="mr-1" />
+                                    <span>Video</span>
+                                  </>
+                                )}
+                              </a>
+                            )}
                             
-                            {/* Project Card 2 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Resilient Urban Systems</h3>
-                              <p className="text-white/80 mb-3">A framework for designing cities that can adapt to climate change, population shifts, and resource constraints through integrated systems approaches.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Upcoming</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Project</button>
-                              </div>
-                            </div>
+                            {project.link && (
+                              <a 
+                                href={project.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                              >
+                                <span>Learn more</span>
+                                <FaArrowRight className="ml-2" />
+                              </a>
+                            )}
                           </div>
                         </div>
-                      )}
-                      
-                      {/* Information Content */}
-                      {activeTabs.systems === 'information' && (
-                        <div className="space-y-6">
-                          <div className="space-y-4">
-                            <p>
-                              Information systems govern how data is created, transmitted, stored, and utilized across society and the economy.
-                            </p>
-                            <p>
-                              AI is fundamentally transforming information systems while being shaped by them, creating new capabilities and challenges in knowledge management, communication, and decision-making.
-                            </p>
-                            <p>
-                              This section explores how information flows may evolve and how these changes could unlock new levels of coordination and innovation.
-                            </p>
-                          </div>
-                          
-                          {/* Project Cards */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                            {/* Project Card 1 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Collective Intelligence Architectures</h3>
-                              <p className="text-white/80 mb-3">Analyzing systems that combine human and machine intelligence to solve complex problems beyond the capabilities of either alone.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">In development</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Report</button>
-                              </div>
-                            </div>
-                            
-                            {/* Project Card 2 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">AI Governance Models</h3>
-                              <p className="text-white/80 mb-3">Evaluating institutional designs and technical mechanisms that could enable beneficial AI development while mitigating systemic risks.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Ongoing</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Project</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
+                      ))}
                     </div>
                   </div>
                 )}
               </div>
             </div>
             
-            {/* Robotics Section */}
+            {/* Mental Models Section */}
             <div 
               className={`transition-all duration-500 ease-in-out ${
-                expandedSections.includes('robotics') 
+                expandedSections.includes('mentalModels') 
                   ? 'w-full max-w-4xl self-center' 
                   : 'w-64 cursor-pointer hover:scale-105'
               }`}
             >
               <div 
-                className={`bg-matted/70 backdrop-blur-sm rounded-lg text-white fade-in origin-section-button ${
-                  !expandedSections.includes('robotics') ? 'border border-white/30 hover:border-white/50' : ''
+                className={`bg-white/80 backdrop-blur-sm rounded-lg text-slate-800 shadow-sm fade-in origin-section-button ${
+                  !expandedSections.includes('mentalModels') ? 'border border-slate-200 hover:border-slate-300' : ''
                 }`}
                 onClick={(e) => {
                   // Check if the click is on the header or content
@@ -308,25 +448,25 @@ const Observatory = () => {
                   const isContent = target.closest('.section-content');
                   
                   // Only handle click if not clicking on content or header
-                  if (!expandedSections.includes('robotics') || (!isHeader && !isContent)) {
+                  if (!expandedSections.includes('mentalModels') || (!isHeader && !isContent)) {
                     setExpandedSections(prev => 
-                      prev.includes('robotics') 
-                        ? prev.filter(section => section !== 'robotics')
-                        : [...prev, 'robotics']
+                      prev.includes('mentalModels') 
+                        ? prev.filter(section => section !== 'mentalModels')
+                        : [...prev, 'mentalModels']
                     );
                   }
                 }}
               >
                 {/* Section Header */}
                 <div className="flex items-center justify-between p-4 section-header">
-                  <h2 className="text-2xl font-heading">Robotics</h2>
-                  {expandedSections.includes('robotics') && (
+                  <h2 className="text-2xl font-heading text-slate-800">Mental Models</h2>
+                  {expandedSections.includes('mentalModels') && (
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        setExpandedSections(prev => prev.filter(section => section !== 'robotics'));
+                        setExpandedSections(prev => prev.filter(section => section !== 'mentalModels'));
                       }}
-                      className="text-lg hover:text-blue-300 transition"
+                      className="text-lg hover:text-blue-600 transition"
                     >
                       ×
                     </button>
@@ -334,102 +474,120 @@ const Observatory = () => {
                 </div>
                 
                 {/* Expanded Content */}
-                {expandedSections.includes('robotics') && (
+                {expandedSections.includes('mentalModels') && (
                   <div className="p-4 pt-0 section-content">
-                    {/* Tabs */}
-                    <div className="flex flex-wrap border-b border-gray-600 mb-4 relative z-50">
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.robotics === 'overview' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('robotics', 'overview')}
-                      >
-                        Overview
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.robotics === 'humanoid' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('robotics', 'humanoid')}
-                      >
-                        Humanoid
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 relative z-50 ${activeTabs.robotics === 'industrial' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('robotics', 'industrial')}
-                      >
-                        Industrial
-                      </button>
+                    <div className="space-y-4 mb-6">
+                      <p className="text-slate-700">
+                        Mental models are frameworks for understanding the world. They help us make sense of complexity, navigate uncertainty, and make better decisions.
+                      </p>
+                      <p className="text-slate-700">
+                        This section explores the psychology of decision-making, critical thinking frameworks, and the latticework of interdisciplinary models that can improve our reasoning and understanding.
+                      </p>
                     </div>
                     
-                    {/* Tab Content */}
-                    <div className="pr-2 relative z-0">
-                      {/* Overview Content */}
-                      {activeTabs.robotics === 'overview' && (
-                        <div className="space-y-4">
-                          <p>
-                            Robotics is experiencing a renaissance driven by advances in AI, materials science, and sensing technologies. Once confined to controlled industrial environments, robots are increasingly capable of operating in complex, unstructured settings.
-                          </p>
-                          <p>
-                            The convergence of deep learning, simulation environments, and new hardware approaches is enabling a new generation of robots with unprecedented capabilities.
-                          </p>
-                          <p>
-                            This observatory lens tracks the frontier of robotics research and applications, from manufacturing and healthcare to home assistance and exploration.
-                          </p>
+                    {/* Tabs */}
+                    <div className="flex flex-wrap justify-center mb-8 gap-2 relative z-50">
+                      {Object.keys(mentalModelProjects).map((section) => (
+                        <button
+                          key={section}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Stop event propagation
+                            setActiveSection(section);
+                          }}
+                          className={`px-4 py-2 rounded-full font-medium text-sm relative z-50 ${
+                            activeSection === section 
+                              ? 'bg-blue-600 text-white shadow-sm' 
+                              : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
+                          } transition-all duration-300`}
+                        >
+                          {section.charAt(0).toUpperCase() + section.slice(1)}
+                        </button>
+                      ))}
+                    </div>
+                    
+                    {/* Project Cards */}
+                    <div className="grid gap-6">
+                      {mentalModelProjects[activeSection]?.map((project, index) => (
+                        <div key={index} className="bg-white/90 border border-slate-200 rounded-lg p-4 hover:border-slate-300 hover:shadow-md transition">
+                          <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-xl text-blue-700">{project.title}</h3>
+                            <span className={`text-xs px-2 py-1 rounded ${
+                              project.status === 'Completed' ? 'bg-green-100 text-green-800 border border-green-200' :
+                              project.status === 'In Progress' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                              'bg-blue-100 text-blue-800 border border-blue-200'
+                            }`}>
+                              {project.status}
+                            </span>
+                          </div>
+                          
+                          <p className="text-slate-700 mb-4">{project.description}</p>
+                          
+                          {/* Technologies */}
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {project.technologies.map((tech, techIndex) => (
+                              <span 
+                                key={techIndex}
+                                className="bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1 rounded-full text-xs"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                          
+                          {/* Media & Links */}
+                          <div className="flex justify-end">
+                            {project.media && (
+                              <a 
+                                href={project.media.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center mr-4 text-blue-600 hover:text-blue-800"
+                              >
+                                {project.media.type === 'pdf' ? (
+                                  <>
+                                    <FaFilePdf className="mr-1" />
+                                    <span>PDF</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <FaVideo className="mr-1" />
+                                    <span>Video</span>
+                                  </>
+                                )}
+                              </a>
+                            )}
+                            
+                            {project.link && (
+                              <a 
+                                href={project.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                              >
+                                <span>Learn more</span>
+                                <FaArrowRight className="ml-2" />
+                              </a>
+                            )}
+                          </div>
                         </div>
-                      )}
-                      
-                      {/* Humanoid Robotics Content */}
-                      {activeTabs.robotics === 'humanoid' && (
-                        <div className="space-y-4">
-                          <p>
-                            Humanoid robots are designed with physical characteristics resembling the human body. This form factor offers versatility in human-designed environments and intuitive human-robot interaction.
-                          </p>
-                          <p>
-                            Recent breakthroughs include improved bipedal locomotion, dexterous manipulation, and whole-body coordination. Companies like Figure, Tesla, Agility Robotics, and Boston Dynamics are driving rapid innovation in this space.
-                          </p>
-                          <p>
-                            The commercial deployment of general-purpose humanoid robots could transform labor markets, elder care, household assistance, and dangerous occupations within the next decade.
-                          </p>
-                        </div>
-                      )}
-                      
-                      {/* Industrial Robotics Content */}
-                      {activeTabs.robotics === 'industrial' && (
-                        <div className="space-y-4">
-                          <p>
-                            Industrial robotics is evolving beyond traditional fixed-position automation to include collaborative robots (cobots), autonomous mobile robots (AMRs), and flexible manufacturing systems.
-                          </p>
-                          <p>
-                            Modern industrial robots leverage computer vision, reinforcement learning, and advanced control systems to adapt to changing conditions and work safely alongside humans.
-                          </p>
-                          <p>
-                            Emerging applications include construction robotics, agricultural automation, and fully autonomous factories with minimal human intervention. These systems promise to reshape global supply chains and manufacturing capabilities.
-                          </p>
-                        </div>
-                      )}
+                      ))}
                     </div>
                   </div>
                 )}
               </div>
             </div>
             
-            {/* Space Technology Section */}
+            {/* Meditations Section */}
             <div 
               className={`transition-all duration-500 ease-in-out ${
-                expandedSections.includes('space') 
+                expandedSections.includes('meditations') 
                   ? 'w-full max-w-4xl self-center' 
                   : 'w-64 cursor-pointer hover:scale-105'
               }`}
             >
               <div 
-                className={`bg-matted/70 backdrop-blur-sm rounded-lg text-white fade-in origin-section-button ${
-                  !expandedSections.includes('space') ? 'border border-white/30 hover:border-white/50' : ''
+                className={`bg-white/80 backdrop-blur-sm rounded-lg text-slate-800 shadow-sm fade-in origin-section-button ${
+                  !expandedSections.includes('meditations') ? 'border border-slate-200 hover:border-slate-300' : ''
                 }`}
                 onClick={(e) => {
                   // Check if the click is on the header or content
@@ -438,25 +596,25 @@ const Observatory = () => {
                   const isContent = target.closest('.section-content');
                   
                   // Only handle click if not clicking on content or header
-                  if (!expandedSections.includes('space') || (!isHeader && !isContent)) {
+                  if (!expandedSections.includes('meditations') || (!isHeader && !isContent)) {
                     setExpandedSections(prev => 
-                      prev.includes('space') 
-                        ? prev.filter(section => section !== 'space')
-                        : [...prev, 'space']
+                      prev.includes('meditations') 
+                        ? prev.filter(section => section !== 'meditations')
+                        : [...prev, 'meditations']
                     );
                   }
                 }}
               >
                 {/* Section Header */}
                 <div className="flex items-center justify-between p-4 section-header">
-                  <h2 className="text-2xl font-heading">Space Technology</h2>
-                  {expandedSections.includes('space') && (
+                  <h2 className="text-2xl font-heading text-slate-800">Meditations</h2>
+                  {expandedSections.includes('meditations') && (
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        setExpandedSections(prev => prev.filter(section => section !== 'space'));
+                        setExpandedSections(prev => prev.filter(section => section !== 'meditations'));
                       }}
-                      className="text-lg hover:text-blue-300 transition"
+                      className="text-lg hover:text-blue-600 transition"
                     >
                       ×
                     </button>
@@ -464,284 +622,103 @@ const Observatory = () => {
                 </div>
                 
                 {/* Expanded Content */}
-                {expandedSections.includes('space') && (
+                {expandedSections.includes('meditations') && (
                   <div className="p-4 pt-0 section-content">
-                    {/* Tabs */}
-                    <div className="flex flex-wrap border-b border-gray-600 mb-4 relative z-50">
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.space === 'overview' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('space', 'overview')}
-                      >
-                        Overview
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.space === 'propulsion' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('space', 'propulsion')}
-                      >
-                        Propulsion
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 relative z-50 ${activeTabs.space === 'habitation' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('space', 'habitation')}
-                      >
-                        Habitation
-                      </button>
+                    <div className="space-y-4 mb-6">
+                      <p className="text-slate-700">
+                        In a world of constant noise and distraction, the practice of stillness and presence offers a counterbalance—a way to reconnect with deeper wisdom and creativity.
+                      </p>
+                      <p className="text-slate-700">
+                        This section explores the power of focused practice, the benefits of meditative states, and the view of creative work—like this website itself—as a form of meditation and cultivation.
+                      </p>
                     </div>
                     
-                    {/* Tab Content */}
-                    <div className="pr-2 relative z-0">
-                      {/* Overview Content */}
-                      {activeTabs.space === 'overview' && (
-                        <div className="space-y-4">
-                          <p>
-                            Space technology is undergoing a transformation from government-led exploration to a diverse ecosystem of commercial innovation, international cooperation, and ambitious long-term visions.
-                          </p>
-                          <p>
-                            Reusable launch vehicles, miniaturized satellites, advanced propulsion concepts, and in-space manufacturing are reducing costs and expanding capabilities beyond what was previously possible.
-                          </p>
-                          <p>
-                            This observatory lens monitors developments in launch systems, satellite applications, deep space exploration, and the emerging space economy that could reshape humanity's relationship with the cosmos.
-                          </p>
-                        </div>
-                      )}
-                      
-                      {/* Propulsion Content */}
-                      {activeTabs.space === 'propulsion' && (
-                        <div className="space-y-4">
-                          <p>
-                            Advanced space propulsion technologies promise to dramatically reduce transit times within our solar system and potentially enable interstellar missions.
-                          </p>
-                          <p>
-                            Near-term developments include high-power electric propulsion, nuclear thermal propulsion, and various forms of solar sails. These approaches offer significant advantages over conventional chemical rockets for certain mission profiles.
-                          </p>
-                          <p>
-                            Longer-term concepts include fusion propulsion, antimatter catalyzed reactions, and breakthrough physics approaches that could theoretically achieve a significant fraction of light speed for small payloads.
-                          </p>
-                        </div>
-                      )}
-                      
-                      {/* Habitation Content */}
-                      {activeTabs.space === 'habitation' && (
-                        <div className="space-y-4">
-                          <p>
-                            Sustainable human presence beyond Earth requires solving complex challenges in closed-loop life support, radiation protection, artificial gravity, and psychological well-being.
-                          </p>
-                          <p>
-                            Current space stations serve as testbeds for technologies that will enable long-duration missions to the Moon, Mars, and beyond. Commercial space stations are expected to greatly expand orbital living volume in the coming decade.
-                          </p>
-                          <p>
-                            Advanced concepts include utilizing in-situ resources for construction, 3D printing habitats, and eventually establishing self-sustaining settlements that could survive independent of Earth.
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            {/* Macro Economics Section */}
-            <div 
-              className={`transition-all duration-500 ease-in-out ${
-                expandedSections.includes('economics') 
-                  ? 'w-full max-w-4xl self-center' 
-                  : 'w-64 cursor-pointer hover:scale-105'
-              }`}
-            >
-              <div 
-                className={`bg-matted/70 backdrop-blur-sm rounded-lg text-white fade-in origin-section-button ${
-                  !expandedSections.includes('economics') ? 'border border-white/30 hover:border-white/50' : ''
-                }`}
-                onClick={(e) => {
-                  // Check if the click is on the header or content
-                  const target = e.target as HTMLElement;
-                  const isHeader = target.closest('.section-header');
-                  const isContent = target.closest('.section-content');
-                  
-                  // Only handle click if not clicking on content or header
-                  if (!expandedSections.includes('economics') || (!isHeader && !isContent)) {
-                    setExpandedSections(prev => 
-                      prev.includes('economics') 
-                        ? prev.filter(section => section !== 'economics')
-                        : [...prev, 'economics']
-                    );
-                  }
-                }}
-              >
-                {/* Section Header */}
-                <div className="flex items-center justify-between p-4 section-header">
-                  <h2 className="text-2xl font-heading">Macro Economics</h2>
-                  {expandedSections.includes('economics') && (
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setExpandedSections(prev => prev.filter(section => section !== 'economics'));
-                      }}
-                      className="text-lg hover:text-blue-300 transition"
-                    >
-                      ×
-                    </button>
-                  )}
-                </div>
-                
-                {/* Expanded Content */}
-                {expandedSections.includes('economics') && (
-                  <div className="p-4 pt-0 section-content">
                     {/* Tabs */}
-                    <div className="flex flex-wrap border-b border-gray-600 mb-4 relative z-50">
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.economics === 'overview' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('economics', 'overview')}
-                      >
-                        Overview
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 mr-2 relative z-50 ${activeTabs.economics === 'metrics' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('economics', 'metrics')}
-                      >
-                        Key Metrics
-                      </button>
-                      <button 
-                        type="button"
-                        className={`py-2 px-4 relative z-50 ${activeTabs.economics === 'models' 
-                          ? 'border-b-2 border-blue-400 text-blue-300' 
-                          : 'text-gray-300 hover:text-white'}`}
-                        onClick={() => handleTabChange('economics', 'models')}
-                      >
-                        Economic Models
-                      </button>
+                    <div className="flex flex-wrap justify-center mb-8 gap-2 relative z-50">
+                      {Object.keys(meditationProjects).map((section) => (
+                        <button
+                          key={section}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Stop event propagation
+                            setActiveSection(section);
+                          }}
+                          className={`px-4 py-2 rounded-full font-medium text-sm relative z-50 ${
+                            activeSection === section 
+                              ? 'bg-blue-600 text-white shadow-sm' 
+                              : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
+                          } transition-all duration-300`}
+                        >
+                          {section.charAt(0).toUpperCase() + section.slice(1)}
+                        </button>
+                      ))}
                     </div>
                     
-                    {/* Tab Content */}
-                    <div className="pr-2 relative z-0">
-                      {/* Overview Content */}
-                      {activeTabs.economics === 'overview' && (
-                        <div className="space-y-6">
-                          <div className="space-y-4">
-                            <p>
-                              Macroeconomic systems coordinate resources, labor, and capital at societal scale, fundamentally shaping human welfare and technological progress.
-                            </p>
-                            <p>
-                              AI and automation are driving unprecedented changes in economic structures, potentially transforming productivity, labor markets, and wealth distribution.
-                            </p>
-                            <p>
-                              This section tracks key metrics and explores first-principles models of economic transformation in an era of intelligent machines.
-                            </p>
+                    {/* Project Cards */}
+                    <div className="grid gap-6">
+                      {meditationProjects[activeSection]?.map((project, index) => (
+                        <div key={index} className="bg-white/90 border border-slate-200 rounded-lg p-4 hover:border-slate-300 hover:shadow-md transition">
+                          <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-xl text-blue-700">{project.title}</h3>
+                            <span className={`text-xs px-2 py-1 rounded ${
+                              project.status === 'Completed' ? 'bg-green-100 text-green-800 border border-green-200' :
+                              project.status === 'In Progress' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                              'bg-blue-100 text-blue-800 border border-blue-200'
+                            }`}>
+                              {project.status}
+                            </span>
                           </div>
                           
-                          {/* Project Cards */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                            {/* Project Card 1 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">AI Productivity Metrics</h3>
-                              <p className="text-white/80 mb-3">A dashboard tracking the impact of AI on economic productivity across sectors, with projections for future growth trajectories.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Coming soon</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Dashboard</button>
-                              </div>
-                            </div>
-                            
-                            {/* Project Card 2 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Post-Scarcity Economics</h3>
-                              <p className="text-white/80 mb-3">Theoretical frameworks for economic systems operating under conditions of radically abundant energy, computation, and manufacturing capability.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Early research</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Project</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Metrics Content */}
-                      {activeTabs.economics === 'metrics' && (
-                        <div className="space-y-6">
-                          <div className="space-y-4">
-                            <p>
-                              Tracking key economic indicators helps us understand the impact of technological change on broader economic systems.
-                            </p>
-                            <p>
-                              Here we compile and analyze metrics related to productivity, employment, wealth distribution, and technological adoption across different sectors and regions.
-                            </p>
+                          <p className="text-slate-700 mb-4">{project.description}</p>
+                          
+                          {/* Technologies */}
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {project.technologies.map((tech, techIndex) => (
+                              <span 
+                                key={techIndex}
+                                className="bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1 rounded-full text-xs"
+                              >
+                                {tech}
+                              </span>
+                            ))}
                           </div>
                           
-                          {/* Project Cards */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                            {/* Project Card 1 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Global AI Impact Index</h3>
-                              <p className="text-white/80 mb-3">A comprehensive analysis of AI adoption rates across industries and their correlation with productivity and economic growth.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">In development</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Index</button>
-                              </div>
-                            </div>
+                          {/* Media & Links */}
+                          <div className="flex justify-end">
+                            {project.media && (
+                              <a 
+                                href={project.media.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center mr-4 text-blue-600 hover:text-blue-800"
+                              >
+                                {project.media.type === 'pdf' ? (
+                                  <>
+                                    <FaFilePdf className="mr-1" />
+                                    <span>PDF</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <FaVideo className="mr-1" />
+                                    <span>Video</span>
+                                  </>
+                                )}
+                              </a>
+                            )}
                             
-                            {/* Project Card 2 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Labor Market Transformation</h3>
-                              <p className="text-white/80 mb-3">Tracking skill premiums, job displacement, and job creation patterns across the economy as automation accelerates.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Ongoing research</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Data</button>
-                              </div>
-                            </div>
+                            {project.link && (
+                              <a 
+                                href={project.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                              >
+                                <span>Learn more</span>
+                                <FaArrowRight className="ml-2" />
+                              </a>
+                            )}
                           </div>
                         </div>
-                      )}
-                      
-                      {/* Models Content */}
-                      {activeTabs.economics === 'models' && (
-                        <div className="space-y-6">
-                          <div className="space-y-4">
-                            <p>
-                              Traditional economic models struggle to capture the dynamics of an economy transformed by general-purpose AI and advanced automation.
-                            </p>
-                            <p>
-                              This section explores new conceptual frameworks for understanding economic systems under conditions of rapidly increasing technological capabilities.
-                            </p>
-                          </div>
-                          
-                          {/* Project Cards */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                            {/* Project Card 1 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Recursive Production Functions</h3>
-                              <p className="text-white/80 mb-3">Exploring mathematical models for economic growth when AI can recursively improve the key factors of production.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Theoretical work</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Paper</button>
-                              </div>
-                            </div>
-                            
-                            {/* Project Card 2 */}
-                            <div className="bg-black/30 border border-white/20 rounded-lg p-4 hover:border-white/40 transition">
-                              <h3 className="text-xl text-blue-300 mb-2">Distribution Mechanisms</h3>
-                              <p className="text-white/80 mb-3">Evaluating alternative economic distribution systems for a world where labor is no longer the primary factor in production.</p>
-                              <div className="flex justify-between items-center">
-                                <span className="text-white/60 text-sm">Early research</span>
-                                <button className="text-blue-300 hover:text-blue-100 transition">View Project</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
+                      ))}
                     </div>
                   </div>
                 )}
