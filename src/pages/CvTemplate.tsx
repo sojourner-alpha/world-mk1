@@ -10,7 +10,6 @@ const skills = {
     "Investment Management",
     "Process Improvement",
     "Systems Implementation",
-    "Market Analysis",
   ],
   technical: [
     "Calculus + Linear Algebra",
@@ -19,7 +18,6 @@ const skills = {
     "Asset Pricing",
     "Operations Management",
     "Machine Learning",
-    "Python/SQL/FastAPI"
   ],
   leadership: [
     "C-Suite Staff Support",
@@ -28,7 +26,6 @@ const skills = {
     "Cross-functional Leadership",
     "Organizational Development",
     "Partnership Building",
-    "Board Observer"
   ]
 };
 
@@ -85,6 +82,18 @@ const education = [
     degree: "Bachelor of Engineering",
     field: "Civil Engineering",
     period: "2009 - 2014",
+  },
+  {
+    institution: "MIT edX",
+    degree: "Professional Certificate",
+    field: "Probability & Finance",
+    period: "2022",
+  },
+  {
+    institution: "Self Guided",
+    degree: "Technical Development",
+    field: "Python, React, SQL, HTML, Three.js, MCP",
+    period: "2016 - Present",
   }
 ];
 
@@ -167,9 +176,12 @@ const CvTemplate: React.FC = () => {
               </div>
               <p className="text-xs mt-1 leading-snug">{job.description}</p>
               {job.achievements && (
-                <ul className="list-disc list-inside text-xs mt-1 text-gray-700">
+                <ul className="text-xs mt-1 text-gray-700 pl-4">
                   {job.achievements.map((achievement, i) => (
-                    <li key={i} className="leading-tight">{achievement}</li>
+                    <li key={i} className="leading-tight ml-2 relative">
+                      <span className="absolute -left-4">•</span>
+                      {achievement}
+                    </li>
                   ))}
                 </ul>
               )}
@@ -184,25 +196,34 @@ const CvTemplate: React.FC = () => {
         <div className="grid grid-cols-3 gap-2">
           <div>
             <h3 className="text-sm font-medium mb-1">Business</h3>
-            <ul className="list-disc list-inside text-xs text-gray-700">
-              {skills.business.slice(0, 5).map((skill, index) => (
-                <li key={index} className="leading-tight">{skill}</li>
+            <ul className="text-xs text-gray-700 pl-4">
+              {skills.business.map((skill, index) => (
+                <li key={index} className="leading-tight ml-2 relative">
+                  <span className="absolute -left-4">•</span>
+                  {skill}
+                </li>
               ))}
             </ul>
           </div>
           <div>
             <h3 className="text-sm font-medium mb-1">Technical</h3>
-            <ul className="list-disc list-inside text-xs text-gray-700">
-              {skills.technical.slice(0, 5).map((skill, index) => (
-                <li key={index} className="leading-tight">{skill}</li>
+            <ul className="text-xs text-gray-700 pl-4">
+              {skills.technical.map((skill, index) => (
+                <li key={index} className="leading-tight ml-2 relative">
+                  <span className="absolute -left-4">•</span>
+                  {skill}
+                </li>
               ))}
             </ul>
           </div>
           <div>
             <h3 className="text-sm font-medium mb-1">Leadership</h3>
-            <ul className="list-disc list-inside text-xs text-gray-700">
-              {skills.leadership.slice(0, 5).map((skill, index) => (
-                <li key={index} className="leading-tight">{skill}</li>
+            <ul className="text-xs text-gray-700 pl-4">
+              {skills.leadership.map((skill, index) => (
+                <li key={index} className="leading-tight ml-2 relative">
+                  <span className="absolute -left-4">•</span>
+                  {skill}
+                </li>
               ))}
             </ul>
           </div>
@@ -213,7 +234,7 @@ const CvTemplate: React.FC = () => {
       <section className="mb-6">
         <h2 className="text-base font-semibold border-b border-gray-300 pb-1 mb-3">Education</h2>
         {education.map((edu, index) => (
-          <div key={index} className="text-sm">
+          <div key={index} className="text-sm mb-1">
             <div className="flex justify-between">
               <div>
                 <span className="font-bold">{edu.institution}</span> | {edu.degree}, {edu.field}
@@ -222,25 +243,6 @@ const CvTemplate: React.FC = () => {
             </div>
           </div>
         ))}
-      </section>
-
-      {/* Tools & Technologies */}
-      <section className="mb-6">
-        <h2 className="text-base font-semibold border-b border-gray-300 pb-1 mb-3">Tools & Technologies</h2>
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          <div>
-            <h3 className="text-sm font-medium mb-1">AI/ML</h3>
-            <p className="text-gray-700">OpenAI, Claude, Midjourney, LLaMA, Ollama, Perplexity</p>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium mb-1">FinTech</h3>
-            <p className="text-gray-700">TradingView, thinkorswim, Finviz, Tradezella, Financial APIs</p>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium mb-1">Ops</h3>
-            <p className="text-gray-700">Notion, Cursor, Google Suite, React, TypeScript</p>
-          </div>
-        </div>
       </section>
 
       {/* Projects */}
