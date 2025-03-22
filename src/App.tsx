@@ -300,10 +300,10 @@ const CrossroadsSection = () => (
       <img src={crossroadsImage} alt="Crossroads" className="w-full h-full object-cover object-center" style={{aspectRatio: "16/9", objectPosition: "center 70%"}} />
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
     </div>
-    {/* Firefly */}
+    {/* Firefly - with responsive positioning */}
     <Link 
       to="/origin" 
-      className="absolute bottom-64 left-32 w-4 h-4 rounded-full bg-white/80 hover:bg-yellow-200/90 transition-all duration-500 shadow-glow animate-pulse-slower z-[100]"
+      className="absolute w-4 h-4 rounded-full bg-white/80 hover:bg-yellow-200/90 transition-all duration-500 shadow-glow animate-pulse-slower z-[100] firefly-easter-egg"
       aria-label="Hidden portal"
     />
     <div className="section-transition top"></div>

@@ -10,7 +10,7 @@
     "type-check": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build && cpy public/CNAME dist",
+    "predeploy": "npm run build && cpy public/CNAME public/404.html dist",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
