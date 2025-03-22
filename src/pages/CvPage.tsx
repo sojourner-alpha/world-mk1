@@ -83,28 +83,11 @@ const CvPage: React.FC = () => {
               <a 
                 href="/world-mk1/curtis_lederle_cv.pdf" 
                 download
-                className="flex items-center px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
               >
                 <FaDownload className="mr-2" />
-                <span>Direct Download</span>
+                <span>Download CV</span>
               </a>
-              <button 
-                onClick={generatePDF}
-                disabled={isGenerating}
-                className={`flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors ${isGenerating ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                {isGenerating ? (
-                  <>
-                    <FaSpinner className="mr-2 animate-spin" />
-                    <span>Generating...</span>
-                  </>
-                ) : (
-                  <>
-                    <FaDownload className="mr-2" />
-                    <span>Generate Fresh PDF</span>
-                  </>
-                )}
-              </button>
             </div>
           </div>
         </header>
@@ -119,8 +102,7 @@ const CvPage: React.FC = () => {
         </div>
         
         <div className="mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg">
-          <p className="font-medium">Preview of your CV resume above. Click one of the download buttons to save as PDF.</p>
-          <p className="text-sm mt-2">The "Generate Fresh PDF" option creates a PDF from the most current version with any updates.</p>
+          <p className="font-medium">Preview of your CV resume above. Click the download button to save as PDF.</p>
           <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
         </div>
       </div>
