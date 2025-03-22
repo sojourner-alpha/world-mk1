@@ -11,6 +11,14 @@ const skills = {
     "Process Improvement",
     "Systems Implementation",
   ],
+  leadership: [
+    "C-Suite Staff Support",
+    "Team Management",
+    "Strategic Planning",
+    "Cross-functional Leadership",
+    "Organizational Development",
+    "Partnership Building",
+  ],
   technical: [
     "Calculus + Linear Algebra",
     "Probability Theory",
@@ -19,14 +27,6 @@ const skills = {
     "Operations Management",
     "Machine Learning",
   ],
-  leadership: [
-    "C-Suite Staff Support",
-    "Team Management",
-    "Strategic Planning",
-    "Cross-functional Leadership",
-    "Organizational Development",
-    "Partnership Building",
-  ]
 };
 
 // Career timeline from Workshop page
@@ -44,7 +44,7 @@ const careerHighlights = [
   {
     company: "Tread Technologies",
     role: "Strategic Advisor / Chief of Staff / VP Sales & Marketing",
-    period: "2021 - 2024",
+    period: "2020 - 2024",
     description: "Led cross-functional initiatives, managed strategic projects, and supported the CEO in scaling operations and team development.",
     achievements: [
       "9x ARR growth in 24 months",
@@ -55,7 +55,7 @@ const careerHighlights = [
   {
     company: "Zendesk",
     role: "Senior Account Executive",
-    period: "2020 - 2022",
+    period: "2019 - 2020",
     description: "Asia Pacific Lead - Conversation Solutions Team",
     achievements: [
       "Led APAC expansion of acquired tech",
@@ -84,19 +84,19 @@ const education = [
     institution: "McGill University",
     degree: "Bachelor of Engineering",
     field: "Civil Engineering",
-    period: "2009 - 2014",
+    period: "2009 - 2013",
   },
   {
     institution: "MIT edX",
     degree: "Professional Certificate",
     field: "Probability & Finance",
-    period: "2022",
+    period: "2021-2024",
   },
   {
     institution: "Self Guided",
     degree: "Technical Development",
     field: "Python, React, SQL, HTML, Three.js, MCP",
-    period: "2016 - Present",
+    period: "2022 - Present",
   }
 ];
 
@@ -140,8 +140,8 @@ const CvTemplate: React.FC = () => {
           <p className="text-gray-600">Analyst + Technologist + Investor + Consultant</p>
         </div>
         <div className="flex items-center space-x-5">
-          <a href="https://curtisjames.ai" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 text-sm">
-            curtisjames.ai
+          <a href="https://curtislederle.ai" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 text-sm">
+            curtislederle.ai
           </a>
           <div className="h-4 w-px bg-gray-300"></div>
           <a href="https://github.com/sojourner-alpha" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
@@ -150,7 +150,7 @@ const CvTemplate: React.FC = () => {
           <a href="https://www.linkedin.com/in/clederle/" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
             <FaLinkedinIn size={18} />
           </a>
-          <a href="mailto:contact@curtisjames.ai" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
+          <a href="mailto:alpha@sojourninsight.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
             <FaEnvelope size={18} />
           </a>
         </div>
@@ -238,9 +238,9 @@ const CvTemplate: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-medium mb-1">Technical</h3>
+            <h3 className="text-sm font-medium mb-1">Leadership</h3>
             <ul className="text-xs text-gray-700 pl-4">
-              {skills.technical.map((skill, index) => (
+              {skills.leadership.map((skill, index) => (
                 <li key={index} className="leading-tight ml-2 relative">
                   <span className="absolute -left-4">•</span>
                   {skill}
@@ -249,9 +249,9 @@ const CvTemplate: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-medium mb-1">Leadership</h3>
+            <h3 className="text-sm font-medium mb-1">Technical</h3>
             <ul className="text-xs text-gray-700 pl-4">
-              {skills.leadership.map((skill, index) => (
+              {skills.technical.map((skill, index) => (
                 <li key={index} className="leading-tight ml-2 relative">
                   <span className="absolute -left-4">•</span>
                   {skill}
