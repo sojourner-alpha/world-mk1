@@ -96,9 +96,10 @@ interface PortalCardProps {
   tagColor: string;
   longDescription: string;
   shadowActive: boolean;
+  animationDelay?: string;
 }
 
-const PortalCard = ({ title, description, image, link, tag, tagColor, longDescription, shadowActive }: PortalCardProps) => {
+const PortalCard = ({ title, description, image, link, tag, tagColor, longDescription, shadowActive, animationDelay = '2s' }: PortalCardProps) => {
   // Map tag colors to actual Tailwind classes
   const getTagColorClass = () => {
     switch(tagColor) {
@@ -125,7 +126,7 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
         <img src={image} alt={title} className="portal-card-image" />
         
         {/* Card content (centered vertically) */}
-        <div className={`portal-card-content animate-slide-up ${expanded ? 'expanded' : ''}`} style={{ animationDelay: '2s' }}>
+        <div className={`portal-card-content animate-slide-up ${expanded ? 'expanded' : ''}`} style={{ animationDelay }}>
           <h2 className="text-lg md:text-xl font-heading mb-2">{title}</h2>
           <p className="text-xs md:text-sm text-gray-300 mb-3">{description}</p>
           
@@ -493,6 +494,7 @@ const Home = () => {
                     tagColor="tag-green"
                     longDescription={portalDescriptions.workshop}
                     shadowActive={shadowsActive}
+                    animationDelay="3s"
                   />
                 </div>
                 <div className="card-container md:w-auto">
@@ -505,6 +507,7 @@ const Home = () => {
                     tagColor="tag-blue"
                     longDescription={portalDescriptions.loft}
                     shadowActive={shadowsActive}
+                    animationDelay="4s"
                   />
                 </div>
                 <div className="card-container md:w-auto">
@@ -517,6 +520,7 @@ const Home = () => {
                     tagColor="tag-amber"
                     longDescription={portalDescriptions.observatory}
                     shadowActive={shadowsActive}
+                    animationDelay="5s"
                   />
                 </div>
               </div>
