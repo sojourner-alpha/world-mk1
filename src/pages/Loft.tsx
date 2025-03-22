@@ -35,6 +35,8 @@ const Loft = () => {
   const [activePodcast, setActivePodcast] = useState<number | null>(null);
   const [clickedBook, setClickedBook] = useState<number | null>(null);
   const [fullscreenArt, setFullscreenArt] = useState<boolean>(false);
+  const [activeMusic, setActiveMusic] = useState<number | null>(null);
+  const [popupPosition, setPopupPosition] = useState<'center' | 'left' | 'right'>('center');
   
   // Use shared animations
   useAnimations();
@@ -42,79 +44,255 @@ const Loft = () => {
   // Background image
   const loftImage = "/world-mk1/assets/images/loft.png";
 
+  // Core brand colors for books - greyscale palette
+  const bookColors = [
+    'bg-slate-900', // near black
+    'bg-slate-800', // very dark grey
+    'bg-slate-700', // dark grey
+    'bg-slate-600', // medium-dark grey
+    'bg-slate-500', // medium grey
+    'bg-slate-400', // medium-light grey
+    'bg-slate-300', // light grey
+    'bg-slate-200', // very light grey
+    'bg-white',     // white
+    'bg-gray-900',  // alternate dark
+    'bg-gray-800',  // alternate medium-dark
+    'bg-gray-700'   // alternate medium
+  ];
+
   // Media content by category
   const books: Media[] = [
     {
-      title: "Dune",
-      creator: "Frank Herbert",
-      year: "1965",
-      description: "A masterpiece of worldbuilding that explores ecology, politics, religion, and human evolution in a far-future interstellar society.",
-      tags: ["Science Fiction", "Epic", "Politics"],
-      link: "https://en.wikipedia.org/wiki/Dune_(novel)",
-      color: "bg-amber-700"
+      title: "Nexus",
+      creator: "Yuval Noah Harari",
+      year: "2023",
+      description: "An exploration of how technological innovations are reshaping society, connecting humanity, and changing the future of our species.",
+      tags: ["Technology", "Society", "Future"],
+      link: "https://www.audible.com/pd/Nexus-Audiobook/B0CT49S3V8",
+      color: bookColors[0]
+    },
+    {
+      title: "On Writing",
+      creator: "Stephen King",
+      year: "2000",
+      description: "Part memoir, part master class by one of the bestselling authors of all time, offering practical advice on the craft of writing and insights into King's own career.",
+      tags: ["Writing", "Memoir", "Creativity"],
+      link: "https://www.audible.com/pd/On-Writing-Audiobook/B002V1A0WE",
+      color: bookColors[1]
+    },
+    {
+      title: "Poor Charlie's Almanack",
+      creator: "Charles Munger",
+      year: "2005",
+      description: "A collection of speeches and talks from Charlie Munger, offering wisdom on decision making, investing, and the pursuit of a successful life.",
+      tags: ["Finance", "Wisdom", "Mental Models"],
+      link: "https://www.audible.com/pd/Poor-Charlies-Almanack-Audiobook/B0CMDCLDTP",
+      color: bookColors[2]
+    },
+    {
+      title: "Sam Altman's Principles",
+      creator: "Sam Altman",
+      year: "2018",
+      description: "A guide to productivity and effective work habits from the CEO of OpenAI, offering insights into how to approach complex problems and achieve success.",
+      tags: ["Productivity", "Leadership", "Tech"],
+      link: "https://blog.samaltman.com/productivity",
+      color: bookColors[3]
+    },
+    {
+      title: "The Book of Five Rings",
+      creator: "Miyamoto Musashi",
+      year: "1645",
+      description: "A classic text on martial arts, strategy, and philosophy written by the legendary Japanese swordsman, offering timeless wisdom applicable to modern challenges.",
+      tags: ["Strategy", "Philosophy", "Martial Arts"],
+      link: "https://www.audible.com/pd/A-Book-of-Five-Rings-Audiobook/B004I76HQC",
+      color: bookColors[4]
+    },
+    {
+      title: "The Coddling of the American Mind",
+      creator: "Greg Lukianoff & Jonathan Haidt",
+      year: "2018",
+      description: "An analysis of the three 'Great Untruths' that have spread through society and are harming the development of young adults and undermining educational institutions.",
+      tags: ["Psychology", "Society", "Education"],
+      link: "https://www.audible.com/pd/The-Coddling-of-the-American-Mind-Audiobook/B079P6VFH1",
+      color: bookColors[5]
+    },
+    {
+      title: "The Coming Wave",
+      creator: "Mustafa Suleyman & Michael Bhaskar",
+      year: "2023",
+      description: "An examination of how AI and synthetic biology will transform our world, presenting both the opportunities and dangers these technologies might bring.",
+      tags: ["AI", "Technology", "Future"],
+      link: "https://www.audible.com/pd/The-Coming-Wave-Audiobook/B0BVSJKM4Z",
+      color: bookColors[6]
+    },
+    {
+      title: "The Daily Stoic",
+      creator: "Ryan Holiday",
+      year: "2016",
+      description: "A collection of 366 meditations on wisdom, perseverance, and the art of living, drawing on the ancient philosophy of Stoicism and its enduring relevance today.",
+      tags: ["Philosophy", "Self-Improvement", "Stoicism"],
+      link: "https://www.audible.com/pd/The-Daily-Stoic-Audiobook/B01M4IDLAG",
+      color: bookColors[7]
+    },
+    {
+      title: "The Great Degeneration",
+      creator: "Niall Ferguson",
+      year: "2013",
+      description: "A historical examination of institutional decay in Western societies, exploring how economic, political, and social systems are showing signs of decline.",
+      tags: ["History", "Economics", "Politics"],
+      link: "https://www.audible.com/pd/The-Great-Degeneration-Audiobook/B00CS395BM",
+      color: bookColors[0]
+    },
+    {
+      title: "The Intelligent Investor",
+      creator: "Benjamin Graham",
+      year: "1949",
+      description: "The definitive book on value investing, offering timeless strategies for financial success through rational investment approaches rather than speculative behavior.",
+      tags: ["Finance", "Investing", "Economics"],
+      link: "https://www.audible.com/pd/The-Intelligent-Investor-Rev-Ed-Audiobook/B00V95QQXA",
+      color: bookColors[1]
+    },
+    {
+      title: "The Nature of Technology",
+      creator: "Brian Arthur",
+      year: "2009",
+      description: "A profound exploration of how technologies evolve, combining to create new technologies and forming the foundation of economic advancement.",
+      tags: ["Technology", "Innovation", "Economics"],
+      link: "https://www.audible.com/pd/The-Nature-of-Technology-Audiobook/B002V1JG4C",
+      color: bookColors[2]
+    },
+    {
+      title: "1984",
+      creator: "George Orwell",
+      year: "1949",
+      description: "A dystopian novel set in a totalitarian society, examining themes of mass surveillance, repressive regimentation, and the manipulation of truth.",
+      tags: ["Dystopian", "Classic", "Political Fiction"],
+      link: "https://www.audible.com/pd/1984-Audiobook/B002V19RO6",
+      color: bookColors[3]
+    },
+    {
+      title: "Sapiens",
+      creator: "Yuval Noah Harari",
+      year: "2011",
+      description: "A brief history of humankind, exploring how Homo sapiens came to dominate the Earth and how our societies, beliefs, and institutions evolved over time.",
+      tags: ["History", "Anthropology", "Evolution"],
+      link: "https://www.audible.com/pd/Sapiens-Audiobook/B0741G911Q",
+      color: bookColors[4]
     },
     {
       title: "Thinking, Fast and Slow",
       creator: "Daniel Kahneman",
       year: "2011",
-      description: "An exploration of the two systems that drive the way we think—System 1 (fast, intuitive) and System 2 (slow, deliberate)—revealing cognitive biases that affect our judgment.",
-      tags: ["Psychology", "Behavioral Economics", "Decision Making"],
-      link: "https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow",
-      color: "bg-blue-600"
+      description: "An exploration of the two systems that drive the way we think—System 1 (fast, intuitive) and System 2 (slow, deliberate)—revealing the biases that affect our everyday decisions.",
+      tags: ["Psychology", "Decision Making", "Cognitive Science"],
+      link: "https://www.audible.com/pd/Thinking-Fast-and-Slow-Audiobook/B005TKKCWC",
+      color: bookColors[5]
     },
     {
-      title: "Snow Crash",
-      creator: "Neal Stephenson",
-      year: "1992",
-      description: "A science fiction novel that explores virtual reality, linguistics, religion, and memetics in a cyberpunk future.",
-      tags: ["Science Fiction", "Cyberpunk", "Virtual Reality"],
-      link: "https://en.wikipedia.org/wiki/Snow_Crash",
-      color: "bg-slate-800"
+      title: "Zero to One",
+      creator: "Peter Thiel",
+      year: "2014",
+      description: "Notes on startups and how to build the future, challenging conventional wisdom about innovation and encouraging entrepreneurs to create truly new things.",
+      tags: ["Business", "Startups", "Innovation"],
+      link: "https://www.audible.com/pd/Zero-to-One-Audiobook/B00M27LBU2",
+      color: bookColors[6]
     },
     {
-      title: "The Three-Body Problem",
-      creator: "Liu Cixin",
-      year: "2008",
-      description: "A hard science fiction masterpiece that begins during China's Cultural Revolution and spans to a future where humanity faces an existential threat from an alien civilization.",
-      tags: ["Science Fiction", "First Contact", "Physics"],
-      link: "https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)",
-      color: "bg-green-700"
+      title: "Dune",
+      creator: "Frank Herbert",
+      year: "1965",
+      description: "A science fiction epic set in a distant future where noble houses control planetary fiefs, following the story of young Paul Atreides as he navigates political intrigue on the desert planet Arrakis.",
+      tags: ["Science Fiction", "Space Opera", "Political"],
+      link: "https://www.audible.com/pd/Dune-Audiobook/B002V1OF70",
+      color: bookColors[7]
     },
     {
-      title: "The Dawn of Everything",
-      creator: "David Graeber & David Wengrow",
-      year: "2021",
-      description: "A groundbreaking exploration of human history that challenges conventional narratives about the development of civilization, inequality, and political systems.",
-      tags: ["Anthropology", "History", "Politics"],
-      link: "https://en.wikipedia.org/wiki/The_Dawn_of_Everything",
-      color: "bg-red-700"
+      title: "Brave New World",
+      creator: "Aldous Huxley",
+      year: "1932",
+      description: "A dystopian novel depicting a genetically engineered future society where stability is prioritized over freedom, creativity, and human emotion.",
+      tags: ["Dystopian", "Classic", "Science Fiction"],
+      link: "https://www.audible.com/pd/Brave-New-World-Audiobook/B002V8L6X8",
+      color: bookColors[0]
+    },
+    {
+      title: "Deep Work",
+      creator: "Cal Newport",
+      year: "2016",
+      description: "Rules for focused success in a distracted world, arguing that deep concentration is becoming increasingly rare and valuable in our economy.",
+      tags: ["Productivity", "Focus", "Personal Development"],
+      link: "https://www.audible.com/pd/Deep-Work-Audiobook/B0189PX1RQ",
+      color: bookColors[1]
+    },
+    {
+      title: "48 Laws of Power",
+      creator: "Robert Greene",
+      year: "1998",
+      description: "A comprehensive guide to the art of power, distilling 3,000 years of history into 48 essential laws that reveal the dynamics of control, influence, and defense against manipulation.",
+      tags: ["Psychology", "Strategy", "History"],
+      link: "https://www.audible.com/pd/The-48-Laws-of-Power-Audiobook/B00WSZG4EM",
+      color: bookColors[2]
+    },
+    {
+      title: "Meditations",
+      creator: "Marcus Aurelius",
+      year: "180 AD",
+      description: "Personal writings of the Roman Emperor Marcus Aurelius, recording his private notes to himself and ideas on Stoic philosophy, with profound insights on virtue, duty, and resilience.",
+      tags: ["Philosophy", "Stoicism", "Personal Development"],
+      link: "https://www.audible.com/pd/Meditations-Audiobook/B004IBRMZS",
+      color: bookColors[3]
+    },
+    {
+      title: "Security Analysis",
+      creator: "Benjamin Graham & David Dodd",
+      year: "1934",
+      description: "The foundational text of value investing, providing a framework for analyzing securities and identifying undervalued investments, written in the aftermath of the 1929 stock market crash.",
+      tags: ["Finance", "Investing", "Economics"],
+      link: "https://www.audible.com/pd/Security-Analysis-Sixth-Edition-Audiobook/B002V0GVIK",
+      color: bookColors[4]
     }
   ];
 
   const podcasts: Media[] = [
     {
-      title: "Lex Fridman Podcast",
-      creator: "Lex Fridman",
-      description: "Conversations about AI, science, technology, history, philosophy and the nature of intelligence, consciousness, love, and power.",
-      tags: ["AI", "Technology", "Philosophy"],
-      link: "https://lexfridman.com/podcast/",
-      imageUrl: "https://lexfridman.com/wordpress/wp-content/uploads/powerpress/artwork_3000-230.png"
+      title: "Lex Fridman - Narendra Modi",
+      creator: "Lex Fridman Podcast",
+      description: "Conversation with Narendra Modi, Prime Minister of India, discussing leadership, technology, and the future of India.",
+      tags: ["Leadership", "Politics", "India"],
+      link: "https://open.spotify.com/episode/40sptZNuCXjhzPYTG6K2rh?si=d64a669bb7ea4f91",
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     },
     {
-      title: "The Tim Ferriss Show",
-      creator: "Tim Ferriss",
-      description: "Interviews with world-class performers across various fields to extract tools, tactics, and routines that listeners can apply to their own lives.",
-      tags: ["Personal Development", "Business", "Health"],
-      link: "https://tim.blog/podcast/",
-      imageUrl: "https://i0.wp.com/tim.blog/wp-content/uploads/2022/06/the-tim-ferriss-show-3000x3000-1.png?w=1000&ssl=1"
+      title: "Lex Fridman - Deepseek",
+      creator: "Lex Fridman Podcast",
+      description: "Discussion about Deepseek, artificial intelligence, and innovations in deep learning technology.",
+      tags: ["AI", "Technology", "Deep Learning"],
+      link: "https://open.spotify.com/episode/5JKVOvxQ0c9xJmVK3O1asA?si=c3194131223a44cf",
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     },
     {
-      title: "Hardcore History",
-      creator: "Dan Carlin",
-      description: "In-depth, dramatic retellings of historical events that bring the past to life through storytelling and analysis.",
-      tags: ["History", "Storytelling", "Analysis"],
-      link: "https://www.dancarlin.com/hardcore-history-series/",
-      imageUrl: "https://www.dancarlin.com/graphics/DC_HH_iTunes.jpg"
+      title: "Lex Fridman - Marc Andreessen",
+      creator: "Lex Fridman Podcast",
+      description: "Interview with Marc Andreessen, co-founder of Andreessen Horowitz, discussing venture capital, startups, and the future of technology.",
+      tags: ["Venture Capital", "Technology", "Startups"],
+      link: "https://open.spotify.com/episode/5iXQAfEnrO3kWtg4WzYXUD?si=445aa20832f64b21",
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
+    },
+    {
+      title: "Lex Fridman - Guido van Rossum",
+      creator: "Lex Fridman Podcast",
+      description: "Conversation with Guido van Rossum, creator of Python, discussing programming languages and software development.",
+      tags: ["Programming", "Python", "Software"],
+      link: "https://open.spotify.com/episode/69V7CtdbB8blcxNPXvpnmk?si=a26f4aa0b01346b8",
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
+    },
+    {
+      title: "Lex Fridman - Demis Hassabis",
+      creator: "Lex Fridman Podcast",
+      description: "Interview with Demis Hassabis, CEO of DeepMind, discussing artificial intelligence and the quest to solve intelligence.",
+      tags: ["AI", "DeepMind", "Research"],
+      link: "https://open.spotify.com/episode/3KqezvIUnBKhBnkRVYgBNW?si=a6881ccb6b514e09",
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     }
   ];
 
@@ -294,29 +472,30 @@ const Loft = () => {
     link: string;
   }> = [
     {
-      title: "Chill Lo-Fi Mix",
-      creator: "Ambient Sounds",
-      imageUrl: "/world-mk1/assets/images/music-lofi.jpg",
-      link: "https://www.youtube.com/watch?v=jfKfPfyJRdk"
+      title: "DJ DAH ISHI - INCredible Coffee",
+      creator: "Live Set",
+      imageUrl: "https://i.ytimg.com/vi/V94h0x34zqA/maxresdefault.jpg",
+      link: "https://www.youtube.com/watch?v=V94h0x34zqA&t=1s"
     },
     {
-      title: "Focus Beats",
-      creator: "Concentration Music",
-      imageUrl: "/world-mk1/assets/images/music-focus.jpg",
-      link: "https://www.youtube.com/watch?v=lTRiuFIWV54"
+      title: "Fred again.. - Rooftop Live",
+      creator: "Boiler Room",
+      imageUrl: "https://i.ytimg.com/vi/6MAzUT1YhWE/maxresdefault.jpg",
+      link: "https://www.youtube.com/watch?v=6MAzUT1YhWE"
     },
     {
-      title: "Space Ambient",
-      creator: "Cosmic Sounds",
-      imageUrl: "/world-mk1/assets/images/music-space.jpg",
-      link: "https://www.youtube.com/watch?v=tNkZsRW7h2c"
-    },
-    {
-      title: "Nature Sounds",
-      creator: "Relaxation Audio",
-      link: "https://www.youtube.com/watch?v=eKFTSSKCzWA"
+      title: "Chill Out Beat Live Mix",
+      creator: "ChillStream",
+      imageUrl: "https://i.ytimg.com/vi/8yFdtwoLgJA/maxresdefault.jpg",
+      link: "https://www.youtube.com/watch?v=8yFdtwoLgJA"
     }
   ];
+
+  // Helper function to extract YouTube video ID
+  const getYoutubeId = (url: string): string => {
+    const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : '';
+  };
 
   return (
     <div className="bg-parchment text-slate-800 min-h-screen">
@@ -370,10 +549,17 @@ const Loft = () => {
               <div className="lg:col-span-12 bg-amber-900/30 p-5 rounded-lg shadow-inner">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
-                    <FaBook className="text-amber-700 mr-2" />
-                    <h2 className="text-xl font-heading text-amber-800">Bookshelf</h2>
+                  <FaBook className="text-amber-700 mr-2" />
+                  <h2 className="text-xl font-heading text-amber-800">Bookshelf</h2>
                   </div>
-                  <p className="text-amber-800 text-sm hidden md:block">Click a book to learn more</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-amber-800 text-sm hidden md:block">Click a book to learn more</p>
+                    <div className="text-amber-800/70 flex items-center gap-1 text-xs">
+                      <span>•</span>
+                      <FaArrowRight className="animate-pulse-slow text-amber-700/70" />
+                      <span>Scroll</span>
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Bookshelf with 3D effect */}
@@ -383,8 +569,13 @@ const Loft = () => {
                     <div className="h-full w-full bg-gradient-to-b from-amber-100/10 to-amber-900/10 rounded"></div>
                   </div>
                   
-                  {/* Books - Horizontal Layout */}
-                  <div className="flex flex-wrap md:flex-nowrap gap-4 justify-center md:justify-between relative z-10">
+                  {/* Books - Horizontal Layout with scroll */}
+                  <div className="relative z-10 overflow-x-auto py-2 px-1">
+                    {/* Fade gradient for scroll indication */}
+                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-amber-800/40 to-transparent z-10 pointer-events-none"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-amber-800/40 to-transparent z-10 pointer-events-none"></div>
+                    
+                    <div className="flex gap-4 min-w-max pb-2">
                     {books.map((book, index) => (
                       <div 
                         key={index} 
@@ -392,58 +583,77 @@ const Loft = () => {
                       >
                         {/* Book spine */}
                         <div 
-                          className={`${book.color} h-48 md:h-56 w-20 md:w-24 rounded-sm shadow-md flex items-center relative transform transition-all duration-300 ${clickedBook === index ? 'translate-y-4' : ''}`}
-                          onClick={() => setClickedBook(clickedBook === index ? null : index)}
-                        >
-                          <h3 className="text-white font-medium px-3 py-2 text-center absolute inset-0 flex items-center justify-center">
+                            className={`${book.color} h-48 md:h-56 w-16 md:w-20 rounded-sm shadow-md flex items-center relative transform transition-all duration-300 ${clickedBook === index ? 'translate-y-2' : ''} hover:brightness-110`}
+                            onClick={(e) => {
+                              // Check the book's position to determine popup placement
+                              const bookRect = e.currentTarget.getBoundingClientRect();
+                              const windowWidth = window.innerWidth;
+                              const position = bookRect.left < windowWidth * 0.3 ? 'left' : 
+                                              bookRect.right > windowWidth * 0.7 ? 'right' : 'center';
+                              setPopupPosition(position);
+                              setClickedBook(clickedBook === index ? null : index);
+                            }}
+                          >
+                            {/* Vertical book title */}
+                            <h3 className={`${book.color === 'bg-white' || book.color === 'bg-slate-200' || book.color === 'bg-slate-300' || book.color === 'bg-slate-400' ? 'text-slate-800' : 'text-white'} font-medium px-2 py-1 text-center absolute inset-0 flex items-center justify-center text-sm origin-center -rotate-90 whitespace-nowrap`}>
                             {book.title}
                           </h3>
                         </div>
                         
                         {/* Book details popup */}
                         {clickedBook === index && (
-                          <div className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-64 bg-white/95 rounded-lg shadow-lg p-4 z-50">
-                            <h4 className="font-heading text-slate-800 text-lg">{book.title}</h4>
-                            <p className="text-slate-600 text-sm">{book.creator} • {book.year}</p>
-                            <div className="my-2 h-px bg-slate-200"></div>
-                            <p className="text-slate-700 text-sm mb-3">{book.description}</p>
+                          <>
+                            {/* Overlay that dims the background */}
+                            <div 
+                              className="fixed inset-0 bg-black/60 z-[9000]" 
+                              onClick={() => setClickedBook(null)}
+                            ></div>
                             
-                            <div className="flex flex-wrap gap-1 mb-3">
-                              {book.tags?.map((tag, tagIndex) => (
-                                <span key={tagIndex} className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-xs">
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                            
-                            {book.link && (
-                              <a 
-                                href={book.link} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-800 text-sm flex items-center justify-end"
+                            {/* Book details popup */}
+                            <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 bg-white rounded-lg shadow-2xl p-6 z-[9001] max-h-[80vh] overflow-y-auto">
+                              <h4 className="font-heading text-slate-800 text-xl">{book.title}</h4>
+                              <p className="text-slate-600">{book.creator} • {book.year}</p>
+                              <div className="my-3 h-px bg-slate-200"></div>
+                              <p className="text-slate-700 mb-4">{book.description}</p>
+                              
+                              <div className="flex flex-wrap gap-2 mb-4">
+                                {book.tags?.map((tag, tagIndex) => (
+                                  <span key={tagIndex} className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                              
+                              {book.link && (
+                                <a 
+                                  href={book.link} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center justify-center gap-2 w-full"
+                                >
+                                  View on Audible
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                  </svg>
+                                </a>
+                              )}
+                              
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setClickedBook(null);
+                                }}
+                                className="absolute top-4 right-4 bg-white rounded-full w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 text-xl"
+                                aria-label="Close book details"
                               >
-                                Learn more
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                              </a>
-                            )}
-                            
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setClickedBook(null);
-                              }}
-                              className="absolute top-2 right-2 text-slate-400 hover:text-slate-600"
-                              aria-label="Close book details"
-                            >
-                              ×
-                            </button>
-                          </div>
+                                ×
+                              </button>
+                            </div>
+                          </>
                         )}
                       </div>
                     ))}
+                    </div>
                   </div>
                   
                   {/* Bookshelf bottom wood */}
@@ -477,53 +687,33 @@ const Loft = () => {
                       {podcasts.slice(0, 3).map((podcast, index) => (
                         <div 
                           key={index} 
-                          className={`bg-slate-800 rounded p-3 transition-all cursor-pointer ${activePodcast === index ? 'ring-2 ring-blue-500' : 'hover:bg-slate-700'}`}
-                          onClick={() => setActivePodcast(activePodcast === index ? null : index)}
+                          className={`bg-slate-800 rounded p-3 transition-all ${activePodcast === index ? 'ring-2 ring-blue-500' : 'hover:bg-slate-700'}`}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 flex-shrink-0">
-                              <img 
-                                src={podcast.imageUrl} 
-                                alt={podcast.title} 
-                                className="w-full h-full object-cover rounded"
-                              />
-                            </div>
                             <div className="flex-grow">
                               <h3 className="text-white text-sm font-medium line-clamp-1">{podcast.title}</h3>
                               <p className="text-slate-400 text-xs line-clamp-1">{podcast.creator}</p>
                             </div>
-                            <button className="w-8 h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-full text-white">
+                            <button 
+                              className="w-8 h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-full text-white"
+                              onClick={() => setActivePodcast(activePodcast === index ? null : index)}
+                            >
                               {activePodcast === index ? <FaPause size={12} /> : <FaPlay size={12} />}
                             </button>
                           </div>
                           
-                          {/* Expanded podcast info */}
-                          {activePodcast === index && (
+                          {/* Embedded Spotify player */}
+                          {activePodcast === index && podcast.link && (
                             <div className="mt-3 pt-3 border-t border-slate-700">
-                              <p className="text-slate-300 text-sm mb-3 line-clamp-3">{podcast.description}</p>
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                                    <div className="w-1/3 h-full bg-blue-500 rounded-full"></div>
-                                  </div>
-                                  <span className="text-xs text-slate-400">12:34</span>
-                                </div>
-                                <div className="flex gap-3">
-                                  <button className="text-slate-400 hover:text-white">
-                                    <FaVolumeUp size={14} />
-                                  </button>
-                                  {podcast.link && (
-                                    <a 
-                                      href={podcast.link} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="text-blue-400 hover:text-blue-300"
-                                    >
-                                      <FaGlobe size={14} />
-                                    </a>
-                                  )}
-                                </div>
-                              </div>
+                              <iframe 
+                                src={podcast.link.replace('episode/', 'embed/episode/')} 
+                                width="100%" 
+                                height="152" 
+                                frameBorder="0" 
+                                allow="encrypted-media"
+                                title={podcast.title}
+                                className="rounded"
+                              ></iframe>
                             </div>
                           )}
                         </div>
@@ -534,45 +724,45 @@ const Loft = () => {
                 
                 {/* Art Gallery in the center */}
                 <div className="bg-slate-200/60 backdrop-blur-sm p-5 rounded-lg shadow-md">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center">
-                      <FaPaintBrush className="text-slate-700 mr-2" />
-                      <h2 className="text-xl font-heading text-slate-700">Art Gallery</h2>
-                    </div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <FaPaintBrush className="text-slate-700 mr-2" />
+                    <h2 className="text-xl font-heading text-slate-700">Art Gallery</h2>
                   </div>
-                  
-                  {/* Framed Picture with Navigation */}
-                  <div className="bg-white p-3 rounded-sm shadow-md border border-slate-300 aspect-square relative">
+                </div>
+                
+                {/* Framed Picture with Navigation */}
+                <div className="bg-white p-3 rounded-sm shadow-md border border-slate-300 aspect-square relative">
                     {/* Picture Frame with decorative border */}
                     <div className="absolute inset-0 border-8 border-amber-800/30 rounded-sm pointer-events-none z-20"></div>
                     
                     {/* The artwork */}
                     <div className="relative w-full h-full overflow-hidden">
-                      <img 
-                        src={artworks[selectedArtwork].imageUrl} 
-                        alt={artworks[selectedArtwork].title}
-                        className="w-full h-full object-cover"
-                      />
-                      
-                      {/* Artwork info overlay at bottom */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm text-white p-3">
-                        <h3 className="font-heading text-lg">{artworks[selectedArtwork].title}</h3>
-                        <p className="text-sm text-white/80">{artworks[selectedArtwork].creator} • {artworks[selectedArtwork].year}</p>
-                      </div>
-                      
-                      {/* Navigation controls */}
-                      <button 
-                        onClick={prevArtwork}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
-                      >
-                        <FaChevronLeft />
-                      </button>
-                      <button 
-                        onClick={nextArtwork}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
-                      >
-                        <FaChevronRight />
-                      </button>
+                    <img 
+                      src={artworks[selectedArtwork].imageUrl} 
+                      alt={artworks[selectedArtwork].title}
+                      className="w-full h-full object-cover"
+                    />
+                    
+                    {/* Artwork info overlay at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm text-white p-3">
+                      <h3 className="font-heading text-lg">{artworks[selectedArtwork].title}</h3>
+                      <p className="text-sm text-white/80">{artworks[selectedArtwork].creator} • {artworks[selectedArtwork].year}</p>
+                    </div>
+                    
+                    {/* Navigation controls */}
+                    <button 
+                      onClick={prevArtwork}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
+                    >
+                      <FaChevronLeft />
+                    </button>
+                    <button 
+                      onClick={nextArtwork}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full"
+                    >
+                      <FaChevronRight />
+                    </button>
                       
                       {/* Fullscreen button */}
                       <button 
@@ -585,20 +775,20 @@ const Loft = () => {
                       >
                         <FaExpand size={14} />
                       </button>
-                    </div>
                   </div>
-                  
-                  {/* Artwork description */}
-                  <div className="mt-4 bg-white/70 p-4 rounded shadow-sm">
-                    <p className="text-slate-700 text-sm">{artworks[selectedArtwork].description}</p>
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {artworks[selectedArtwork].tags?.map((tag, tagIndex) => (
-                        <span key={tagIndex} className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-xs">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                </div>
+                
+                {/* Artwork description */}
+                <div className="mt-4 bg-white/70 p-4 rounded shadow-sm">
+                  <p className="text-slate-700 text-sm">{artworks[selectedArtwork].description}</p>
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    {artworks[selectedArtwork].tags?.map((tag, tagIndex) => (
+                      <span key={tagIndex} className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-xs">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
+                </div>
                   
                   {/* Artwork thumbnails preview */}
                   <div className="mt-4 flex gap-1 overflow-x-auto py-2">
@@ -616,15 +806,15 @@ const Loft = () => {
                       </div>
                     ))}
                   </div>
-                </div>
-                
+              </div>
+              
                 {/* Music Player (Tablet) */}
                 <div className="bg-slate-900 p-5 rounded-lg shadow-lg border-2 border-slate-800">
-                  <div className="flex items-center mb-4">
+                <div className="flex items-center mb-4">
                     <FaMusic className="text-slate-300 mr-2" />
                     <h2 className="text-xl font-heading text-slate-300">Music Lounge</h2>
-                  </div>
-                  
+                </div>
+                
                   {/* Tablet-like music player */}
                   <div className="bg-black rounded-lg overflow-hidden border border-slate-700 shadow-inner">
                     {/* Tablet header with camera */}
@@ -634,31 +824,61 @@ const Loft = () => {
                     
                     {/* Music video/thumbnail container */}
                     <div className="aspect-video bg-black relative">
-                      <img 
-                        src="/world-mk1/assets/images/music-placeholder.jpg" 
-                        alt="Music visualizer" 
-                        className="w-full h-full object-cover opacity-80"
-                      />
-                      
-                      {/* Play button overlay */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <button className="w-16 h-16 flex items-center justify-center bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full text-white">
-                          <FaPlay size={24} />
-                        </button>
-                        
-                        {/* Theatre mode button */}
-                        <button className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full">
-                          <FaTv size={14} />
-                        </button>
-                      </div>
-                    </div>
+                      {activeMusic !== null ? (
+                        <iframe 
+                          width="100%" 
+                          height="100%" 
+                          src={`https://www.youtube.com/embed/${getYoutubeId(music[activeMusic].link)}`}
+                          title={music[activeMusic].title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0"
+                        ></iframe>
+                      ) : (
+                        <>
+                          <img 
+                            src="/world-mk1/assets/images/music-placeholder.jpg" 
+                            alt="Music visualizer" 
+                            className="w-full h-full object-cover opacity-80"
+                          />
+                          
+                          {/* Play button overlay */}
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <button 
+                              className="w-16 h-16 flex items-center justify-center bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full text-white"
+                              onClick={() => setActiveMusic(1)}
+                            >
+                              <FaPlay size={24} />
+                            </button>
+                            
+                            {/* Theatre mode button */}
+                            <button className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full">
+                              <FaTv size={14} />
+                            </button>
+                          </div>
+                        </>
+                      )}
+                  </div>
+                  
+                    {/* Close button for active video */}
+                    {activeMusic !== null && (
+                      <button
+                        onClick={() => setActiveMusic(null)}
+                        className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full z-10"
+                        aria-label="Close video"
+                      >
+                        &times;
+                      </button>
+                    )}
                     
                     {/* Music playlist */}
                     <div className="p-3 space-y-2">
-                      {music.slice(0, 3).map((item, index) => (
-                        <div 
-                          key={index}
-                          className="flex items-center gap-2 p-2 rounded bg-slate-800/50 hover:bg-slate-800 cursor-pointer"
+                      {music.map((item, index) => (
+                      <div 
+                        key={index} 
+                          className={`flex items-center gap-2 p-2 rounded ${activeMusic === index ? 'bg-slate-800 ring-1 ring-blue-500' : 'bg-slate-800/50 hover:bg-slate-800'} cursor-pointer`}
+                          onClick={() => setActiveMusic(index)}
                         >
                           <div className="flex-shrink-0 w-10 h-10 bg-slate-700 rounded overflow-hidden">
                             <img 
@@ -671,112 +891,107 @@ const Loft = () => {
                             <h3 className="text-white text-sm font-medium truncate">{item.title}</h3>
                             <p className="text-slate-400 text-xs truncate">{item.creator}</p>
                           </div>
-                          <a 
-                            href={item.link} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                          <button 
                             className="p-2 text-slate-400 hover:text-white"
                           >
-                            <FaPlay size={12} />
-                          </a>
+                            {activeMusic === index ? <FaPause size={12} /> : <FaPlay size={12} />}
+                          </button>
                         </div>
                       ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+                                </div>
+                              </div>
+                              </div>
+                            </div>
               
               {/* Inspirational Quotes - Full width */}
-              <div className="lg:col-span-12 my-6">
-                <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-pink-800 rounded-lg shadow-lg p-8 text-center">
-                  <div className="flex justify-center mb-4">
-                    <FaQuoteLeft className="text-white/60 text-3xl" />
-                  </div>
-                  <blockquote className="text-white text-xl md:text-2xl font-heading italic mb-4">
+              <div className="lg:col-span-12 my-4">
+                <div className="bg-gradient-to-r from-slate-900 to-slate-700 rounded-lg shadow-md p-6 text-center">
+                  <blockquote className="text-white text-xl md:text-2xl font-heading italic mb-3">
                     "The future belongs to those who believe in the beauty of their dreams."
                   </blockquote>
-                  <cite className="text-white/80 text-sm md:text-base font-medium">— Eleanor Roosevelt</cite>
+                  <cite className="text-white/90 block">— Eleanor Roosevelt</cite>
                   
-                  <div className="mt-6 flex justify-center gap-4">
-                    <button className="text-white/70 hover:text-white transition-colors">
-                      <FaArrowLeft size={18} />
+                  <div className="mt-4 flex justify-center items-center gap-3">
+                    <button className="text-white/70 hover:text-white transition-colors p-2" aria-label="Previous quote">
+                      <FaChevronLeft size={16} />
                     </button>
-                    <button className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm transition-colors">
+                    <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-md text-sm transition-colors">
                       New Quote
                     </button>
-                    <button className="text-white/70 hover:text-white transition-colors">
-                      <FaArrowRight size={18} />
+                    <button className="text-white/70 hover:text-white transition-colors p-2" aria-label="Next quote">
+                      <FaChevronRight size={16} />
                     </button>
                   </div>
                 </div>
               </div>
               
               {/* Gaming Corner and World Building - Bottom sections */}
-              <div className="lg:col-span-6 bg-slate-800 p-5 rounded-lg shadow-lg border-2 border-slate-700">
-                <div className="flex items-center mb-4">
-                  <FaGamepad className="text-slate-300 mr-2" />
-                  <h2 className="text-xl font-heading text-slate-300">Gaming Corner</h2>
-                </div>
-                
-                {/* Gaming setup display */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Featured game */}
-                  <div className="bg-slate-900 rounded-lg overflow-hidden border border-slate-700">
-                    <div className="aspect-video relative">
+              <div className="lg:col-span-6">
+                <div className="bg-slate-800 rounded-lg shadow-md overflow-hidden">
+                  <div className="p-4 border-b border-slate-700">
+                    <div className="flex items-center">
+                      <FaGamepad className="text-slate-300 mr-2" />
+                      <h2 className="text-lg font-heading text-slate-300">Gaming Corner</h2>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row">
+                    {/* Gaming Setup Image */}
+                    <div className="sm:w-1/2 relative">
                       <img 
                         src="/world-mk1/assets/images/gaming-setup.jpg" 
                         alt="Gaming Setup" 
                         className="w-full h-full object-cover"
+                        style={{maxHeight: "220px"}}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-3">
-                        <h3 className="text-white font-medium text-lg">Current Setup</h3>
-                        <p className="text-white/70 text-sm">Optimized for immersive worlds</p>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                        <h3 className="text-white font-medium">Current Setup</h3>
+                        <p className="text-white/70 text-xs">Optimized for immersive worlds</p>
                       </div>
                     </div>
-                  </div>
-                  
-                  {/* Game collection */}
-                  <div className="bg-slate-900 rounded-lg p-3 border border-slate-700">
-                    <h3 className="text-white text-base font-medium mb-2">Current Games</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center gap-2 text-slate-300 hover:text-white cursor-pointer">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        No Man's Sky
-                      </li>
-                      <li className="flex items-center gap-2 text-slate-300 hover:text-white cursor-pointer">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        The Witcher 3
-                      </li>
-                      <li className="flex items-center gap-2 text-slate-300 hover:text-white cursor-pointer">
-                        <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                        Cyberpunk 2077
-                      </li>
-                      <li className="flex items-center gap-2 text-slate-300 hover:text-white cursor-pointer">
-                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                        Elden Ring
-                      </li>
-                      <li className="flex items-center gap-2 text-slate-300 hover:text-white cursor-pointer">
-                        <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                        Hollow Knight
-                      </li>
-                    </ul>
                     
-                    <div className="mt-3 pt-2 border-t border-slate-700">
-                      <div className="flex justify-between text-xs text-slate-400">
-                        <span>Legend:</span>
-                        <div className="flex items-center gap-4">
-                          <div className="flex items-center gap-1">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                            <span>Playing</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                            <span>On hold</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                            <span>Next</span>
+                    {/* Game list */}
+                    <div className="sm:w-1/2 p-4 bg-slate-900">
+                      <h3 className="text-white text-sm font-medium mb-3">Current Games</h3>
+                      <ul className="space-y-1.5 text-sm">
+                        <li className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                          <span className="text-slate-300">Sea of Thieves</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                          <span className="text-slate-300">FTL: Faster Than Light</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                          <span className="text-slate-300">Dune Awakening</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                          <span className="text-slate-300">Subnautica</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                          <span className="text-slate-300">Valheim</span>
+                        </li>
+                      </ul>
+                      
+                      <div className="mt-3 pt-2 border-t border-slate-700">
+                        <div className="flex justify-between items-center text-xs text-slate-400">
+                          <span>Legend:</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                              <span>Playing</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                              <span>Completed</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                              <span>Next</span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -786,82 +1001,86 @@ const Loft = () => {
               </div>
               
               {/* World Building Workshop */}
-              <div className="lg:col-span-6 bg-slate-200/60 backdrop-blur-sm p-5 rounded-lg shadow-md">
-                <div className="flex items-center mb-4">
-                  <GiWorld className="text-slate-700 mr-2" />
-                  <h2 className="text-xl font-heading text-slate-700">World Building Workshop</h2>
-                </div>
-                
-                {/* World projects grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Project 1 */}
-                  <div className="bg-white/70 rounded-lg overflow-hidden shadow-md border border-slate-300">
-                    <div className="aspect-video relative">
-                      <img 
-                        src="/world-mk1/assets/images/world-1.jpg" 
-                        alt="Fantasy World" 
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                        Three.js
-                      </div>
-                    </div>
-                    <div className="p-3">
-                      <h3 className="font-medium text-slate-900">Fantasy Realm</h3>
-                      <p className="text-xs text-slate-600 mt-1">Interactive medieval world with dynamic lighting</p>
-                      <div className="mt-2 flex justify-between items-center">
-                        <span className="text-xs text-slate-500">In progress</span>
-                        <button className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-2 py-1 rounded">
-                          Explore
-                        </button>
-                      </div>
+              <div className="lg:col-span-6">
+                <div className="bg-slate-100 rounded-lg shadow-md overflow-hidden">
+                  <div className="p-4 border-b border-slate-200">
+                    <div className="flex items-center">
+                      <GiWorld className="text-slate-700 mr-2" />
+                      <h2 className="text-lg font-heading text-slate-700">World Building Workshop</h2>
                     </div>
                   </div>
                   
-                  {/* Project 2 */}
-                  <div className="bg-white/70 rounded-lg overflow-hidden shadow-md border border-slate-300">
-                    <div className="aspect-video relative">
-                      <img 
-                        src="/world-mk1/assets/images/world-2.jpg" 
-                        alt="Space Station" 
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full">
-                        Babylon.js
+                  {/* World projects grid */}
+                  <div className="p-4 grid grid-cols-3 gap-3">
+                    {/* Project 1 */}
+                    <div className="rounded-lg overflow-hidden shadow-sm bg-white border border-slate-200">
+                      <div className="relative">
+                        <img 
+                          src="/world-mk1/assets/images/world-1.jpg" 
+                          alt="Fantasy World" 
+                          className="w-full aspect-video object-cover"
+                        />
+                        <div className="absolute top-1 right-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded text-center">
+                          Three.js
+                        </div>
+                      </div>
+                      <div className="p-2">
+                        <h3 className="font-medium text-slate-900 text-sm">Fantasy Realm</h3>
+                        <p className="text-xs text-slate-600 line-clamp-1 mt-0.5">Interactive medieval world</p>
+                        <div className="mt-1.5 flex justify-between items-center">
+                          <span className="text-xs text-slate-500">In progress</span>
+                          <a href="#" className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-2 py-0.5 rounded">
+                            Explore
+                          </a>
+                        </div>
                       </div>
                     </div>
-                    <div className="p-3">
-                      <h3 className="font-medium text-slate-900">Space Station Alpha</h3>
-                      <p className="text-xs text-slate-600 mt-1">Orbital habitat with physics simulation</p>
-                      <div className="mt-2 flex justify-between items-center">
-                        <span className="text-xs text-slate-500">Planning</span>
-                        <button className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-2 py-1 rounded">
-                          Preview
-                        </button>
+                    
+                    {/* Project 2 */}
+                    <div className="rounded-lg overflow-hidden shadow-sm bg-white border border-slate-200">
+                      <div className="relative">
+                        <img 
+                          src="/world-mk1/assets/images/world-2.jpg" 
+                          alt="Space Station" 
+                          className="w-full aspect-video object-cover"
+                        />
+                        <div className="absolute top-1 right-1 bg-purple-500 text-white text-xs px-1.5 py-0.5 rounded text-center">
+                          Babylon.js
+                        </div>
+                      </div>
+                      <div className="p-2">
+                        <h3 className="font-medium text-slate-900 text-sm">Space Station Alpha</h3>
+                        <p className="text-xs text-slate-600 line-clamp-1 mt-0.5">Orbital habitat simulation</p>
+                        <div className="mt-1.5 flex justify-between items-center">
+                          <span className="text-xs text-slate-500">Planning</span>
+                          <a href="#" className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-2 py-0.5 rounded">
+                            Preview
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  
-                  {/* Project 3 */}
-                  <div className="bg-white/70 rounded-lg overflow-hidden shadow-md border border-slate-300">
-                    <div className="aspect-video relative">
-                      <img 
-                        src="/world-mk1/assets/images/world-3.jpg" 
-                        alt="Underwater World" 
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                        A-Frame
+                    
+                    {/* Project 3 */}
+                    <div className="rounded-lg overflow-hidden shadow-sm bg-white border border-slate-200">
+                      <div className="relative">
+                        <img 
+                          src="/world-mk1/assets/images/world-3.jpg" 
+                          alt="Underwater World" 
+                          className="w-full aspect-video object-cover"
+                        />
+                        <div className="absolute top-1 right-1 bg-green-500 text-white text-xs px-1.5 py-0.5 rounded text-center">
+                          A-Frame
+                        </div>
                       </div>
-                    </div>
-                    <div className="p-3">
-                      <h3 className="font-medium text-slate-900">Oceanic Depths</h3>
-                      <p className="text-xs text-slate-600 mt-1">Underwater ecosystem with procedural generation</p>
-                      <div className="mt-2 flex justify-between items-center">
-                        <span className="text-xs text-slate-500">Concept</span>
-                        <button className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-2 py-1 rounded">
-                          Idea Board
-                        </button>
+                      <div className="p-2">
+                        <h3 className="font-medium text-slate-900 text-sm">Oceanic Depths</h3>
+                        <p className="text-xs text-slate-600 line-clamp-1 mt-0.5">Underwater ecosystem</p>
+                        <div className="mt-1.5 flex justify-between items-center">
+                          <span className="text-xs text-slate-500">Concept</span>
+                          <a href="#" className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-2 py-0.5 rounded">
+                            Idea Board
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
