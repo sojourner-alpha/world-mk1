@@ -142,7 +142,8 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
             </Link>
             <button 
               onClick={toggleExpand} 
-              className="expand-btn text-xs text-gray-300 hover:text-white flex items-center justify-center gap-1 py-1"
+              className="expand-btn text-xs md:text-sm text-gray-300 hover:text-white flex items-center justify-center gap-1 py-1 px-2 rounded transition-all duration-300"
+              aria-label={expanded ? "Show less information" : "Show more information"}
             >
               {expanded ? 'Less info' : 'More info'}
               <span className={`transform transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}>

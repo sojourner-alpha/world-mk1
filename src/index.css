@@ -301,25 +301,25 @@
   /* Mobile-specific card styles */
   @media (max-width: 767px) {
     .cards-container {
-      @apply flex flex-col gap-4;
-      padding: 0 12px 20px 12px;
+      @apply flex flex-col gap-8; /* Increased gap for better visual separation */
+      padding: 0 12px 20px 12px; /* Original padding, but with increased gap */
     }
     
     .card-container {
       max-width: 100%;
-      width: 90%; /* Use percentage width on mobile */
-      height: 40vh; /* Slightly smaller on mobile */
-      min-height: 250px; /* Minimum height for very small screens */
-      max-height: 400px; /* Maximum height for large screens on mobile */
+      width: 90%; /* Original wider width */
+      height: 40vh; /* Original height percentage */
+      min-height: 280px; /* Keep increased minimum height */
+      max-height: 450px; /* Keep increased maximum height */
       margin: 0 auto;
     }
     
     .portal-card {
-      min-height: 300px; /* Match container height */
+      min-height: 280px; /* Match container height */
     }
     
     .portal-card-image {
-      min-height: 300px; /* Match container height */
+      min-height: 280px; /* Match container height */
     }
     
     .card-description {
@@ -328,17 +328,17 @@
     }
     
     .card-description h3 {
-      @apply text-base mb-2;
+      @apply text-lg mb-2; /* Larger heading */
     }
     
     .card-description p {
-      @apply text-xs leading-tight;
+      @apply text-sm leading-relaxed; /* Larger paragraph text with better line height */
     }
     
     .portal-card-content {
-      @apply p-4;
-      min-height: 70px; /* Shorter content area on mobile */
-      width: 95%;  /* Slightly wider on mobile */
+      @apply p-5; /* Increased padding */
+      min-height: 80px; /* Keep taller content area on mobile */
+      width: 95%;  /* Original width */
       bottom: 4%; /* Adjust bottom position for mobile */
     }
     
@@ -351,36 +351,38 @@
     }
     
     .portal-card-content h2 {
-      @apply text-base;
+      @apply text-xl mb-2; /* Larger title with more space below */
     }
     
     .portal-card-content p {
-      @apply text-xs mb-2;
+      @apply text-sm mb-3; /* Larger text with more space below */
     }
     
     .portal-card-content .btn {
-      @apply py-1 px-3 text-xs;
+      @apply py-2 px-4 text-base font-medium; /* Larger, more prominent button */
     }
     
-    /* Adjust call-to-action text for mobile */
-    .call-to-action {
-      @apply mb-4;
-      font-size: 0.9rem;
+    /* Make expand button larger and more touch friendly */
+    .expand-btn {
+      @apply text-sm py-2;
+      position: relative;
+      z-index: 20;
+      border-radius: 0.25rem;
+      background-color: rgba(0, 0, 0, 0.3);
+      margin-top: 0.25rem;
+      width: 100%;
     }
     
-    /* Adjust open source disclaimer for mobile */
-    .open-source-disclaimer {
-      @apply mt-4 px-4;
-      font-size: 0.8rem;
+    .expand-btn:hover, .expand-btn:active {
+      background-color: rgba(0, 0, 0, 0.5);
     }
     
-    /* Adjust footer social icons for mobile */
-    footer .social-icon {
-      @apply w-8 h-8;
-    }
-    
-    footer .social-icon svg {
-      @apply scale-75;
+    /* Add some emphasis to the expand button icon */
+    .expand-btn span {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      font-size: 1rem;
+      margin-left: 0.25rem;
     }
   }
 
