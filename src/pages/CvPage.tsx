@@ -81,7 +81,7 @@ const CvPage: React.FC = () => {
             </Link>
             <div className="flex space-x-4">
               <a 
-                href="/curtis_lederle_cv.pdf" 
+                href="/world-mk1/curtis_lederle_cv.pdf" 
                 download
                 className="flex items-center px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
               >
