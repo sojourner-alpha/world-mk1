@@ -16,6 +16,14 @@ const CvPage: React.FC = () => {
     const cv = cvRef.current;
     
     try {
+      // Create a PDF with links enabled
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'in',
+        format: [8.5, 11]
+      });
+      
+      // Use html2canvas with higher quality settings
       const canvas = await html2canvas(cv, {
         scale: 2, // Higher scale for better quality
         useCORS: true,
@@ -24,17 +32,32 @@ const CvPage: React.FC = () => {
       });
       
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'in',
-        format: [8.5, 11]
-      });
       
       // Calculate dimensions
       const imgWidth = 8.5;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
+      // Add the image to the PDF
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      
+      // Find and add hyperlinks to the PDF
+      if (cvRef.current) {
+        const links = cvRef.current.querySelectorAll('a');
+        links.forEach(link => {
+          const rect = link.getBoundingClientRect();
+          const cvRect = cv.getBoundingClientRect();
+          
+          // Calculate relative position in PDF coordinates
+          const x = (rect.left - cvRect.left) * imgWidth / cvRect.width;
+          const y = (rect.top - cvRect.top) * imgHeight / cvRect.height;
+          const width = rect.width * imgWidth / cvRect.width;
+          const height = rect.height * imgHeight / cvRect.height;
+          
+          // Add link annotation to PDF
+          pdf.link(x, y, width, height, { url: link.href });
+        });
+      }
+      
       pdf.save('curtis_lederle_cv.pdf');
       
     } catch (error) {
@@ -98,6 +121,7 @@ const CvPage: React.FC = () => {
         <div className="mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg">
           <p className="font-medium">Preview of your CV resume above. Click one of the download buttons to save as PDF.</p>
           <p className="text-sm mt-2">The "Generate Fresh PDF" option creates a PDF from the most current version with any updates.</p>
+          <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
         </div>
       </div>
     </div>

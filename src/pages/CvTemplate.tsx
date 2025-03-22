@@ -60,20 +60,23 @@ const careerHighlights = [
     achievements: [
       "Led APAC expansion of acquired tech",
       "Point of contact for Corp. Dev. M&A team"
-    ]
-  },
-  {
-    company: "Smooch.io",
-    role: "Director of Business Development",
-    period: "2016 - 2019",
-    description: "Unified API communication platform for businesses to manage customer conversations across multiple channels.",
-    achievements: [
-      "20x revenue multiple at acquisition",
-      "Closed 25% of revenue deals",
-      "First business hire under C-Suite"
-    ]
+    ],
+    hasAcquisition: true
   },
 ];
+
+// Acquisition data (Smooch.io was acquired by Zendesk)
+const acquisitionData = {
+  company: "Smooch.io",
+  role: "Director of Business Development",
+  period: "2016 - 2019",
+  description: "Unified API communication platform for businesses to manage customer conversations across multiple channels.",
+  achievements: [
+    "20x revenue multiple at acquisition",
+    "Closed 25% of revenue deals",
+    "First business hire under C-Suite"
+  ]
+};
 
 // Education data
 const education = [
@@ -167,7 +170,10 @@ const CvTemplate: React.FC = () => {
         <h2 className="text-base font-semibold border-b border-gray-300 pb-1 mb-3">Professional Experience</h2>
         <div className="space-y-3">
           {careerHighlights.map((job, index) => (
-            <div key={index} className="text-sm">
+            <div 
+              key={index} 
+              className={`text-sm ${index < careerHighlights.length - 1 ? 'pb-3 border-b border-gray-200' : ''}`}
+            >
               <div className="flex justify-between">
                 <div>
                   <span className="font-bold">{job.company}</span> | {job.role}
@@ -184,6 +190,32 @@ const CvTemplate: React.FC = () => {
                     </li>
                   ))}
                 </ul>
+              )}
+              
+              {/* Render acquisition info if this job has an acquisition */}
+              {job.hasAcquisition && (
+                <div className="mt-2 relative">
+                  {/* Acquisition block with left border */}
+                  <div className="pl-3 border-l-2 border-blue-400">
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="font-bold">{acquisitionData.company}</span> | {acquisitionData.role}
+                      </div>
+                      <span className="text-gray-600">{acquisitionData.period}</span>
+                    </div>
+                    <p className="text-xs mt-1 leading-snug">{acquisitionData.description}</p>
+                    {acquisitionData.achievements && (
+                      <ul className="text-xs mt-1 text-gray-700 pl-4">
+                        {acquisitionData.achievements.map((achievement, i) => (
+                          <li key={i} className="leading-tight ml-2 relative">
+                            <span className="absolute -left-4">•</span>
+                            {achievement}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
           ))}
@@ -264,7 +296,7 @@ const CvTemplate: React.FC = () => {
 
       {/* Footer */}
       <footer className="text-center text-xs text-gray-500 mt-auto pt-4">
-        <p>References available upon request</p>
+        <p>References and earlier prior experience available upon request</p>
       </footer>
     </div>
   );
