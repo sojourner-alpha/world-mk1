@@ -67,8 +67,8 @@ const careerHighlights = [
 
 // Acquisition data (Smooch.io was acquired by Zendesk)
 const acquisitionData = {
-  company: "Smooch.io",
-  role: "Director of Business Development",
+  company: "Smooch.io (acquired by Zendesk)",
+  role: "Director of Business Development  ",
   period: "2016 - 2019",
   description: "Unified API communication platform for businesses to manage customer conversations across multiple channels.",
   achievements: [
@@ -90,13 +90,13 @@ const education = [
     institution: "MIT edX",
     degree: "Professional Certificate",
     field: "Probability & Finance",
-    period: "2021-2024",
+    period: "2021 - 2024",
   },
   {
     institution: "Self Guided",
     degree: "Technical Development",
     field: "Python, React, SQL, HTML, Three.js, MCP",
-    period: "2022 - Present",
+    period: "2022 - 2025",
   }
 ];
 
