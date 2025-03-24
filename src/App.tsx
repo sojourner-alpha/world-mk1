@@ -520,7 +520,7 @@ const Home = () => {
             <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800">
               Welcome to my world(s).
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-4 animate-slide-up" style={{ animationDelay: '2s' }}>
+            <p className="text-xl md:text-2xl text-slate-600 mb-4 animate-slide-up" style={{ animationDelay: '1s' }}>
               Where engineering meets imagination and data powers discovery.
             </p>
             
@@ -544,7 +544,7 @@ const Home = () => {
                     tagColor="tag-green"
                     longDescription={portalDescriptions.workshop}
                     shadowActive={shadowsActive}
-                    animationDelay="3s"
+                    animationDelay="1.5s"
                   />
                 </div>
                 <div className="card-container md:w-auto">
@@ -557,7 +557,7 @@ const Home = () => {
                     tagColor="tag-blue"
                     longDescription={portalDescriptions.loft}
                     shadowActive={shadowsActive}
-                    animationDelay="4s"
+                    animationDelay="2s"
                   />
                 </div>
                 <div className="card-container md:w-auto">
@@ -570,7 +570,7 @@ const Home = () => {
                     tagColor="tag-amber"
                     longDescription={portalDescriptions.observatory}
                     shadowActive={shadowsActive}
-                    animationDelay="5s"
+                    animationDelay="2.5s"
                   />
                 </div>
               </div>
