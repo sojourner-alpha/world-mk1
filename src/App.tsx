@@ -290,31 +290,7 @@ const WorkshopSection = () => (
             <div className="text-left w-full">
               <p className="text-lg mb-6">My work space. A professional portfolio featuring open source projects, technical skills, and career history with links to GitHub, LinkedIn, and CV.</p>
             </div>
-            <Link to="/workshop" className="btn btn-primary content-button"><span>Enter Workshop</span></Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const LoftSection = () => (
-  <section id="loft" className="scroll-section relative">
-    <div className="section-transition top"></div>
-    <div className="absolute inset-0 z-0">
-      <img src={loftImage} alt="Loft" className="w-full h-full object-cover object-center" style={{aspectRatio: "16/9"}} />
-      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-    </div>
-    <div className="section-transition bottom"></div>
-    <div className="container-wide relative z-10 h-full flex items-center">
-      <div className="max-w-lg ml-auto mr-20 text-white">
-        <div className="content-container content-container-right">
-          <h2 className="section-title text-white content-title text-center">Loft</h2>
-          <div className="content-text">
-            <div className="text-left w-full">
-              <p className="text-lg mb-6">Just for fun. A creative outlet and showcase of books, media, hobbies and games that have shaped my perspective and sparked my imagination.</p>
-            </div>
-            <Link to="/loft" className="btn btn-primary content-button"><span>Explore Loft</span></Link>
+            <Link to="/workshop" className="btn btn-primary content-button"><span>Enter</span></Link>
           </div>
         </div>
       </div>
@@ -331,14 +307,38 @@ const ObservatorySection = () => (
     </div>
     <div className="section-transition bottom"></div>
     <div className="container-wide relative z-10 h-full flex items-center">
-      <div className="max-w-lg mr-auto ml-20 text-white">
-        <div className="content-container content-container-left">
+      <div className="max-w-lg ml-auto mr-20 text-white">
+        <div className="content-container content-container-right">
           <h2 className="section-title text-white content-title text-center">Observatory</h2>
           <div className="content-text">
             <div className="text-left w-full">
               <p className="text-lg mb-6">Where I try to extend my mind beyond the horizon. A lookout point into markets, mental models and meditations on the present and future.</p>
             </div>
-            <Link to="/observatory" className="btn btn-primary content-button"><span>Consider Observatory</span></Link>
+            <Link to="/observatory" className="btn btn-primary content-button"><span>Consider</span></Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const LoftSection = () => (
+  <section id="loft" className="scroll-section relative">
+    <div className="section-transition top"></div>
+    <div className="absolute inset-0 z-0">
+      <img src={loftImage} alt="Loft" className="w-full h-full object-cover object-center" style={{aspectRatio: "16/9"}} />
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+    </div>
+    <div className="section-transition bottom"></div>
+    <div className="container-wide relative z-10 h-full flex items-center">
+      <div className="max-w-lg mr-auto ml-20 text-white">
+        <div className="content-container content-container-left">
+          <h2 className="section-title text-white content-title text-center">Loft</h2>
+          <div className="content-text">
+            <div className="text-left w-full">
+              <p className="text-lg mb-6">Just for fun. A creative outlet and showcase of books, media, hobbies and games that have shaped my perspective and sparked my imagination.</p>
+            </div>
+            <Link to="/loft" className="btn btn-primary content-button"><span>Explore</span></Link>
           </div>
         </div>
       </div>
@@ -367,7 +367,7 @@ const CrossroadsSection = () => (
             <div className="text-left w-full">
               <p className="text-lg mb-6">Coming soon... A digital meeting place designed for create collaboration and community.</p>
             </div>
-            <Link to="/crossroads" className="btn btn-primary content-button"><span>Join At Crossroads</span></Link>
+            <Link to="/crossroads" className="btn btn-primary content-button"><span>Connect</span></Link>
           </div>
         </div>
       </div>
@@ -533,8 +533,8 @@ const Home = () => {
           {/* Portal Cards Row */}
           <div className="flex items-center justify-center py-4">
             <div className="w-full">
-              <div className="cards-container flex flex-col md:flex-row items-center justify-center gap-12 md:gap-4 px-4 mb-16 md:mb-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                <div className="card-container md:w-auto">
+              <div className="cards-container flex flex-col md:flex-row items-center justify-center gap-12 md:gap-36 px-4 mb-16 md:mb-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <div className="card-container md:w-auto md:-mx-0">
                   <PortalCard 
                     title="Workshop" 
                     description="Professional portfolio & skills" 
@@ -547,20 +547,7 @@ const Home = () => {
                     animationDelay="1.5s"
                   />
                 </div>
-                <div className="card-container md:w-auto">
-                  <PortalCard 
-                    title="Loft" 
-                    description="Hobbies & creative pursuits" 
-                    image={loftImage} 
-                    link="/loft"
-                    tag="CREATIVE"
-                    tagColor="tag-blue"
-                    longDescription={portalDescriptions.loft}
-                    shadowActive={shadowsActive}
-                    animationDelay="2s"
-                  />
-                </div>
-                <div className="card-container md:w-auto">
+                <div className="card-container md:w-auto md:-mx-0">
                   <PortalCard 
                     title="Observatory" 
                     description="Ideas & future perspectives" 
@@ -569,6 +556,19 @@ const Home = () => {
                     tag="FUTURE"
                     tagColor="tag-amber"
                     longDescription={portalDescriptions.observatory}
+                    shadowActive={shadowsActive}
+                    animationDelay="2s"
+                  />
+                </div>
+                <div className="card-container md:w-auto md:-mx-0">
+                  <PortalCard 
+                    title="Loft" 
+                    description="Hobbies & creative pursuits" 
+                    image={loftImage} 
+                    link="/loft"
+                    tag="CREATIVE"
+                    tagColor="tag-blue"
+                    longDescription={portalDescriptions.loft}
                     shadowActive={shadowsActive}
                     animationDelay="2.5s"
                   />
@@ -636,8 +636,8 @@ const Home = () => {
       {/* Scroll Sections */}
       <div ref={sectionsRef} className="relative z-20">
         <WorkshopSection />
-        <LoftSection />
         <ObservatorySection />
+        <LoftSection />
         <CrossroadsSection />
       </div>
       
