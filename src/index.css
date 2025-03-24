@@ -290,27 +290,23 @@
   }
 
   .cards-container {
-    @apply flex justify-center gap-6 md:gap-8 mx-auto;
-    width: 100%;
-    max-width: 1200px;
-    padding: 2rem 0; /* Add more vertical padding to allow for shadows */
-    position: relative;
-    z-index: 5;
+    @apply flex flex-col gap-8;
+    padding: 0 12px 20px 12px;
   }
   
   /* Mobile-specific card styles */
   @media (max-width: 767px) {
     .cards-container {
       @apply flex flex-col gap-8; /* Increased gap for better visual separation */
-      padding: 0 12px 20px 12px; /* Original padding, but with increased gap */
+      padding: 0 12px 20px 12px;
     }
     
     .card-container {
       max-width: 100%;
-      width: 90%; /* Original wider width */
-      height: 40vh; /* Original height percentage */
-      min-height: 280px; /* Keep increased minimum height */
-      max-height: 450px; /* Keep increased maximum height */
+      width: 90%;
+      height: 40vh;
+      min-height: 280px;
+      max-height: 450px;
       margin: 0 auto;
     }
     
@@ -332,14 +328,14 @@
     }
     
     .card-description p {
-      @apply text-sm leading-relaxed; /* Larger paragraph text with better line height */
+      @apply text-sm leading-relaxed;
     }
     
     .portal-card-content {
-      @apply p-5; /* Increased padding */
-      min-height: 80px; /* Keep taller content area on mobile */
-      width: 95%;  /* Original width */
-      bottom: 4%; /* Adjust bottom position for mobile */
+      @apply p-5;
+      min-height: 80px;
+      width: 95%;
+      bottom: 4%;
     }
     
     .portal-card-content.expanded {
@@ -351,15 +347,15 @@
     }
     
     .portal-card-content h2 {
-      @apply text-xl mb-2; /* Larger title with more space below */
+      @apply text-xl mb-2;
     }
     
     .portal-card-content p {
-      @apply text-sm mb-3; /* Larger text with more space below */
+      @apply text-sm mb-3;
     }
     
     .portal-card-content .btn {
-      @apply py-2 px-4 text-base font-medium; /* Larger, more prominent button */
+      @apply py-2 px-4 text-base font-medium;
     }
     
     /* Make expand button larger and more touch friendly */
@@ -434,8 +430,7 @@
   }
   
   .content-text {
-    transition-delay: 0.4s;
-    @apply flex flex-col items-center; /* Center the text content and button */
+    @apply flex flex-col items-center;
   }
   
   .content-button {
@@ -1006,27 +1001,9 @@
 }
 
 /* Custom animations for firefly */
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.95);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.05);
-  }
-}
+@keyframes pulse-slow { 0%, 100% { opacity: 0.2; transform: scale(0.95); } 50% { opacity: 0.5; transform: scale(1.05); } }
 
-@keyframes pulse-slower {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(0.98);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-}
+@keyframes pulse-slower { 0%, 100% { opacity: 0.6; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.02); } }
 
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
@@ -1054,36 +1031,9 @@
 }
 
 /* Responsive adjustments for firefly */
-@media (max-width: 768px) {
-  .firefly-easter-egg {
-    bottom: 20%;
-    left: 10%;
-    /* Larger touch target for mobile but visually the same size */
-    width: 6px;
-    height: 6px;
-    transform: translate(-1px, -1px);
-  }
-}
+@media (max-width: 768px) { .firefly-easter-egg { bottom: 20%; left: 10%; width: 6px; height: 6px; transform: translate(-1px, -1px); } }
 
-@media (max-width: 480px) {
-  .firefly-easter-egg {
-    bottom: 15%;
-    left: 8%;
-    /* Even larger touch target for small devices */
-    width: 8px;
-    height: 8px;
-    transform: translate(-2px, -2px);
-  }
-}
+@media (max-width: 480px) { .firefly-easter-egg { bottom: 15%; left: 8%; width: 8px; height: 8px; transform: translate(-2px, -2px); } }
 
-@keyframes pulse-glow {
-  0% {
-    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);
-    opacity: 0.7;
-  }
-  100% {
-    box-shadow: 0 0 20px 8px rgba(255, 255, 255, 0.7);
-    opacity: 0.9;
-  }
-}
+@keyframes pulse-glow { 0% { box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5); opacity: 0.7; } 100% { box-shadow: 0 0 20px 8px rgba(255, 255, 255, 0.7); opacity: 0.9; } }
 

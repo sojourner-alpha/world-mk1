@@ -288,7 +288,7 @@ const WorkshopSection = () => (
           <h2 className="section-title text-white content-title text-center">Workshop</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A professional portfolio featuring open source projects, technical skills, and career history with links to GitHub, LinkedIn, and CV.</p>
+              <p className="text-lg mb-6">My work space. A professional portfolio featuring open source projects, technical skills, and career history with links to GitHub, LinkedIn, and CV.</p>
             </div>
             <Link to="/workshop" className="btn btn-primary content-button"><span>Enter Workshop</span></Link>
           </div>
@@ -312,9 +312,9 @@ const LoftSection = () => (
           <h2 className="section-title text-white content-title text-center">Loft</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A creative space showcasing books, art, games, and media that have shaped my perspective and sparked imagination.</p>
+              <p className="text-lg mb-6">Just for fun. A creative outlet and showcase of books, media, hobbies and games that have shaped my perspective and sparked my imagination.</p>
             </div>
-            <Link to="/loft" className="btn btn-primary content-button"><span>Discover Loft</span></Link>
+            <Link to="/loft" className="btn btn-primary content-button"><span>Explore Loft</span></Link>
           </div>
         </div>
       </div>
@@ -336,9 +336,9 @@ const ObservatorySection = () => (
           <h2 className="section-title text-white content-title text-center">Observatory</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A futuristic lookout point where thoughts on emerging technologies, future trends, and speculative ideas come together.</p>
+              <p className="text-lg mb-6">Where I try to extend my mind beyond the horizon. A lookout point into markets, mental models and meditations on the present and future.</p>
             </div>
-            <Link to="/observatory" className="btn btn-primary content-button"><span>Visit Observatory</span></Link>
+            <Link to="/observatory" className="btn btn-primary content-button"><span>Consider Observatory</span></Link>
           </div>
         </div>
       </div>
@@ -365,7 +365,7 @@ const CrossroadsSection = () => (
           <h2 className="section-title text-white content-title text-center">Crossroads</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A central meeting place designed for connection, collaboration, and community engagement.</p>
+              <p className="text-lg mb-6">Coming soon... A digital meeting place designed for create collaboration and community.</p>
             </div>
             <Link to="/crossroads" className="btn btn-primary content-button"><span>Join At Crossroads</span></Link>
           </div>
