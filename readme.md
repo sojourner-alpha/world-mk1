@@ -7,8 +7,8 @@ A digital workshop functioning as a nexus with portals to different "worlds" rep
 This website is designed as an immersive digital experience with distinct portal experiences:
 
 1. **Workshop** - Professional portfolio & skills
-2. **Loft** - Hobbies & creative pursuits
-3. **Observatory** - Ideas & future perspectives
+2. **Observatory** - Ideas & future perspectives
+3. **Loft** - Hobbies & creative pursuits
 4. **Crossroads** - Connect & collaborate
 99. **Origin** - Personal story & journey (easter egg)
 
@@ -21,8 +21,22 @@ This website is designed as an immersive digital experience with distinct portal
 - **Maps**: OpenLayers
 - **Hosting**: GitHub Pages
 - **Version Control**: Git
+- **Building**: Vite
 
 ## Recent Improvements
+
+### Mobile Optimization
+- **Responsive Design**: Thoroughly optimized for mobile devices
+- **CSS Performance**: Fixed minification issues by disabling CSS minification in Vite config
+- **Card Layout**: Improved spacing and interaction on mobile devices
+- **Animation Timing**: Adjusted animation delays for better mobile performance
+
+### Portal Card Enhancements
+- **Spacing Optimization**: Refined card spacing for better desktop presentation
+- **Shadow Effects**: Enhanced shadow animations with responsive adjustments
+- **Interactive Lightbulb**: Optimized lightbulb toggle effect for enabling/disabling card shadows
+- **Card Width**: Adjusted to optimal width for balance between spacing and content display
+- **Z-index Management**: Improved card stacking behavior on hover
 
 ### Workshop Portal
 - **Career Timeline**: Enhanced with detailed role descriptions and key achievements
@@ -40,21 +54,26 @@ This website is designed as an immersive digital experience with distinct portal
 - **Social Media Integration**: Added professional social media links
 - **Navigation**: Enhanced header and footer navigation
 
+### Build Process
+- **Vite Configuration**: Disabled CSS minification to resolve syntax issues with complex CSS
+- **CSS Organization**: Improved structure with proper media queries and keyframe animations
+- **Performance**: Increased chunk size warning limit for better build output
+
 ## Next Steps
 
 ### Phase 1: World Building
 1. **Workshop**
-   - Finalize layout
-   - Create CV download
+   - ✅ Finalize layout
+   - ✅ Create CV download
 
 2. **Loft Portal**
-   - Design creative showcase layout
-   - Add media gallery
+   - ✅ Design creative showcase layout
+   - ✅ Add media gallery
    - Implement three.js
 
 3. **Observatory Portal**
-   - Create thought experiment space
-   - Add prediction timeline
+   - ✅ Create thought experiment space
+   - ✅ Add prediction timeline
    - Critical systems theory research
 
 4. **Crossroads Portal**
@@ -88,7 +107,7 @@ This website is designed as an immersive digital experience with distinct portal
    npm run dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+4. Open your browser and navigate to `http://localhost:5173/world-mk1/`
 
 ## Building for Production
 

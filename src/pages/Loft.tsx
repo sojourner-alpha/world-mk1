@@ -90,12 +90,12 @@ const Loft = () => {
       color: bookColors[2]
     },
     {
-      title: "Sam Altman's Principles",
-      creator: "Sam Altman",
-      year: "2018",
-      description: "A guide to productivity and effective work habits from the CEO of OpenAI, offering insights into how to approach complex problems and achieve success.",
-      tags: ["Productivity", "Leadership", "Tech"],
-      link: "https://blog.samaltman.com/productivity",
+      title: "Steve Jobs",
+      creator: "Walter Isaacson",
+      year: "2011",
+      description: "The definitive biography of Apple co-founder Steve Jobs, offering an unflinching look at the tech visionary's personal life, professional challenges, and revolutionary impact on multiple industries.",
+      tags: ["Biography", "Technology", "Leadership"],
+      link: "https://www.audible.com/pd/Steve-Jobs-Audiobook/B005V0QI82",
       color: bookColors[3]
     },
     {
@@ -108,7 +108,7 @@ const Loft = () => {
       color: bookColors[4]
     },
     {
-      title: "The Coddling of the American Mind",
+      title: "Coddling of the American Mind",
       creator: "Greg Lukianoff & Jonathan Haidt",
       year: "2018",
       description: "An analysis of the three 'Great Untruths' that have spread through society and are harming the development of young adults and undermining educational institutions.",
@@ -549,21 +549,21 @@ const Loft = () => {
               <div className="lg:col-span-12 bg-amber-900/30 p-5 rounded-lg shadow-inner">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
-                  <FaBook className="text-amber-700 mr-2" />
-                  <h2 className="text-xl font-heading text-amber-800">Bookshelf</h2>
+                  <FaBook className="text-slate-700 mr-2" />
+                  <h2 className="text-xl font-heading text-slate-700">Bookshelf</h2>
                   </div>
                   <div className="flex items-center gap-2">
-                    <p className="text-amber-800 text-sm hidden md:block">Click a book to learn more</p>
-                    <div className="text-amber-800/70 flex items-center gap-1 text-xs">
+                    <p className="text-slate-700 text-sm hidden md:block">Click a book to learn more</p>
+                    <div className="text-slate-700 flex items-center gap-1 text-xs">
                       <span>•</span>
-                      <FaArrowRight className="animate-pulse-slow text-amber-700/70" />
+                      <FaArrowRight className="animate-pulse-slow text-slate-700" />
                       <span>Scroll</span>
                     </div>
                   </div>
                 </div>
                 
-                {/* Bookshelf with 3D effect */}
-                <div className="bg-amber-800/40 p-5 rounded shadow-inner border border-amber-700/20 relative">
+                {/* Bookshelf with 3D effect - using the loft's background color */}
+                <div className="bg-slate-200/50 p-5 rounded shadow-inner border border-amber-700/20 relative">
                   {/* Wood grain texture */}
                   <div className="absolute inset-0 opacity-30 mix-blend-overlay">
                     <div className="h-full w-full bg-gradient-to-b from-amber-100/10 to-amber-900/10 rounded"></div>
@@ -572,92 +572,85 @@ const Loft = () => {
                   {/* Books - Horizontal Layout with scroll */}
                   <div className="relative z-10 overflow-x-auto py-2 px-1">
                     {/* Fade gradient for scroll indication */}
-                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-amber-800/40 to-transparent z-10 pointer-events-none"></div>
-                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-amber-800/40 to-transparent z-10 pointer-events-none"></div>
+                    <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-100 to-transparent z-10 pointer-events-none"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-100 to-transparent z-10 pointer-events-none"></div>
                     
                     <div className="flex gap-4 min-w-max pb-2">
                     {books.map((book, index) => (
                       <div 
                         key={index} 
-                        className="relative"
+                        className="relative cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent event bubbling
+                          // Toggle the book selection
+                          setClickedBook(clickedBook === index ? null : index);
+                          // Set center position for all popups
+                          setPopupPosition('center');
+                        }}
                       >
                         {/* Book spine */}
                         <div 
                             className={`${book.color} h-48 md:h-56 w-16 md:w-20 rounded-sm shadow-md flex items-center relative transform transition-all duration-300 ${clickedBook === index ? 'translate-y-2' : ''} hover:brightness-110`}
-                            onClick={(e) => {
-                              // Simply toggle the book selection
-                              setClickedBook(clickedBook === index ? null : index);
-                              // Set center position for all popups
-                              setPopupPosition('center');
-                            }}
                           >
-                            {/* Vertical book title */}
-                            <h3 className={`${book.color === 'bg-white' || book.color === 'bg-slate-200' || book.color === 'bg-slate-300' || book.color === 'bg-slate-400' ? 'text-slate-800' : 'text-white'} font-medium px-2 py-1 text-center absolute inset-0 flex items-center justify-center text-sm origin-center -rotate-90 whitespace-nowrap`}>
+                            {/* Vertical book title - added pointer-events-none to ensure title doesn't interfere with clicks */}
+                            <h3 className={`${book.color === 'bg-white' || book.color === 'bg-slate-200' || book.color === 'bg-slate-300' || book.color === 'bg-slate-400' ? 'text-slate-800' : 'text-white'} font-medium px-2 py-1 text-center absolute inset-0 flex items-center justify-center text-sm origin-center -rotate-90 whitespace-nowrap pointer-events-none`}>
                             {book.title}
                           </h3>
                         </div>
-                        
-                        {/* Book details popup */}
-                        {clickedBook === index && (
-                          <>
-                            {/* Overlay that dims the background */}
-                            <div 
-                              className="fixed inset-0 bg-black/60 z-[9000]" 
-                              onClick={() => setClickedBook(null)}
-                            ></div>
-                            
-                            {/* Book details popup - fixed positioning for mobile compatibility */}
-                            <div 
-                              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] md:w-96 bg-white rounded-lg shadow-2xl p-6 z-[9001] max-h-[80vh] overflow-y-auto"
-                              onClick={(e) => e.stopPropagation()} // Prevent clicks from closing the popup
-                            >
-                              <h4 className="font-heading text-slate-800 text-xl">{book.title}</h4>
-                              <p className="text-slate-600">{book.creator} • {book.year}</p>
-                              <div className="my-3 h-px bg-slate-200"></div>
-                              <p className="text-slate-700 mb-4">{book.description}</p>
-                              
-                              <div className="flex flex-wrap gap-2 mb-4">
-                                {book.tags?.map((tag, tagIndex) => (
-                                  <span key={tagIndex} className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
-                              
-                              {book.link && (
-                                <a 
-                                  href={book.link} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center justify-center gap-2 w-full"
-                                >
-                                  View on Audible
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                  </svg>
-                                </a>
-                              )}
-                              
-                              <button 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setClickedBook(null);
-                                }}
-                                className="absolute top-4 right-4 bg-white rounded-full w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 text-xl"
-                                aria-label="Close book details"
-                              >
-                                ×
-                              </button>
-                            </div>
-                          </>
-                        )}
                       </div>
                     ))}
                     </div>
                   </div>
                   
+                  {/* Book details section that appears below the books */}
+                  {clickedBook !== null && (
+                    <div className="mt-6 bg-white rounded-lg shadow-md p-5 border border-amber-200 transition-all duration-300 ease-in-out md:max-w-2xl mx-auto">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-heading text-slate-800 text-xl">{books[clickedBook].title}</h4>
+                          <p className="text-slate-600">{books[clickedBook].creator} • {books[clickedBook].year}</p>
+                        </div>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setClickedBook(null);
+                          }}
+                          className="bg-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 text-xl"
+                          aria-label="Close book details"
+                        >
+                          ×
+                        </button>
+                      </div>
+                      
+                      <div className="my-3 h-px bg-slate-200"></div>
+                      <p className="text-slate-700 mb-4">{books[clickedBook].description}</p>
+                      
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {books[clickedBook].tags?.map((tag, tagIndex) => (
+                          <span key={tagIndex} className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      
+                      {books[clickedBook].link && (
+                        <a 
+                          href={books[clickedBook].link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center justify-center gap-2 w-full md:w-auto md:inline-flex"
+                        >
+                          View on Audible
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                  
                   {/* Bookshelf bottom wood */}
-                  <div className="h-3 bg-amber-900 mt-4 rounded-b shadow-inner"></div>
+                  <div className="h-3 bg-amber-900/70 mt-4 rounded-b shadow-inner"></div>
                 </div>
               </div>
               
