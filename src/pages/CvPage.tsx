@@ -102,7 +102,7 @@ const CvPage: React.FC = () => {
         </div>
         
         <div className="mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg">
-          <p className="font-medium">Preview of your CV resume above. Click the download button to save as PDF.</p>
+          <p className="font-medium">Click the download button to save as PDF.</p>
           <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
         </div>
       </div>

@@ -39,7 +39,8 @@ const careerHighlights = [
     achievements: [
       "Fundraising readiness for Toronto based startup",
       "ML applications input to a Stanford Lab",
-    ]
+    ],
+    tags: ["Startup", "Consulting", "AI/ML", "Private", "B2B", "Founder"]
   },
   {
     company: "Tread Technologies",
@@ -50,7 +51,8 @@ const careerHighlights = [
       "9x ARR growth in 24 months",
       "500% increased avg. contract size",
       "Deployed CRM, sales ops and website"
-    ]
+    ],
+    tags: ["Startup", "SaaS", "Data Tracking", "Private", "B2B", "First US Employee"]
   },
   {
     company: "Zendesk",
@@ -61,21 +63,23 @@ const careerHighlights = [
       "Led APAC expansion of acquired tech",
       "Point of contact for Corp. Dev. M&A team"
     ],
-    hasAcquisition: true
+    hasAcquisition: true,
+    tags: ["Enterprise", "SaaS", "CRM", "Public", "B2B/B2C"]
   },
 ];
 
 // Acquisition data (Smooch.io was acquired by Zendesk)
 const acquisitionData = {
-  company: "Smooch.io (acquired by Zendesk)",
-  role: "Director of Business Development  ",
+  company: "Smooch Technologies (acquired by Zendesk)",
+  role: "Director of Business Development",
   period: "2016 - 2019",
   description: "Unified API communication platform for businesses to manage customer conversations across multiple channels.",
   achievements: [
     "20x revenue multiple at acquisition",
     "Closed 25% of revenue deals",
     "First business hire under C-Suite"
-  ]
+  ],
+  tags: ["Startup", "APIs", "Messaging", "B2B", "First US Employee"]
 };
 
 // Education data
@@ -134,7 +138,7 @@ const CvTemplate: React.FC = () => {
       boxSizing: 'border-box'
     }}>
       {/* Header */}
-      <header className="flex justify-between items-center mb-6 border-b border-gray-300 pb-4">
+      <header className="flex justify-between items-center mb-6 border-b border-gray-400 pb-4">
         <div>
           <h1 className="text-2xl font-bold" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Curtis James Lederle</h1>
           <p className="text-gray-600">Analyst + Technologist + Investor + Consultant</p>
@@ -159,20 +163,20 @@ const CvTemplate: React.FC = () => {
       {/* Professional Summary */}
       <section className="mb-6">
         <p className="text-sm leading-snug">
-          Partner at Sojourn Insight consulting on AI/ML and operations with proven experience in propelling B2B SaaS growth.
-          Background in scaling startups, driving revenue, and supporting executive decision-making with a unique blend of technical 
+          Partner at Sojourn Insight consulting on AI/ML and operations. Proven experience in propelling B2B SaaS growth.
+          Background in scaling startups, driving revenue, supporting executive decision-making and a unique blend of technical 
           and business expertise.
         </p>
       </section>
 
       {/* Professional Experience */}
       <section className="mb-6">
-        <h2 className="text-base font-semibold border-b border-gray-300 pb-1 mb-3">Professional Experience</h2>
+        <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Professional Experience</h2>
         <div className="space-y-3">
           {careerHighlights.map((job, index) => (
             <div 
               key={index} 
-              className={`text-sm ${index < careerHighlights.length - 1 ? 'pb-3 border-b border-gray-200' : ''}`}
+              className={`text-sm ${index < careerHighlights.length - 1 ? 'pb-3 border-b border-gray-300' : ''}`}
             >
               <div className="flex justify-between">
                 <div>
@@ -180,39 +184,124 @@ const CvTemplate: React.FC = () => {
                 </div>
                 <span className="text-gray-600">{job.period}</span>
               </div>
+              
+              {/* Company tags */}
+              <div className="mt-2.5" style={{ lineHeight: '1.5', marginBottom: '1px' }}>
+                {job.tags.map((tag, tagIndex) => {
+                  const isSpecialTag = tag === "First US Employee" || tag === "Founder";
+                  // Calculate width based on text length (approximate)
+                  const textWidth = tag.length * 6.5; // Approximate width per character
+                  const padding = 16; // 8px padding on each side
+                  const width = textWidth + padding;
+                  
+                  return (
+                    <svg 
+                      key={tagIndex}
+                      width={width}
+                      height="18"
+                      style={{ margin: '0 4px 4px 0' }}
+                      className="inline-block"
+                    >
+                      <rect
+                        x="0"
+                        y="0"
+                        width={width}
+                        height="18"
+                        rx="9"
+                        ry="9"
+                        fill={isSpecialTag ? '#e5e7eb' : '#dbeafe'}
+                      />
+                      <text
+                        x={width / 2}
+                        y="13"
+                        fontSize="12"
+                        textAnchor="middle"
+                        fill={isSpecialTag ? '#374151' : '#1d4ed8'}
+                        style={{ fontFamily: 'Inter, sans-serif' }}
+                      >
+                        {tag}
+                      </text>
+                    </svg>
+                  );
+                })}
+              </div>
+              
               <p className="text-xs mt-1 leading-snug">{job.description}</p>
               {job.achievements && (
-                <ul className="text-xs mt-1 text-gray-700 pl-4">
+                <div className="flex flex-wrap text-xs mt-1 text-gray-700">
                   {job.achievements.map((achievement, i) => (
-                    <li key={i} className="leading-tight ml-2 relative">
-                      <span className="absolute -left-4">•</span>
+                    <span key={i} className="mr-3 flex items-start">
+                      <span className="mr-1 inline-block">•</span>
                       {achievement}
-                    </li>
+                    </span>
                   ))}
-                </ul>
+                </div>
               )}
               
               {/* Render acquisition info if this job has an acquisition */}
               {job.hasAcquisition && (
                 <div className="mt-2 relative">
                   {/* Acquisition block with left border */}
-                  <div className="pl-3 border-l-2 border-blue-400">
+                  <div className="pl-3 border-l-2 border-blue-500">
                     <div className="flex justify-between">
                       <div>
-                        <span className="font-bold">{acquisitionData.company}</span> | {acquisitionData.role}
+                        <span className="font-bold">Smooch Technologies</span>
+                        <span className="italic font-normal"> (acquired by Zendesk)</span> | {acquisitionData.role}
                       </div>
                       <span className="text-gray-600">{acquisitionData.period}</span>
                     </div>
+                    
+                    {/* Company tags for acquisition */}
+                    <div className="mt-2" style={{ lineHeight: '1.5', marginBottom: '1px' }}>
+                      {acquisitionData.tags.map((tag, tagIndex) => {
+                        const isSpecialTag = tag === "First US Employee" || tag === "Founder";
+                        // Calculate width based on text length (approximate)
+                        const textWidth = tag.length * 6.5; // Approximate width per character
+                        const padding = 16; // 8px padding on each side
+                        const width = textWidth + padding;
+                        
+                        return (
+                          <svg 
+                            key={tagIndex}
+                            width={width}
+                            height="18"
+                            style={{ margin: '0 4px 4px 0' }}
+                            className="inline-block"
+                          >
+                            <rect
+                              x="0"
+                              y="0"
+                              width={width}
+                              height="18"
+                              rx="9"
+                              ry="9"
+                              fill={isSpecialTag ? '#e5e7eb' : '#dbeafe'}
+                            />
+                            <text
+                              x={width / 2}
+                              y="13"
+                              fontSize="12"
+                              textAnchor="middle"
+                              fill={isSpecialTag ? '#374151' : '#1d4ed8'}
+                              style={{ fontFamily: 'Inter, sans-serif' }}
+                            >
+                              {tag}
+                            </text>
+                          </svg>
+                        );
+                      })}
+                    </div>
+                    
                     <p className="text-xs mt-1 leading-snug">{acquisitionData.description}</p>
                     {acquisitionData.achievements && (
-                      <ul className="text-xs mt-1 text-gray-700 pl-4">
+                      <div className="flex flex-wrap text-xs mt-1 text-gray-700">
                         {acquisitionData.achievements.map((achievement, i) => (
-                          <li key={i} className="leading-tight ml-2 relative">
-                            <span className="absolute -left-4">•</span>
+                          <span key={i} className="mr-3 flex items-start">
+                            <span className="mr-1 inline-block">•</span>
                             {achievement}
-                          </li>
+                          </span>
                         ))}
-                      </ul>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -224,7 +313,7 @@ const CvTemplate: React.FC = () => {
 
       {/* Skills Section */}
       <section className="mb-6">
-        <h2 className="text-base font-semibold border-b border-gray-300 pb-1 mb-3">Skills</h2>
+        <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Skills</h2>
         <div className="grid grid-cols-3 gap-2">
           <div>
             <h3 className="text-sm font-medium mb-1">Business</h3>
@@ -264,8 +353,8 @@ const CvTemplate: React.FC = () => {
 
       {/* Education */}
       <section className="mb-6">
-        <h2 className="text-base font-semibold border-b border-gray-300 pb-1 mb-3">Education</h2>
-        {education.map((edu, index) => (
+        <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Education</h2>
+        {[...education].reverse().map((edu, index) => (
           <div key={index} className="text-sm mb-1">
             <div className="flex justify-between">
               <div>
@@ -279,7 +368,7 @@ const CvTemplate: React.FC = () => {
 
       {/* Projects */}
       <section>
-        <h2 className="text-base font-semibold border-b border-gray-300 pb-1 mb-3">Projects</h2>
+        <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Projects</h2>
         <div className="grid grid-cols-2 gap-3">
           {projects.map((project, index) => (
             <div key={index} className="text-sm">
