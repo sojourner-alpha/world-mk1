@@ -69,12 +69,13 @@ const CvPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-100 min-h-screen py-8">
-      <div className="max-w-5xl mx-auto px-4">
-        <header className="mb-8">
-          <h1 className="text-3xl font-heading text-slate-800 mb-4">Curtis James | Lederle</h1>
+    <div className="bg-slate-100 min-h-screen py-4 md:py-8">
+      <div className="max-w-5xl mx-auto px-0 md:px-4">
+        <header className="mb-4 md:mb-8 px-4">
+          <h1 className="text-2xl md:text-3xl font-heading text-slate-800 mb-4 text-center">Curtis James | Lederle</h1>
           
-          <div className="flex justify-between items-center">
+          {/* Desktop layout - row */}
+          <div className="hidden md:flex justify-between items-center">
             <Link to="/workshop" className="flex items-center text-blue-600 hover:text-blue-800">
               <FaArrowLeft className="mr-2" />
               <span>Back to Workshop</span>
@@ -90,20 +91,66 @@ const CvPage: React.FC = () => {
               </a>
             </div>
           </div>
+          
+          {/* Mobile layout - centered buttons */}
+          <div className="flex md:hidden flex-col items-center justify-center space-y-3">
+            <a 
+              href="/world-mk1/curtis_lederle_cv.pdf" 
+              download
+              className="flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full max-w-[220px] justify-center shadow-sm font-medium"
+            >
+              <FaDownload className="mr-2" />
+              <span>Download CV</span>
+            </a>
+            <Link 
+              to="/workshop" 
+              className="flex items-center text-blue-600 hover:text-blue-800 py-2 w-full max-w-[220px] justify-center text-sm"
+            >
+              <FaArrowLeft className="mr-1.5" size={12} />
+              <span>Back to Workshop</span>
+            </Link>
+          </div>
         </header>
         
-        {/* Template Preview with drop shadow and scaling */}
-        <div className="flex justify-center mb-10">
-          <div className="bg-white shadow-2xl rounded-lg overflow-hidden transform scale-85 origin-top mx-auto" style={{ width: '8.5in', height: '11in' }}>
-            <div ref={cvRef}>
-              <CvTemplate />
+        {/* Hidden CV template for PDF generation */}
+        <div className="hidden">
+          <div ref={cvRef} style={{ width: '8.5in', height: '11in', background: 'white' }}>
+            <CvTemplate />
+          </div>
+        </div>
+        
+        {/* Mobile-specific container with precisely sized content */}
+        <div className="block md:hidden mb-4">
+          {/* Container sized to exactly fit CV at 0.5 scale */}
+          <div className="flex justify-center overflow-hidden">
+            <div className="bg-white shadow-2xl rounded-lg overflow-hidden" style={{ 
+              width: '408px', /* 8.5in * 0.5 * 96dpi */
+              height: '528px', /* 11in * 0.5 * 96dpi */
+              maxWidth: '100%' 
+            }}>
+              <div style={{ 
+                width: '816px', /* 8.5in * 96dpi */
+                height: '1056px', /* 11in * 96dpi */
+                transform: 'scale(0.5)',
+                transformOrigin: 'top left' 
+              }}>
+                <CvTemplate />
+              </div>
             </div>
           </div>
         </div>
         
-        <div className="mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg">
+        {/* Desktop container with centered alignment */}
+        <div className="hidden md:flex justify-center mb-10">
+          <div className="bg-white shadow-2xl rounded-lg overflow-hidden transform scale-[0.85] origin-top" style={{ width: '8.5in', height: '11in' }}>
+            <CvTemplate />
+          </div>
+        </div>
+        
+        <div className="mt-4 md:mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg mx-4">
           <p className="font-medium">Click the download button to save as PDF.</p>
           <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
+          <p className="text-sm mt-2 md:hidden">The CV is shown at reduced size to fit your screen.</p>
         </div>
       </div>
     </div>

@@ -28,9 +28,9 @@ const Header = () => {
     <header className="py-6">
       <div className="container-wide">
         <div className="flex flex-col">
-          <div className="flex items-baseline justify-between">
+          <div className="flex flex-col md:flex-row md:items-baseline md:justify-between items-center text-center md:text-left">
             <h1 className="text-3xl font-heading text-slate-800">Curtis James | Lederle</h1>
-            <div className="flex items-center">
+            <div className="md:flex hidden items-center">
               <div className={`social-icons-header flex items-center ${socialExpanded ? 'expanded' : 'collapsed'}`}>
                 {socialExpanded && (
                   <>
@@ -78,7 +78,57 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <p className="text-slate-600 mt-1"> techologist + analyst + investor + consultant </p>
+          <p className="text-slate-600 mt-1 text-center md:text-left"> techologist + analyst + investor + consultant </p>
+          
+          {/* Mobile social icons toggle - centered below subtitle */}
+          <div className="flex md:hidden justify-center mt-3">
+            <div className={`social-icons-header flex items-center ${socialExpanded ? 'expanded' : 'collapsed'}`}>
+              {socialExpanded && (
+                <>
+                  <a 
+                    href="https://github.com/sojourner-alpha" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                  >
+                    <FaGithub size={20} />
+                  </a>
+                  <a 
+                    href="https://www.linkedin.com/in/clederle/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                  >
+                    <FaLinkedinIn size={20} />
+                  </a>
+                  <a 
+                    href="https://x.com/curtlederle" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                  >
+                    <FaXTwitter size={20} />
+                  </a>
+                  <a 
+                    href="https://curtislederle.substack.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                  >
+                    <SiSubstack size={20} />
+                  </a>
+                </>
+              )}
+              <button 
+                onClick={toggleSocial} 
+                className="text-slate-600 hover:text-slate-800 transition-colors ml-2 p-1 rounded-full hover:bg-slate-200"
+                aria-label="Toggle social media links"
+              >
+                <FaEllipsis size={20} />
+              </button>
+            </div>
+          </div>
+          
           <div className="header-divider"></div>
         </div>
       </div>

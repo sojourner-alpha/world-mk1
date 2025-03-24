@@ -585,13 +585,10 @@ const Loft = () => {
                         <div 
                             className={`${book.color} h-48 md:h-56 w-16 md:w-20 rounded-sm shadow-md flex items-center relative transform transition-all duration-300 ${clickedBook === index ? 'translate-y-2' : ''} hover:brightness-110`}
                             onClick={(e) => {
-                              // Check the book's position to determine popup placement
-                              const bookRect = e.currentTarget.getBoundingClientRect();
-                              const windowWidth = window.innerWidth;
-                              const position = bookRect.left < windowWidth * 0.3 ? 'left' : 
-                                              bookRect.right > windowWidth * 0.7 ? 'right' : 'center';
-                              setPopupPosition(position);
+                              // Simply toggle the book selection
                               setClickedBook(clickedBook === index ? null : index);
+                              // Set center position for all popups
+                              setPopupPosition('center');
                             }}
                           >
                             {/* Vertical book title */}
@@ -609,8 +606,11 @@ const Loft = () => {
                               onClick={() => setClickedBook(null)}
                             ></div>
                             
-                            {/* Book details popup */}
-                            <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 bg-white rounded-lg shadow-2xl p-6 z-[9001] max-h-[80vh] overflow-y-auto">
+                            {/* Book details popup - fixed positioning for mobile compatibility */}
+                            <div 
+                              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] md:w-96 bg-white rounded-lg shadow-2xl p-6 z-[9001] max-h-[80vh] overflow-y-auto"
+                              onClick={(e) => e.stopPropagation()} // Prevent clicks from closing the popup
+                            >
                               <h4 className="font-heading text-slate-800 text-xl">{book.title}</h4>
                               <p className="text-slate-600">{book.creator} • {book.year}</p>
                               <div className="my-3 h-px bg-slate-200"></div>
