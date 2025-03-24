@@ -488,7 +488,7 @@ const Workshop = () => {
                         {position.tags.filter(tag => tag === "Founder" || tag === "First US Employee").map((tag, tagIndex) => (
                           <span 
                             key={`special-${tagIndex}`}
-                            className="px-3 py-1 rounded-full text-sm bg-slate-600 text-slate-100 border border-slate-500 font-medium"
+                            className="px-2 py-0.5 md:px-3 md:py-1 rounded-full text-xs md:text-sm bg-slate-600 text-slate-100 border border-slate-500 font-medium"
                           >
                             {tag}
                           </span>
@@ -503,7 +503,7 @@ const Workshop = () => {
                     {position.tags.filter(tag => tag !== "Founder" && tag !== "First US Employee").map((tag, tagIndex) => (
                       <span 
                         key={tagIndex}
-                        className="px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-700"
+                        className="px-2 py-0.5 md:px-3 md:py-1 rounded-full text-xs md:text-sm bg-blue-50 text-blue-700"
                       >
                         {tag}
                       </span>
