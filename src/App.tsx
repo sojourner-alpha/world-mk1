@@ -20,7 +20,6 @@ const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
 
 const Header = () => {
   const [socialExpanded, setSocialExpanded] = useState(false);
-  const { darkMode, toggleDarkMode } = useDarkMode();
   
   const toggleSocial = () => {
     setSocialExpanded(!socialExpanded);
@@ -82,48 +81,53 @@ const Header = () => {
           </div>
           <p className="text-slate-600 dark:text-slate-400 mt-1 text-center md:text-left"> techologist + analyst + investor + consultant </p>
           
-          {/* Mobile social icons - always visible */}
+          {/* Mobile social icons - collapsed by default */}
           <div className="flex md:hidden justify-center mt-3">
-            <div className="social-icons-header flex items-center gap-2">
-              <a 
-                href="https://github.com/sojourner-alpha" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
+            <div className="social-icons-header flex items-center">
+              {socialExpanded && (
+                <>
+                  <a 
+                    href="https://github.com/sojourner-alpha" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                  >
+                    <FaGithub size={20} />
+                  </a>
+                  <a 
+                    href="https://www.linkedin.com/in/clederle/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                  >
+                    <FaLinkedinIn size={20} />
+                  </a>
+                  <a 
+                    href="https://x.com/curtlederle" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                  >
+                    <FaXTwitter size={20} />
+                  </a>
+                  <a 
+                    href="https://curtislederle.substack.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                  >
+                    <SiSubstack size={20} />
+                  </a>
+                </>
+              )}
+              
+              {/* Toggle button - always visible */}
+              <button 
+                onClick={toggleSocial} 
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors mx-2 p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+                aria-label="Toggle social media links"
               >
-                <FaGithub size={20} />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/clederle/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
-              >
-                <FaLinkedinIn size={20} />
-              </a>
-              <a 
-                href="https://x.com/curtlederle" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
-              >
-                <FaXTwitter size={20} />
-              </a>
-              <a 
-                href="https://curtislederle.substack.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
-              >
-                <SiSubstack size={20} />
-              </a>
-              {/* Add dark mode toggle on mobile */}
-              <button
-                onClick={toggleDarkMode}
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
-                aria-label="Toggle dark mode"
-              >
-                {darkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+                <FaEllipsis size={20} />
               </button>
             </div>
           </div>
@@ -170,7 +174,7 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
 
   return (
     <div className="card-container">
-      <div className={`portal-card ${shadowActive ? 'shadow-active' : ''} dark:bg-slate-800 dark:border dark:border-slate-600`}>
+      <div className={`portal-card ${shadowActive ? 'shadow-active' : ''} dark:bg-slate-800 dark:border-2 dark:border-white`}>
         <span className={`card-tag ${getTagColorClass()}`}>{tag}</span>
         <img src={image} alt={title} className="portal-card-image" />
         
@@ -516,8 +520,8 @@ const Home = () => {
       <section className="hero-section flex flex-col py-6 md:py-12 pb-24 md:pb-24 min-h-[200vh] md:min-h-0 relative z-30">
         <div className="container-wide flex flex-col">
         
-          <div className="max-w-5xl mx-auto text-center mb-2">
-            <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800 dark:text-slate-100">
+          <div className="max-w-5xl mx-auto text-center mb-8">
+            <h1 className="text-2xl md:text-2xl font-heading font-bold leading-tight mb-16 md:mb-4 animate-fade-in text-slate-800 dark:text-slate-100">
               Welcome to my world(s).
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-4 animate-slide-up" style={{ animationDelay: '1s' }}>
