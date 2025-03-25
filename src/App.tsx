@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox, FaLightbulb, FaEllipsis } from 'react-icons/fa6';
+import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox, FaLightbulb, FaEllipsis, FaMoon, FaSun } from 'react-icons/fa6';
 import { SiSubstack } from 'react-icons/si';
 import Origin from './pages/Origin';
 import Workshop from './pages/Workshop';
@@ -8,6 +8,7 @@ import Loft from './pages/Loft';
 import Observatory from './pages/Observatory';
 import Crossroads from './pages/Crossroads';
 import CvPage from './pages/CvPage';
+import { useDarkMode } from './context/DarkModeContext';
 
 // Placeholder images (these would be replaced with actual images)
 // const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
@@ -19,17 +20,18 @@ const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
 
 const Header = () => {
   const [socialExpanded, setSocialExpanded] = useState(false);
+  const { darkMode, toggleDarkMode } = useDarkMode();
   
   const toggleSocial = () => {
     setSocialExpanded(!socialExpanded);
   };
   
   return (
-    <header className="py-6">
+    <header className="py-6 dark:bg-slate-900">
       <div className="container-wide">
         <div className="flex flex-col">
           <div className="flex flex-col md:flex-row md:items-baseline md:justify-between items-center text-center md:text-left">
-            <h1 className="text-3xl font-heading text-slate-800">Curtis James | Lederle</h1>
+            <h1 className="text-3xl font-heading text-slate-800 dark:text-slate-100">Curtis James | Lederle</h1>
             <div className="md:flex hidden items-center">
               <div className={`social-icons-header flex items-center ${socialExpanded ? 'expanded' : 'collapsed'}`}>
                 {socialExpanded && (
@@ -38,7 +40,7 @@ const Header = () => {
                       href="https://github.com/sojourner-alpha" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
                     >
                       <FaGithub size={20} />
                     </a>
@@ -46,7 +48,7 @@ const Header = () => {
                       href="https://www.linkedin.com/in/clederle/" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
                     >
                       <FaLinkedinIn size={20} />
                     </a>
@@ -54,7 +56,7 @@ const Header = () => {
                       href="https://x.com/curtlederle" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
                     >
                       <FaXTwitter size={20} />
                     </a>
@@ -62,7 +64,7 @@ const Header = () => {
                       href="https://curtislederle.substack.com" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-slate-600 hover:text-slate-800 transition-colors px-2"
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
                     >
                       <SiSubstack size={20} />
                     </a>
@@ -70,7 +72,7 @@ const Header = () => {
                 )}
                 <button 
                   onClick={toggleSocial} 
-                  className="text-slate-600 hover:text-slate-800 transition-colors ml-2 p-1 rounded-full hover:bg-slate-200"
+                  className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors ml-2 p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
                   aria-label="Toggle social media links"
                 >
                   <FaEllipsis size={20} />
@@ -78,58 +80,55 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <p className="text-slate-600 mt-1 text-center md:text-left"> techologist + analyst + investor + consultant </p>
+          <p className="text-slate-600 dark:text-slate-400 mt-1 text-center md:text-left"> techologist + analyst + investor + consultant </p>
           
-          {/* Mobile social icons toggle - centered below subtitle */}
+          {/* Mobile social icons - always visible */}
           <div className="flex md:hidden justify-center mt-3">
-            <div className={`social-icons-header flex items-center ${socialExpanded ? 'expanded' : 'collapsed'}`}>
-              {socialExpanded && (
-                <>
-                  <a 
-                    href="https://github.com/sojourner-alpha" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
-                  >
-                    <FaGithub size={20} />
-                  </a>
-                  <a 
-                    href="https://www.linkedin.com/in/clederle/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
-                  >
-                    <FaLinkedinIn size={20} />
-                  </a>
-                  <a 
-                    href="https://x.com/curtlederle" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
-                  >
-                    <FaXTwitter size={20} />
-                  </a>
-                  <a 
-                    href="https://curtislederle.substack.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 hover:text-slate-800 transition-colors px-2"
-                  >
-                    <SiSubstack size={20} />
-                  </a>
-                </>
-              )}
-              <button 
-                onClick={toggleSocial} 
-                className="text-slate-600 hover:text-slate-800 transition-colors ml-2 p-1 rounded-full hover:bg-slate-200"
-                aria-label="Toggle social media links"
+            <div className="social-icons-header flex items-center gap-2">
+              <a 
+                href="https://github.com/sojourner-alpha" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
               >
-                <FaEllipsis size={20} />
+                <FaGithub size={20} />
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/clederle/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
+              >
+                <FaLinkedinIn size={20} />
+              </a>
+              <a 
+                href="https://x.com/curtlederle" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
+              >
+                <FaXTwitter size={20} />
+              </a>
+              <a 
+                href="https://curtislederle.substack.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors"
+              >
+                <SiSubstack size={20} />
+              </a>
+              {/* Add dark mode toggle on mobile */}
+              <button
+                onClick={toggleDarkMode}
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+                aria-label="Toggle dark mode"
+              >
+                {darkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
               </button>
             </div>
           </div>
           
-          <div className="header-divider"></div>
+          <div className="header-divider dark:border-slate-700"></div>
         </div>
       </div>
     </header>
@@ -171,13 +170,13 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
 
   return (
     <div className="card-container">
-      <div className={`portal-card ${shadowActive ? 'shadow-active' : ''}`}>
+      <div className={`portal-card ${shadowActive ? 'shadow-active' : ''} dark:bg-slate-800 dark:border dark:border-slate-600`}>
         <span className={`card-tag ${getTagColorClass()}`}>{tag}</span>
         <img src={image} alt={title} className="portal-card-image" />
         
         {/* Card content (centered vertically) */}
-        <div className={`portal-card-content animate-slide-up ${expanded ? 'expanded' : ''}`} style={{ animationDelay }}>
-          <h2 className="text-lg md:text-xl font-heading mb-2">{title}</h2>
+        <div className={`portal-card-content animate-slide-up ${expanded ? 'expanded' : ''} ${shadowActive ? 'bg-opacity-40' : 'bg-opacity-70'}`} style={{ animationDelay }}>
+          <h2 className="text-lg md:text-xl font-heading mb-2 dark:text-white">{title}</h2>
           <p className="text-xs md:text-sm text-gray-300 mb-3">{description}</p>
           
           {/* Description section that expands in place */}
@@ -188,7 +187,7 @@ const PortalCard = ({ title, description, image, link, tag, tagColor, longDescri
           </div>
           
           <div className="flex flex-col items-center justify-center w-full gap-2">
-            <Link to={link} className="btn btn-outline py-2 px-4 md:px-6 text-sm md:text-base font-medium w-full text-center">
+            <Link to={link} className={`btn btn-outline py-2 px-4 md:px-6 text-sm md:text-base font-medium w-full text-center dark:border-gray-300 dark:text-gray-300 dark:hover:bg-gray-700 ${shadowActive ? 'bg-opacity-40 hover:bg-opacity-60' : ''}`}>
               Explore
             </Link>
             <button 
@@ -220,7 +219,7 @@ const SocialIcon = ({ url, icon: Icon, name }: SocialIconProps) => (
     href={url} 
     target="_blank" 
     rel="noopener noreferrer" 
-    className="social-icon"
+    className="social-icon dark:bg-slate-800 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-700"
     aria-label={name}
   >
     <Icon size={24} />
@@ -378,6 +377,7 @@ const CrossroadsSection = () => (
 // Home component with elegant layout
 const Home = () => {
   const sectionsRef = useRef<HTMLDivElement>(null);
+  const { darkMode, toggleDarkMode } = useDarkMode();
   const [shadowsActive, setShadowsActive] = useState(() => {
     // Get saved preference from localStorage on initial render
     const saved = localStorage.getItem('shadowsActive');
@@ -509,7 +509,7 @@ const Home = () => {
   };
 
   return (
-    <div className={`bg-parchment ${shadowsActive ? 'shadows-active-bg' : ''}`}>
+    <div className={`bg-parchment dark:bg-slate-900 transition-colors duration-300 ${shadowsActive ? 'shadows-active-bg' : ''}`}>
       <Header />
       
       {/* Hero Section */}
@@ -517,14 +517,14 @@ const Home = () => {
         <div className="container-wide flex flex-col">
         
           <div className="max-w-5xl mx-auto text-center mb-2">
-            <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800">
+            <h1 className="text-xl md:text-2xl font-heading font-bold leading-tight mb-4 animate-fade-in text-slate-800 dark:text-slate-100">
               Welcome to my world(s).
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 mb-4 animate-slide-up" style={{ animationDelay: '1s' }}>
+            <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-4 animate-slide-up" style={{ animationDelay: '1s' }}>
               Where engineering meets imagination and data powers discovery.
             </p>
             
-            <div className="header-divider mb-3"></div>
+            <div className="header-divider dark:border-slate-700 mb-3"></div>
             
             <div className="call-to-action animate-fade-in" style={{ animationDelay: '0.4s' }}>
             </div>
@@ -575,55 +575,65 @@ const Home = () => {
                 </div>
               </div>
               
-              {/* Social Media Icons - added responsive padding */}
-              <div className="py-6">
-                <div className="header-divider"></div>
-                <div className="max-w-2xl mx-auto px-4 py-4">
-                  <p className="text-base text-center">
-                    This is my digital workshop and an experiment in <strong>web building</strong> + <strong>world building</strong>. Everything you see here is built by me, with the help of AI. 
-                    <br />  <br /> Explore the portals above, each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
-                  </p>
-                </div>
-                <div className="flex justify-center my-6 mb-16 md:mb-6">
-                  <div className="social-icon-container z-30">
-                    <SocialIcon 
-                      url="https://github.com/sojourner-alpha" 
-                      icon={FaGithub}
-                      name="GitHub"
-                    />
-                    <SocialIcon 
-                      url="https://www.linkedin.com/in/clederle/" 
-                      icon={FaLinkedinIn}
-                      name="LinkedIn"
-                    />
-                    {/* Add lightbulb toggle as a social icon */}
-                    <div 
-                      className={`social-icon light-toggle ${shadowsActive ? 'active' : ''}`}
-                      onClick={toggleShadows}
-                      aria-label="Toggle light effects"
-                      style={{ backgroundColor: shadowsActive ? 'rgba(100, 100, 100, 0.7)' : '#d1d5db' }}
-                    >
-                      <FaLightbulb size={24} />
-                    </div>
-                    <SocialIcon 
-                      url="https://x.com/curtlederle" 
-                      icon={FaXTwitter}
-                      name="Twitter / X"
-                    />
-                    <SocialIcon 
-                      url="https://curtislederle.substack.com" 
-                      icon={SiSubstack}
-                      name="Substack"
-                    />
+              {/* Social Media Icons - moved above the divider */}
+              <div className="flex justify-center my-6">
+                <div className="social-icon-container z-30">
+                  <SocialIcon 
+                    url="https://github.com/sojourner-alpha" 
+                    icon={FaGithub}
+                    name="GitHub"
+                  />
+                  <SocialIcon 
+                    url="https://www.linkedin.com/in/clederle/" 
+                    icon={FaLinkedinIn}
+                    name="LinkedIn"
+                  />
+                  {/* Add lightbulb toggle as a social icon */}
+                  <div 
+                    className={`social-icon light-toggle ${shadowsActive ? 'active' : ''}`}
+                    onClick={toggleShadows}
+                    aria-label="Toggle light effects"
+                    style={{ backgroundColor: shadowsActive ? 'rgba(100, 100, 100, 0.7)' : '#d1d5db' }}
+                  >
+                    <FaLightbulb size={24} />
                   </div>
+                  {/* Add dark mode toggle */}
+                  <div 
+                    className="social-icon dark-toggle"
+                    onClick={toggleDarkMode}
+                    aria-label="Toggle dark mode"
+                    style={{ 
+                      backgroundColor: darkMode ? '#4b5563' : '#9ca3af' 
+                    }}
+                  >
+                    {darkMode ? <FaSun size={24} /> : <FaMoon size={24} />}
+                  </div>
+                  <SocialIcon 
+                    url="https://x.com/curtlederle" 
+                    icon={FaXTwitter}
+                    name="Twitter / X"
+                  />
+                  <SocialIcon 
+                    url="https://curtislederle.substack.com" 
+                    icon={SiSubstack}
+                    name="Substack"
+                  />
                 </div>
-                
-                {/* Open Source Disclaimer */}
-                <div className="open-source-disclaimer animate-fade-in mt-4 mb-12 md:mb-16" style={{ animationDelay: '0.5s' }}>
-                  <p className="text-sm text-center text-slate-600">
-                    This website and other projects I build are <strong>open source</strong> and available on <a href="https://github.com/sojourner-alpha" className="text-blue-700 hover:underline">GitHub</a>.
-                  </p>
-                </div>
+              </div>
+              
+              <div className="header-divider dark:border-slate-700"></div>
+              <div className="max-w-2xl mx-auto px-4 py-4">
+                <p className="text-base text-center text-slate-600 dark:text-slate-300">
+                  This is my digital workshop and an experiment in <strong>web building</strong> + <strong>world building</strong>. Everything you see here is built by me, with the help of AI. 
+                  <br />  <br /> Explore the portals above, each offering a unique lens into different dimensions of my work, creations and thoughts. Hidden easter eggs await!
+                </p>
+              </div>
+              
+              {/* Open Source Disclaimer */}
+              <div className="open-source-disclaimer animate-fade-in mt-4 mb-12 md:mb-16" style={{ animationDelay: '0.5s' }}>
+                <p className="text-sm text-center text-slate-600 dark:text-slate-400">
+                  This website and other projects I build are <strong>open source</strong> and available on <a href="https://github.com/sojourner-alpha" className="text-blue-700 dark:text-blue-400 hover:underline">GitHub</a>.
+                </p>
               </div>
             </div>
           </div>
@@ -642,12 +652,16 @@ const Home = () => {
       </div>
       
       {/* Footer */}
-      <footer className="py-12 border-t border-slate-300">
+      <footer className="py-12 border-t border-slate-300 dark:border-slate-700">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
-              <h2 className="text-xl font-heading text-slate-800">Curtis James | Lederle </h2>
-              <p className="text-sm text-slate-600">© {new Date().getFullYear()} All rights reserved</p>
+              <h2 className="text-xl font-heading text-slate-800 dark:text-slate-200">Curtis James | Lederle </h2>
+              <p className="text-sm text-slate-600 dark:text-slate-400">© {new Date().getFullYear()} All rights reserved</p>
+              {/* Dark mode indicator */}
+              <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">
+                {darkMode ? "Dark Mode" : "Light Mode"}
+              </p>
             </div>
             <div className="flex space-x-4">
               <SocialIcon 
@@ -679,18 +693,22 @@ const Home = () => {
 };
 
 function App() {
+  const { darkMode } = useDarkMode();
+  
   return (
-    <Router basename="/world-mk1">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/origin" element={<Origin />} />
-        <Route path="/workshop" element={<Workshop />} />
-        <Route path="/loft" element={<Loft />} />
-        <Route path="/observatory" element={<Observatory />} />
-        <Route path="/crossroads" element={<Crossroads />} />
-        <Route path="/cv" element={<CvPage />} />
-      </Routes>
-    </Router>
+    <div className={darkMode ? 'dark' : ''}>
+      <Router basename="/world-mk1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/origin" element={<Origin />} />
+          <Route path="/workshop" element={<Workshop />} />
+          <Route path="/loft" element={<Loft />} />
+          <Route path="/observatory" element={<Observatory />} />
+          <Route path="/crossroads" element={<Crossroads />} />
+          <Route path="/cv" element={<CvPage />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

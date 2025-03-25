@@ -220,6 +220,22 @@ const Workshop = () => {
   // Projects data
   const projects: ProjectCardProps[] = [
     {
+      name: "Impact on Executive Search",
+      description: "Research report exploring the rise of interim placements amid increasing uncertainty, and how AI is reshaping talent acquisition and executive placement.",
+      technologies: ["AI/ML", "Research", "Talent Acquisition"],
+      type: "notion",
+      isPublic: false,
+      // url will be added later: "https://sojournhabits.notion.site/ai-executive-search"
+    },
+    {
+      name: "ThinkorSwim Tools Library",
+      description: "Collection of thinkScript code, chart layouts, and custom studies for the thinkorswim trading platform, optimized for technical analysis and market research.",
+      technologies: ["ThinkScript", "Technical Analysis", "FinTech"],
+      type: "notion",
+      isPublic: false,
+      // url will be added later: "https://sojournhabits.notion.site/thinkorswim-tools"
+    },
+    {
       name: "This Website",
       description: "Open source project combining web building and world building into a personal multiverse. Built with React, TypeScript, and Tailwind CSS.",
       technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],

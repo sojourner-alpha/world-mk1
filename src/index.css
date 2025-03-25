@@ -90,7 +90,7 @@
     backdrop-filter: blur(4px);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
     opacity: 0; /* Start invisible */
-    transition: transform 0.5s ease-out, bottom 0.4s ease-out;
+    transition: transform 0.5s ease-out, bottom 0.4s ease-out, opacity 0.3s ease-out, background-color 0.3s ease-out, background-opacity 0.3s ease-out;
   }
   
   /* When the card content is expanded, move to vertical center */
@@ -149,6 +149,7 @@
   
   .btn-outline {
     @apply border border-gray-500 text-gray-200 hover:bg-gray-800;
+    transition: background-color 0.3s ease, background-opacity 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
   
   .container-custom {
@@ -751,34 +752,34 @@
     transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
   }
 
-  /* Enhance card content when shadows are active */
+  /* Update the shadow-active content style to be more translucent */
   .portal-card.shadow-active .portal-card-content {
     background: linear-gradient(to bottom, 
-      rgba(0, 0, 0, 0.85) 0%, 
-      rgba(40, 40, 40, 0.75) 50%, 
-      rgba(0, 0, 0, 0.85) 100%
+      rgba(0,0,0,0.5) 0%, 
+      rgba(0,0,0,0.4) 50%, 
+      rgba(0,0,0,0.5) 100%
     );
-    transition: background 0.5s ease;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px); /* Reduce blur to see more of the image */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
   
-  /* Make the content text slightly brighter with shadows active */
+  /* Make the text stand out against the more transparent background */
   .portal-card.shadow-active .portal-card-content h2,
   .portal-card.shadow-active .portal-card-content p {
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-    transition: text-shadow 0.5s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    font-weight: 500;
   }
   
-  /* Enhance the explore button with shadows active */
+  /* Ensure the button has consistent translucency */
   .portal-card.shadow-active .btn-outline {
-    @apply border-gray-300 text-gray-50;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(180, 180, 180, 0.3);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
   }
   
   .portal-card.shadow-active .btn-outline:hover {
-    @apply bg-gray-700 border-gray-300;
-    box-shadow: 0 0 15px rgba(200, 200, 200, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.6);
   }
 
   /* Light toggle button */
