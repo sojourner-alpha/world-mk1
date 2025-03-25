@@ -8,6 +8,7 @@ import Loft from './pages/Loft';
 import Observatory from './pages/Observatory';
 import Crossroads from './pages/Crossroads';
 import CvPage from './pages/CvPage';
+import ScrollToTop from './components/ScrollToTop';
 import { useDarkMode } from './context/DarkModeContext';
 
 // Placeholder images (these would be replaced with actual images)
@@ -702,6 +703,7 @@ function App() {
   return (
     <div className={darkMode ? 'dark' : ''}>
       <Router basename="/world-mk1">
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/origin" element={<Origin />} />
