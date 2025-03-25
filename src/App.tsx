@@ -13,11 +13,11 @@ import { useDarkMode } from './context/DarkModeContext';
 
 // Placeholder images (these would be replaced with actual images)
 // const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
-const originImage = "/world-mk1/assets/images/origin.png";
-const workshopImage = "/world-mk1/assets/images/workshop.png";
-const loftImage = "/world-mk1/assets/images/loft.png";
-const observatoryImage = "/world-mk1/assets/images/observatory.png";
-const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
+const originImage = "/assets/images/origin.png";
+const workshopImage = "/assets/images/workshop.png";
+const loftImage = "/assets/images/loft.png";
+const observatoryImage = "/assets/images/observatory.png";
+const crossroadsImage = "/assets/images/crossroads.png";
 
 const Header = () => {
   const [socialExpanded, setSocialExpanded] = useState(false);
@@ -702,7 +702,7 @@ function App() {
   
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <Router basename="/world-mk1">
+      <Router basename="/">
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />

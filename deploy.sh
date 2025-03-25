@@ -23,4 +23,6 @@ git push -f https://github.com/sojourner-alpha/world-mk1.git main:gh-pages
 # Go back to the previous directory
 cd -
 
-echo "Deployed to https://sojourner-alpha.github.io/world-mk1/ (or alpha.sojourninsight.com if domain is configured)"
+echo "Deployed to:"
+echo "- Custom domain: https://curtislederle.com"
+echo "- GitHub Pages: https://sojourner-alpha.github.io/world-mk1/"

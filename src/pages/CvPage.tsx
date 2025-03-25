@@ -82,7 +82,7 @@ const CvPage: React.FC = () => {
             </Link>
             <div className="flex space-x-4">
               <a 
-                href="/world-mk1/curtis_lederle_cv.pdf" 
+                href="/curtis_lederle_cv.pdf" 
                 download
                 className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
               >
@@ -95,7 +95,7 @@ const CvPage: React.FC = () => {
           {/* Mobile layout - centered buttons */}
           <div className="flex md:hidden flex-col items-center justify-center space-y-3">
             <a 
-              href="/world-mk1/curtis_lederle_cv.pdf" 
+              href="/curtis_lederle_cv.pdf" 
               download
               className="flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full max-w-[220px] justify-center shadow-sm font-medium"
             >
@@ -151,6 +151,25 @@ const CvPage: React.FC = () => {
           <p className="font-medium">Click the download button to save as PDF.</p>
           <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
           <p className="text-sm mt-2 md:hidden">The CV is shown at reduced size to fit your screen.</p>
+        </div>
+
+        <div className="print:hidden bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center mb-8">
+          <p className="text-gray-600 dark:text-gray-300 mb-4">Need a downloadable version? Get my CV in PDF format:</p>
+          <a 
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300 mr-4"
+            href="/curtis_lederle_cv.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download CV
+          </a>
+          <a 
+            className="inline-block bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+            href="/curtis_lederle_cv.pdf"
+            download="Curtis_Lederle_CV.pdf"
+          >
+            Save CV
+          </a>
         </div>
       </div>
     </div>
