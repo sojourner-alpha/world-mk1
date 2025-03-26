@@ -144,8 +144,8 @@ const CvTemplate: React.FC = () => {
           <p className="text-gray-600">Analyst + Technologist + Investor + Consultant</p>
         </div>
         <div className="flex items-center space-x-5">
-          <a href="https://curtislederle.ai" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 text-sm">
-            curtislederle.ai
+          <a href="https://curtislederle.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 text-sm">
+            curtislederle.com
           </a>
           <div className="h-4 w-px bg-gray-300"></div>
           <a href="https://github.com/sojourner-alpha" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-gray-900">
@@ -161,7 +161,7 @@ const CvTemplate: React.FC = () => {
       </header>
 
       {/* Professional Summary */}
-      <section className="mb-6">
+      <section className="mb-4">
         <p className="text-sm leading-snug">
           Partner at Sojourn Insight consulting on AI/ML and operations. Proven experience in propelling B2B SaaS growth.
           Background in scaling startups, driving revenue, supporting executive decision-making and a unique blend of technical 
@@ -170,7 +170,7 @@ const CvTemplate: React.FC = () => {
       </section>
 
       {/* Professional Experience */}
-      <section className="mb-6">
+      <section className="mb-4">
         <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Professional Experience</h2>
         <div className="space-y-3">
           {careerHighlights.map((job, index) => (
@@ -226,9 +226,9 @@ const CvTemplate: React.FC = () => {
                 })}
               </div>
               
-              <p className="text-xs mt-1 leading-snug">{job.description}</p>
+              <p className="text-sm mt-1 leading-snug">{job.description}</p>
               {job.achievements && (
-                <div className="flex flex-wrap text-xs mt-1 text-gray-700">
+                <div className="flex flex-wrap text-sm mt-1 text-gray-700">
                   {job.achievements.map((achievement, i) => (
                     <span key={i} className="mr-3 flex items-start">
                       <span className="mr-1 inline-block">•</span>
@@ -240,7 +240,7 @@ const CvTemplate: React.FC = () => {
               
               {/* Render acquisition info if this job has an acquisition */}
               {job.hasAcquisition && (
-                <div className="mt-2 relative">
+                <div className="mt-3 relative">
                   {/* Acquisition block with left border */}
                   <div className="pl-3 border-l-2 border-blue-500">
                     <div className="flex justify-between">
@@ -292,9 +292,9 @@ const CvTemplate: React.FC = () => {
                       })}
                     </div>
                     
-                    <p className="text-xs mt-1 leading-snug">{acquisitionData.description}</p>
+                    <p className="text-sm mt-1 leading-snug">{acquisitionData.description}</p>
                     {acquisitionData.achievements && (
-                      <div className="flex flex-wrap text-xs mt-1 text-gray-700">
+                      <div className="flex flex-wrap text-sm mt-1 text-gray-700">
                         {acquisitionData.achievements.map((achievement, i) => (
                           <span key={i} className="mr-3 flex items-start">
                             <span className="mr-1 inline-block">•</span>
@@ -352,7 +352,7 @@ const CvTemplate: React.FC = () => {
       </section>
 
       {/* Education */}
-      <section className="mb-6">
+      <section className="mb-4">
         <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Education</h2>
         {[...education].reverse().map((edu, index) => (
           <div key={index} className="text-sm mb-1">

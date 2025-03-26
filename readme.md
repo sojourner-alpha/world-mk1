@@ -107,7 +107,7 @@ This website is designed as an immersive digital experience with distinct portal
    npm run dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173/world-mk1/`
+4. Open your browser and navigate to `http://localhost:5173/`
 
 ## Building for Production
 
@@ -124,6 +124,29 @@ The site is deployed to GitHub Pages using the gh-pages package:
 ```bash
 npm run deploy
 ```
+
+## Project Statistics
+As of 3/25/2025
+
+# Source Code Files: 26 files
+- 17 React TSX component files
+- 1 CSS file
+- 2 HTML files
+- 3 TypeScript configuration files
+- 3 JavaScript configuration files
+
+# Total Lines of Code: 6,637 lines
+
+#Top 5 Largest Files:
+- src/pages/Loft.tsx - 1,205 lines
+- src/index.css - 1,084 lines
+- src/pages/Observatory.tsx - 779 lines
+- src/App.tsx - 721 lines
+- src/pages/Workshop.tsx - 677 lines
+
+The site is accessible at both URLs until DNS propagation is complete:
+- Custom domain: https://curtislederle.com
+- GitHub Pages: https://sojourner-alpha.github.io/world-mk1/
 
 ## License
 

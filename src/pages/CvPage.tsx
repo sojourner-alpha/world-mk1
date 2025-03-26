@@ -13,55 +13,63 @@ const CvPage: React.FC = () => {
     if (!cvRef.current) return;
 
     setIsGenerating(true);
-    const cv = cvRef.current;
-    
     try {
-      // Create a PDF with links enabled
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'in',
-        format: [8.5, 11]
-      });
-      
-      // Use html2canvas with higher quality settings
-      const canvas = await html2canvas(cv, {
-        scale: 2, // Higher scale for better quality
+      const canvas = await html2canvas(cvRef.current, {
+        scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        onclone: (document, element) => {
+          // Make links visible in cloned document for capturing positions
+          const links = element.getElementsByTagName('a');
+          Array.from(links).forEach(link => {
+            link.style.color = '#1d4ed8'; // Make links blue
+            link.style.textDecoration = 'underline';
+          });
+        }
       });
-      
+
       const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'pt', 'letter');
       
-      // Calculate dimensions
-      const imgWidth = 8.5;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      // Calculate scaling to fit the page while maintaining aspect ratio
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
       
-      // Add the image to the PDF
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      const widthRatio = pageWidth / canvas.width;
+      const heightRatio = pageHeight / canvas.height;
+      const ratio = Math.min(widthRatio, heightRatio);
       
-      // Find and add hyperlinks to the PDF
+      const centerX = (pageWidth - canvas.width * ratio) / 2;
+      const centerY = (pageHeight - canvas.height * ratio) / 2;
+      
+      // Add the image first
+      pdf.addImage(imgData, 'PNG', centerX, centerY, canvas.width * ratio, canvas.height * ratio);
+
+      // Then add all the links
       if (cvRef.current) {
-        const links = cvRef.current.querySelectorAll('a');
-        links.forEach(link => {
+        const links = cvRef.current.getElementsByTagName('a');
+        const cvWidth = cvRef.current.offsetWidth;
+        const cvHeight = cvRef.current.offsetHeight;
+        
+        Array.from(links).forEach(link => {
           const rect = link.getBoundingClientRect();
-          const cvRect = cv.getBoundingClientRect();
+          const parent = link.offsetParent as HTMLElement;
+          if (!parent) return;
           
-          // Calculate relative position in PDF coordinates
-          const x = (rect.left - cvRect.left) * imgWidth / cvRect.width;
-          const y = (rect.top - cvRect.top) * imgHeight / cvRect.height;
-          const width = rect.width * imgWidth / cvRect.width;
-          const height = rect.height * imgHeight / cvRect.height;
+          // Calculate position relative to CV container
+          const x = (link.offsetLeft / cvWidth) * canvas.width * ratio + centerX;
+          const y = (link.offsetTop / cvHeight) * canvas.height * ratio + centerY;
+          const width = (link.offsetWidth / cvWidth) * canvas.width * ratio;
+          const height = (link.offsetHeight / cvHeight) * canvas.height * ratio;
           
-          // Add link annotation to PDF
+          // Add clickable link annotation
           pdf.link(x, y, width, height, { url: link.href });
         });
       }
       
       pdf.save('curtis_lederle_cv.pdf');
-      
     } catch (error) {
-      console.error('Error generating PDF', error);
+      console.error('Error generating PDF:', error);
       alert('Error generating PDF. Please try again.');
     } finally {
       setIsGenerating(false);
@@ -81,27 +89,63 @@ const CvPage: React.FC = () => {
               <span>Back to Workshop</span>
             </Link>
             <div className="flex space-x-4">
-              <a 
-                href="/world-mk1/curtis_lederle_cv.pdf" 
+              <a
+                href="/curtis_lederle_cv.pdf"
                 download
                 className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
               >
                 <FaDownload className="mr-2" />
                 <span>Download CV</span>
               </a>
+              {/* Hidden generate button for future updates */}
+              <button
+                onClick={generatePDF}
+                disabled={isGenerating}
+                className="hidden"
+              >
+                {isGenerating ? (
+                  <>
+                    <FaSpinner className="mr-2 animate-spin" />
+                    <span>Generating...</span>
+                  </>
+                ) : (
+                  <>
+                    <FaDownload className="mr-2" />
+                    <span>Generate PDF</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
           
           {/* Mobile layout - centered buttons */}
           <div className="flex md:hidden flex-col items-center justify-center space-y-3">
-            <a 
-              href="/world-mk1/curtis_lederle_cv.pdf" 
+            <a
+              href="/curtis_lederle_cv.pdf"
               download
               className="flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full max-w-[220px] justify-center shadow-sm font-medium"
             >
               <FaDownload className="mr-2" />
               <span>Download CV</span>
             </a>
+            {/* Hidden generate button for future updates */}
+            <button
+              onClick={generatePDF}
+              disabled={isGenerating}
+              className="hidden"
+            >
+              {isGenerating ? (
+                <>
+                  <FaSpinner className="mr-2 animate-spin" />
+                  <span>Generating...</span>
+                </>
+              ) : (
+                <>
+                  <FaDownload className="mr-2" />
+                  <span>Generate PDF</span>
+                </>
+              )}
+            </button>
             <Link 
               to="/workshop" 
               className="flex items-center text-blue-600 hover:text-blue-800 py-2 w-full max-w-[220px] justify-center text-sm"
@@ -112,25 +156,24 @@ const CvPage: React.FC = () => {
           </div>
         </header>
         
-        {/* Hidden CV template for PDF generation */}
-        <div className="hidden">
-          <div ref={cvRef} style={{ width: '8.5in', height: '11in', background: 'white' }}>
+        {/* CV template for PDF generation */}
+        <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+          <div ref={cvRef} style={{ width: '816px', height: '1056px', background: 'white' }}>
             <CvTemplate />
           </div>
         </div>
         
         {/* Mobile-specific container with precisely sized content */}
         <div className="block md:hidden mb-4">
-          {/* Container sized to exactly fit CV at 0.5 scale */}
           <div className="flex justify-center overflow-hidden">
             <div className="bg-white shadow-2xl rounded-lg overflow-hidden" style={{ 
-              width: '408px', /* 8.5in * 0.5 * 96dpi */
-              height: '528px', /* 11in * 0.5 * 96dpi */
+              width: '408px',
+              height: '528px',
               maxWidth: '100%' 
             }}>
               <div style={{ 
-                width: '816px', /* 8.5in * 96dpi */
-                height: '1056px', /* 11in * 96dpi */
+                width: '816px',
+                height: '1056px',
                 transform: 'scale(0.5)',
                 transformOrigin: 'top left' 
               }}>
@@ -148,7 +191,7 @@ const CvPage: React.FC = () => {
         </div>
         
         <div className="mt-4 md:mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg mx-4">
-          <p className="font-medium">Click the download button to save as PDF.</p>
+          <p className="font-medium">Click the download button to get the latest version of the CV.</p>
           <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
           <p className="text-sm mt-2 md:hidden">The CV is shown at reduced size to fit your screen.</p>
         </div>
