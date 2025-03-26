@@ -31,7 +31,7 @@ const Observatory = () => {
   useAnimations();
 
   // Observatory image from App.tsx
-  const observatoryImage = "/assets/images/observatory.png";
+  const observatoryImage = "/world-mk1/assets/images/observatory.png";
 
   // Projects/Research data for Markets section
   const marketProjects: Record<string, ProjectType[]> = {

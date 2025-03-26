@@ -43,7 +43,7 @@ const Workshop = () => {
   useAnimations();
 
   // Workshop image from App.tsx
-  const workshopImage = "/assets/images/workshop.png";
+  const workshopImage = "/world-mk1/assets/images/workshop.png";
 
   // Career timeline data
   const careerTimeline: CareerTimelineItem[] = [
@@ -420,7 +420,7 @@ const Workshop = () => {
       <section className="scroll-section py-8 relative mt-8">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="/assets/images/projects.png"
+            src="/world-mk1/assets/images/projects.png"
             alt="Projects Background"
             className="w-full h-full object-cover"
           />

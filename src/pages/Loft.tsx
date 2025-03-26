@@ -42,7 +42,7 @@ const Loft = () => {
   useAnimations();
 
   // Background image
-  const loftImage = "/assets/images/loft.png";
+  const loftImage = "/world-mk1/assets/images/loft.png";
 
   // Core brand colors for books - greyscale palette
   const bookColors = [
@@ -260,7 +260,7 @@ const Loft = () => {
       description: "Conversation with Narendra Modi, Prime Minister of India, discussing leadership, technology, and the future of India.",
       tags: ["Leadership", "Politics", "India"],
       link: "https://open.spotify.com/episode/40sptZNuCXjhzPYTG6K2rh?si=d64a669bb7ea4f91",
-      imageUrl: "/assets/images/podcast-placeholder.jpg"
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     },
     {
       title: "Lex Fridman - Deepseek",
@@ -268,7 +268,7 @@ const Loft = () => {
       description: "Discussion about Deepseek, artificial intelligence, and innovations in deep learning technology.",
       tags: ["AI", "Technology", "Deep Learning"],
       link: "https://open.spotify.com/episode/5JKVOvxQ0c9xJmVK3O1asA?si=c3194131223a44cf",
-      imageUrl: "/assets/images/podcast-placeholder.jpg"
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     },
     {
       title: "Lex Fridman - Marc Andreessen",
@@ -276,7 +276,7 @@ const Loft = () => {
       description: "Interview with Marc Andreessen, co-founder of Andreessen Horowitz, discussing venture capital, startups, and the future of technology.",
       tags: ["Venture Capital", "Technology", "Startups"],
       link: "https://open.spotify.com/episode/5iXQAfEnrO3kWtg4WzYXUD?si=445aa20832f64b21",
-      imageUrl: "/assets/images/podcast-placeholder.jpg"
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     },
     {
       title: "Lex Fridman - Guido van Rossum",
@@ -284,7 +284,7 @@ const Loft = () => {
       description: "Conversation with Guido van Rossum, creator of Python, discussing programming languages and software development.",
       tags: ["Programming", "Python", "Software"],
       link: "https://open.spotify.com/episode/69V7CtdbB8blcxNPXvpnmk?si=a26f4aa0b01346b8",
-      imageUrl: "/assets/images/podcast-placeholder.jpg"
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     },
     {
       title: "Lex Fridman - Demis Hassabis",
@@ -292,7 +292,7 @@ const Loft = () => {
       description: "Interview with Demis Hassabis, CEO of DeepMind, discussing artificial intelligence and the quest to solve intelligence.",
       tags: ["AI", "DeepMind", "Research"],
       link: "https://open.spotify.com/episode/3KqezvIUnBKhBnkRVYgBNW?si=a6881ccb6b514e09",
-      imageUrl: "/assets/images/podcast-placeholder.jpg"
+      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
     }
   ];
 
@@ -333,7 +333,7 @@ const Loft = () => {
       year: "2023",
       description: "An exploration of digital landscapes through generative AI, creating detailed virtual worlds that blend reality with imagination.",
       tags: ["AI Generated", "Digital", "Landscape"],
-      imageUrl: "/assets/images/art/digital-world.png"
+      imageUrl: "/world-mk1/assets/images/art/digital-world.png"
     },
     {
       title: "Bodhi",
@@ -341,7 +341,7 @@ const Loft = () => {
       year: "2023",
       description: "A serene exploration of mindfulness and spiritual awakening, depicted through the iconic imagery of the Bodhi tree.",
       tags: ["AI Generated", "Spiritual", "Meditation"],
-      imageUrl: "/assets/images/art/bodhi.png"
+      imageUrl: "/world-mk1/assets/images/art/bodhi.png"
     },
     {
       title: "Lego",
@@ -349,7 +349,7 @@ const Loft = () => {
       year: "2023",
       description: "A playful reimagining of creative construction, celebrating the joy of building and the endless possibilities of imagination.",
       tags: ["AI Generated", "Creative", "Playful"],
-      imageUrl: "/assets/images/art/lego.png"
+      imageUrl: "/world-mk1/assets/images/art/lego.png"
     },
     {
       title: "Library",
@@ -357,7 +357,7 @@ const Loft = () => {
       year: "2023",
       description: "A cozy digital library that captures the essence of knowledge and the wonder of discovering new ideas through books.",
       tags: ["AI Generated", "Knowledge", "Reading"],
-      imageUrl: "/assets/images/art/library.png"
+      imageUrl: "/world-mk1/assets/images/art/library.png"
     },
     {
       title: "Matrix",
@@ -365,7 +365,7 @@ const Loft = () => {
       year: "2023",
       description: "A visual representation of the digital realm, inspired by the iconic aesthetic of the Matrix films and the concept of simulated reality.",
       tags: ["AI Generated", "Digital", "Cyberpunk"],
-      imageUrl: "/assets/images/art/matrix.png"
+      imageUrl: "/world-mk1/assets/images/art/matrix.png"
     },
     {
       title: "Mask",
@@ -373,7 +373,7 @@ const Loft = () => {
       year: "2023",
       description: "An exploration of identity and persona, portraying the many faces we wear and the layers of self we present to the world.",
       tags: ["AI Generated", "Identity", "Surreal"],
-      imageUrl: "/assets/images/art/mask.png"
+      imageUrl: "/world-mk1/assets/images/art/mask.png"
     },
     {
       title: "Tinker",
@@ -381,7 +381,7 @@ const Loft = () => {
       year: "2023",
       description: "A celebration of invention and curiosity, depicting the joy of tinkering and building with one's hands.",
       tags: ["AI Generated", "Invention", "Creative"],
-      imageUrl: "/assets/images/art/tinker.png"
+      imageUrl: "/world-mk1/assets/images/art/tinker.png"
     },
     {
       title: "Truth",
@@ -389,7 +389,7 @@ const Loft = () => {
       year: "2023",
       description: "A philosophical piece reflecting on the nature of truth and perspective, and how our understanding is shaped by our vantage point.",
       tags: ["AI Generated", "Philosophy", "Conceptual"],
-      imageUrl: "/assets/images/art/truth.png"
+      imageUrl: "/world-mk1/assets/images/art/truth.png"
     }
   ];
 
@@ -831,7 +831,7 @@ const Loft = () => {
                       ) : (
                         <>
                           <img 
-                            src="/assets/images/music-placeholder.jpg" 
+                            src="/world-mk1/assets/images/music-placeholder.jpg" 
                             alt="Music visualizer" 
                             className="w-full h-full object-cover opacity-80"
                           />
@@ -875,7 +875,7 @@ const Loft = () => {
                         >
                           <div className="flex-shrink-0 w-10 h-10 bg-slate-700 rounded overflow-hidden">
                             <img 
-                              src={item.imageUrl || "/assets/images/music-placeholder.jpg"} 
+                              src={item.imageUrl || "/world-mk1/assets/images/music-placeholder.jpg"} 
                               alt={item.title}
                               className="w-full h-full object-cover"
                             />
@@ -941,7 +941,7 @@ const Loft = () => {
                     {/* Gaming Setup Image */}
                     <div className="sm:w-1/2 relative">
                       <img 
-                        src="/assets/images/avatar.png" 
+                        src="/world-mk1/assets/images/avatar.png" 
                         alt="Gaming Avatar" 
                         className="w-full h-full object-cover"
                         style={{maxHeight: "220px"}}

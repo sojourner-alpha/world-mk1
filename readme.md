@@ -107,7 +107,7 @@ This website is designed as an immersive digital experience with distinct portal
    npm run dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173/`
+4. Open your browser and navigate to `http://localhost:5173/world-mk1/`
 
 ## Building for Production
 
@@ -124,10 +124,6 @@ The site is deployed to GitHub Pages using the gh-pages package:
 ```bash
 npm run deploy
 ```
-
-The site is accessible at both URLs until DNS propagation is complete:
-- Custom domain: https://curtislederle.com
-- GitHub Pages: https://sojourner-alpha.github.io/world-mk1/
 
 ## License
 
