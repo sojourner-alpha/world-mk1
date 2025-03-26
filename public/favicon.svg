@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle (optional, can be removed if you prefer transparent) -->
-  <circle cx="256" cy="256" r="256" fill="#1A1A1A"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#1A1A1A"/>
   
   <!-- CJL Monogram -->
-  <path d="M128 384C128 320 160 256 256 256C352 256 384 320 384 384" 
+  <path d="M8 24C8 20 10 16 16 16C22 16 24 20 24 24" 
         stroke="white" 
-        stroke-width="48" 
+        stroke-width="3" 
         stroke-linecap="round" 
         stroke-linejoin="round"/>
   
   <!-- J - vertical line -->
-  <path d="M256 384L256 256" 
+  <path d="M16 24L16 16" 
         stroke="white" 
-        stroke-width="48" 
+        stroke-width="3" 
         stroke-linecap="round"/>
   
   <!-- L - vertical line -->
-  <path d="M320 384L320 192" 
+  <path d="M20 24L20 12" 
         stroke="white" 
-        stroke-width="48" 
+        stroke-width="3" 
         stroke-linecap="round"/>
 </svg> 
