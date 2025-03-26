@@ -19,7 +19,7 @@ const Crossroads = () => {
   useAnimations();
 
   // Crossroads image from App.tsx
-  const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
+  const crossroadsImage = "/assets/images/crossroads.png";
 
   // Handle form submission (mock)
   const handleSubmit = (e: React.FormEvent) => {

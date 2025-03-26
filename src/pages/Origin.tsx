@@ -36,7 +36,7 @@ const Origin = () => {
   }, []);
 
   // Origin image from App.tsx
-  const originImage = "/world-mk1/assets/images/origin.png";
+  const originImage = "/assets/images/origin.png";
   
   // Places with proper lat/lng coordinates
   const places = [

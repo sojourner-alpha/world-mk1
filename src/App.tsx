@@ -14,11 +14,11 @@ import { useDarkMode } from './context/DarkModeContext';
 
 // Placeholder images (these would be replaced with actual images)
 // const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
-const originImage = `${ASSETS_URL}/images/origin.png`;
-const workshopImage = `${ASSETS_URL}/images/workshop.png`;
-const loftImage = `${ASSETS_URL}/images/loft.png`;
-const observatoryImage = `${ASSETS_URL}/images/observatory.png`;
-const crossroadsImage = `${ASSETS_URL}/images/crossroads.png`;
+const originImage = `/assets/images/origin.png`;
+const workshopImage = `/assets/images/workshop.png`;
+const loftImage = `/assets/images/loft.png`;
+const observatoryImage = `/assets/images/observatory.png`;
+const crossroadsImage = `/assets/images/crossroads.png`;
 
 const Header = () => {
   const [socialExpanded, setSocialExpanded] = useState(false);

@@ -42,7 +42,7 @@ const Loft = () => {
   useAnimations();
 
   // Background image
-  const loftImage = "/world-mk1/assets/images/loft.png";
+  const loftImage = "/assets/images/loft.png";
 
   // Core brand colors for books - greyscale palette
   const bookColors = [
@@ -260,7 +260,7 @@ const Loft = () => {
       description: "Conversation with Narendra Modi, Prime Minister of India, discussing leadership, technology, and the future of India.",
       tags: ["Leadership", "Politics", "India"],
       link: "https://open.spotify.com/episode/40sptZNuCXjhzPYTG6K2rh?si=d64a669bb7ea4f91",
-      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
+      imageUrl: "/assets/images/podcast-placeholder.jpg"
     },
     {
       title: "Lex Fridman - Deepseek",
@@ -268,7 +268,7 @@ const Loft = () => {
       description: "Discussion about Deepseek, artificial intelligence, and innovations in deep learning technology.",
       tags: ["AI", "Technology", "Deep Learning"],
       link: "https://open.spotify.com/episode/5JKVOvxQ0c9xJmVK3O1asA?si=c3194131223a44cf",
-      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
+      imageUrl: "/assets/images/podcast-placeholder.jpg"
     },
     {
       title: "Lex Fridman - Marc Andreessen",
@@ -333,7 +333,7 @@ const Loft = () => {
       year: "2023",
       description: "An exploration of digital landscapes through generative AI, creating detailed virtual worlds that blend reality with imagination.",
       tags: ["AI Generated", "Digital", "Landscape"],
-      imageUrl: "/world-mk1/assets/images/art/digital-world.png"
+      imageUrl: "/assets/images/art/digital-world.png"
     },
     {
       title: "Bodhi",
@@ -341,7 +341,7 @@ const Loft = () => {
       year: "2023",
       description: "A serene exploration of mindfulness and spiritual awakening, depicted through the iconic imagery of the Bodhi tree.",
       tags: ["AI Generated", "Spiritual", "Meditation"],
-      imageUrl: "/world-mk1/assets/images/art/bodhi.png"
+      imageUrl: "/assets/images/art/bodhi.png"
     },
     {
       title: "Lego",
@@ -831,7 +831,7 @@ const Loft = () => {
                       ) : (
                         <>
                           <img 
-                            src="/world-mk1/assets/images/music-placeholder.jpg" 
+                            src="/assets/images/music-placeholder.jpg" 
                             alt="Music visualizer" 
                             className="w-full h-full object-cover opacity-80"
                           />
@@ -875,7 +875,7 @@ const Loft = () => {
                         >
                           <div className="flex-shrink-0 w-10 h-10 bg-slate-700 rounded overflow-hidden">
                             <img 
-                              src={item.imageUrl || "/world-mk1/assets/images/music-placeholder.jpg"} 
+                              src={item.imageUrl || "/assets/images/music-placeholder.jpg"} 
                               alt={item.title}
                               className="w-full h-full object-cover"
                             />
@@ -891,10 +891,10 @@ const Loft = () => {
                           </button>
                         </div>
                       ))}
-                                </div>
-                              </div>
-                              </div>
-                            </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
               
               {/* Inspirational Quotes - Full width */}
               <div className="lg:col-span-12 my-4">
@@ -941,7 +941,7 @@ const Loft = () => {
                     {/* Gaming Setup Image */}
                     <div className="sm:w-1/2 relative">
                       <img 
-                        src="/world-mk1/assets/images/avatar.png" 
+                        src="/assets/images/avatar.png" 
                         alt="Gaming Avatar" 
                         className="w-full h-full object-cover"
                         style={{maxHeight: "220px"}}
