@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { FaGithub, FaLinkedinIn, FaXTwitter, FaToolbox, FaLightbulb, FaEllipsis, FaMoon, FaSun } from 'react-icons/fa6';
 import { SiSubstack } from 'react-icons/si';
+import { BASE_URL, ASSETS_URL, GITHUB_URL, LINKEDIN_URL, TWITTER_URL, SUBSTACK_URL } from './config/constants';
 import Origin from './pages/Origin';
 import Workshop from './pages/Workshop';
 import Loft from './pages/Loft';
@@ -13,11 +14,11 @@ import { useDarkMode } from './context/DarkModeContext';
 
 // Placeholder images (these would be replaced with actual images)
 // const originImage = "https://cdn.midjourney.com/969574b2-9458-4444-b404-8bd3778f0ea8/0_3.png";
-const originImage = "/world-mk1/assets/images/origin.png";
-const workshopImage = "/world-mk1/assets/images/workshop.png";
-const loftImage = "/world-mk1/assets/images/loft.png";
-const observatoryImage = "/world-mk1/assets/images/observatory.png";
-const crossroadsImage = "/world-mk1/assets/images/crossroads.png";
+const originImage = `${ASSETS_URL}/images/origin.png`;
+const workshopImage = `${ASSETS_URL}/images/workshop.png`;
+const loftImage = `${ASSETS_URL}/images/loft.png`;
+const observatoryImage = `${ASSETS_URL}/images/observatory.png`;
+const crossroadsImage = `${ASSETS_URL}/images/crossroads.png`;
 
 const Header = () => {
   const [socialExpanded, setSocialExpanded] = useState(false);
@@ -702,7 +703,7 @@ function App() {
   
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <Router basename="/world-mk1">
+      <Router basename="/">
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
