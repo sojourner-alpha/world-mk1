@@ -601,7 +601,7 @@ const Home = () => {
                     aria-label="Toggle light effects"
                     style={{ backgroundColor: shadowsActive ? 'rgba(100, 100, 100, 0.7)' : '#d1d5db' }}
                   >
-                    <FaLightbulb size={24} />
+                    <FaLightbulb className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
                   {/* Add dark mode toggle */}
                   <div 
