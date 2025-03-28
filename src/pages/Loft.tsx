@@ -37,12 +37,18 @@ const Loft = () => {
   const [fullscreenArt, setFullscreenArt] = useState<boolean>(false);
   const [activeMusic, setActiveMusic] = useState<number | null>(null);
   const [popupPosition, setPopupPosition] = useState<'center' | 'left' | 'right'>('center');
+  const [currentQuote, setCurrentQuote] = useState<number>(0);
   
   // Use shared animations
   useAnimations();
 
   // Background image
   const loftImage = "/assets/images/loft.png";
+  
+  // Default placeholders
+  const defaultPlaceholder = "/assets/images/placeholder.png";
+  const podcastPlaceholder = "/assets/images/podcast-placeholder.jpg";
+  const musicPlaceholder = "/assets/images/placeholder.png";
 
   // Core brand colors for books - greyscale palette
   const bookColors = [
@@ -260,7 +266,7 @@ const Loft = () => {
       description: "Conversation with Narendra Modi, Prime Minister of India, discussing leadership, technology, and the future of India.",
       tags: ["Leadership", "Politics", "India"],
       link: "https://open.spotify.com/episode/40sptZNuCXjhzPYTG6K2rh?si=d64a669bb7ea4f91",
-      imageUrl: "/assets/images/podcast-placeholder.jpg"
+      imageUrl: podcastPlaceholder
     },
     {
       title: "Lex Fridman - Deepseek",
@@ -268,7 +274,7 @@ const Loft = () => {
       description: "Discussion about Deepseek, artificial intelligence, and innovations in deep learning technology.",
       tags: ["AI", "Technology", "Deep Learning"],
       link: "https://open.spotify.com/episode/5JKVOvxQ0c9xJmVK3O1asA?si=c3194131223a44cf",
-      imageUrl: "/assets/images/podcast-placeholder.jpg"
+      imageUrl: podcastPlaceholder
     },
     {
       title: "Lex Fridman - Marc Andreessen",
@@ -276,7 +282,7 @@ const Loft = () => {
       description: "Interview with Marc Andreessen, co-founder of Andreessen Horowitz, discussing venture capital, startups, and the future of technology.",
       tags: ["Venture Capital", "Technology", "Startups"],
       link: "https://open.spotify.com/episode/5iXQAfEnrO3kWtg4WzYXUD?si=445aa20832f64b21",
-      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
+      imageUrl: podcastPlaceholder
     },
     {
       title: "Lex Fridman - Guido van Rossum",
@@ -284,7 +290,7 @@ const Loft = () => {
       description: "Conversation with Guido van Rossum, creator of Python, discussing programming languages and software development.",
       tags: ["Programming", "Python", "Software"],
       link: "https://open.spotify.com/episode/69V7CtdbB8blcxNPXvpnmk?si=a26f4aa0b01346b8",
-      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
+      imageUrl: podcastPlaceholder
     },
     {
       title: "Lex Fridman - Demis Hassabis",
@@ -292,7 +298,7 @@ const Loft = () => {
       description: "Interview with Demis Hassabis, CEO of DeepMind, discussing artificial intelligence and the quest to solve intelligence.",
       tags: ["AI", "DeepMind", "Research"],
       link: "https://open.spotify.com/episode/3KqezvIUnBKhBnkRVYgBNW?si=a6881ccb6b514e09",
-      imageUrl: "/world-mk1/assets/images/podcast-placeholder.jpg"
+      imageUrl: podcastPlaceholder
     }
   ];
 
@@ -349,7 +355,7 @@ const Loft = () => {
       year: "2023",
       description: "A playful reimagining of creative construction, celebrating the joy of building and the endless possibilities of imagination.",
       tags: ["AI Generated", "Creative", "Playful"],
-      imageUrl: "/world-mk1/assets/images/art/lego.png"
+      imageUrl: "/assets/images/art/lego.png"
     },
     {
       title: "Library",
@@ -357,7 +363,7 @@ const Loft = () => {
       year: "2023",
       description: "A cozy digital library that captures the essence of knowledge and the wonder of discovering new ideas through books.",
       tags: ["AI Generated", "Knowledge", "Reading"],
-      imageUrl: "/world-mk1/assets/images/art/library.png"
+      imageUrl: "/assets/images/art/library.png"
     },
     {
       title: "Matrix",
@@ -365,7 +371,7 @@ const Loft = () => {
       year: "2023",
       description: "A visual representation of the digital realm, inspired by the iconic aesthetic of the Matrix films and the concept of simulated reality.",
       tags: ["AI Generated", "Digital", "Cyberpunk"],
-      imageUrl: "/world-mk1/assets/images/art/matrix.png"
+      imageUrl: "/assets/images/art/matrix.png"
     },
     {
       title: "Mask",
@@ -373,7 +379,7 @@ const Loft = () => {
       year: "2023",
       description: "An exploration of identity and persona, portraying the many faces we wear and the layers of self we present to the world.",
       tags: ["AI Generated", "Identity", "Surreal"],
-      imageUrl: "/world-mk1/assets/images/art/mask.png"
+      imageUrl: "/assets/images/art/mask.png"
     },
     {
       title: "Tinker",
@@ -381,7 +387,7 @@ const Loft = () => {
       year: "2023",
       description: "A celebration of invention and curiosity, depicting the joy of tinkering and building with one's hands.",
       tags: ["AI Generated", "Invention", "Creative"],
-      imageUrl: "/world-mk1/assets/images/art/tinker.png"
+      imageUrl: "/assets/images/art/tinker.png"
     },
     {
       title: "Truth",
@@ -389,7 +395,7 @@ const Loft = () => {
       year: "2023",
       description: "A philosophical piece reflecting on the nature of truth and perspective, and how our understanding is shaped by our vantage point.",
       tags: ["AI Generated", "Philosophy", "Conceptual"],
-      imageUrl: "/world-mk1/assets/images/art/truth.png"
+      imageUrl: "/assets/images/art/truth.png"
     }
   ];
 
@@ -431,6 +437,15 @@ const Loft = () => {
   
   const prevArtwork = () => {
     setSelectedArtwork((prev) => (prev - 1 + artworks.length) % artworks.length);
+  };
+
+  // Navigation functions for quotes
+  const nextQuote = () => {
+    setCurrentQuote((prev) => (prev + 1) % quotes.length);
+  };
+  
+  const prevQuote = () => {
+    setCurrentQuote((prev) => (prev - 1 + quotes.length) % quotes.length);
   };
 
   // Keyboard navigation for art gallery
@@ -604,7 +619,10 @@ const Loft = () => {
                   
                   {/* Book details section that appears below the books */}
                   {clickedBook !== null && (
-                    <div className="mt-6 bg-white rounded-lg shadow-md p-5 border border-amber-200 transition-all duration-300 ease-in-out md:max-w-2xl mx-auto">
+                    <div 
+                      className="mt-6 bg-white rounded-lg shadow-md p-5 border border-amber-200 transition-all duration-300 ease-in-out md:max-w-2xl mx-auto relative z-20"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <div className="flex justify-between items-start">
                         <div>
                           <h4 className="font-heading text-slate-800 text-xl">{books.slice().reverse()[clickedBook].title}</h4>
@@ -615,7 +633,7 @@ const Loft = () => {
                             e.stopPropagation();
                             setClickedBook(null);
                           }}
-                          className="bg-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 text-xl"
+                          className="bg-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 text-xl hover:bg-slate-200 z-30"
                           aria-label="Close book details"
                         >
                           ×
@@ -638,7 +656,8 @@ const Loft = () => {
                           href={books.slice().reverse()[clickedBook].link} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center justify-center gap-2 w-full md:w-auto md:inline-flex"
+                          onClick={(e) => e.stopPropagation()}
+                          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded flex items-center justify-center gap-2 w-full md:w-auto md:inline-flex transition-colors z-30 relative"
                         >
                           View on Audible
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -831,7 +850,7 @@ const Loft = () => {
                       ) : (
                         <>
                           <img 
-                            src="/assets/images/music-placeholder.jpg" 
+                            src={musicPlaceholder}
                             alt="Music visualizer" 
                             className="w-full h-full object-cover opacity-80"
                           />
@@ -875,7 +894,7 @@ const Loft = () => {
                         >
                           <div className="flex-shrink-0 w-10 h-10 bg-slate-700 rounded overflow-hidden">
                             <img 
-                              src={item.imageUrl || "/assets/images/music-placeholder.jpg"} 
+                              src={item.imageUrl || musicPlaceholder}
                               alt={item.title}
                               className="w-full h-full object-cover"
                             />
@@ -899,19 +918,36 @@ const Loft = () => {
               {/* Inspirational Quotes - Full width */}
               <div className="lg:col-span-12 my-4">
                 <div className="bg-gradient-to-r from-slate-900 to-slate-700 rounded-lg shadow-md p-6 text-center">
-                  <blockquote className="text-white text-xl md:text-2xl font-heading italic mb-3">
-                    "The future belongs to those who believe in the beauty of their dreams."
-                  </blockquote>
-                  <cite className="text-white/90 block">— Eleanor Roosevelt</cite>
+                  <div className="min-h-[100px] flex flex-col items-center justify-center">
+                    <blockquote className="text-white text-xl md:text-2xl font-heading italic mb-3 transition-opacity duration-300">
+                      "{quotes[currentQuote].text}"
+                    </blockquote>
+                    <cite className="text-white/90 block transition-opacity duration-300">
+                      — {quotes[currentQuote].author}
+                      {quotes[currentQuote].source && <span>, {quotes[currentQuote].source}</span>}
+                      {quotes[currentQuote].year && <span> ({quotes[currentQuote].year})</span>}
+                    </cite>
+                  </div>
                   
                   <div className="mt-4 flex justify-center items-center gap-3">
-                    <button className="text-white/70 hover:text-white transition-colors p-2" aria-label="Previous quote">
+                    <button 
+                      className="text-white/70 hover:text-white transition-colors p-2" 
+                      aria-label="Previous quote"
+                      onClick={prevQuote}
+                    >
                       <FaChevronLeft size={16} />
                     </button>
-                    <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-md text-sm transition-colors">
+                    <button 
+                      className="bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-md text-sm transition-colors"
+                      onClick={() => setCurrentQuote(Math.floor(Math.random() * quotes.length))}
+                    >
                       New Quote
                     </button>
-                    <button className="text-white/70 hover:text-white transition-colors p-2" aria-label="Next quote">
+                    <button 
+                      className="text-white/70 hover:text-white transition-colors p-2" 
+                      aria-label="Next quote"
+                      onClick={nextQuote}
+                    >
                       <FaChevronRight size={16} />
                     </button>
                   </div>
