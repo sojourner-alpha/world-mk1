@@ -35,42 +35,13 @@ const Study = () => {
 
   // Projects/Research data for Markets section
   const marketProjects: Record<string, ProjectType[]> = {
-    macroMetrics: [
+    investmentAnalysis: [
       {
-        title: "Equity Market Trends 2025",
-        description: "Analysis of global equity market trends and emerging patterns in sector rotation, valuations, and investment flows.",
-        technologies: ["Market Analysis", "Equities", "Valuation Models", "Data Visualization"],
+        title: "Self Guided Curriculum for Buy Side Analysis",
+        description: "A comprehensive 2-week intensive program covering equity research, valuation methods, financial modeling, and investment decision frameworks for buy-side analysts and portfolio managers.",
+        technologies: ["Equity Research", "Financial Modeling", "Valuation", "Portfolio Construction"],
+        link: "https://sojourninsight.notion.site/buy-side-analysis?pvs=4",
         status: "In Progress"
-      },
-      {
-        title: "Bond Market Dynamics",
-        description: "Examination of changing yield curve structures, credit spreads, and the evolving role of fixed income in portfolio construction.",
-        technologies: ["Fixed Income", "Yield Curves", "Interest Rates", "Credit Analysis"],
-        link: "https://example.com/bond-dynamics",
-        status: "Completed",
-        media: {
-          type: "pdf",
-          url: "/research/bond-dynamics.pdf"
-        }
-      },
-      {
-        title: "Commodity Supercycles",
-        description: "Investigation into the cyclical nature of commodity markets, supply constraints, and the impact of geopolitical factors on prices.",
-        technologies: ["Commodities", "Cyclical Analysis", "Supply Chains", "Geopolitics"],
-        status: "In Progress"
-      },
-      {
-        title: "Currency Market Evolution",
-        description: "Study of global forex markets, reserve currency shifts, and the impact of central bank policies on currency valuations.",
-        technologies: ["Forex", "Monetary Policy", "Central Banks", "Currency Pairs"],
-        status: "Planned"
-      },
-      {
-        title: "Cryptocurrency Ecosystem",
-        description: "Mapping the evolving landscape of digital assets, blockchain technologies, and their integration with traditional financial systems.",
-        technologies: ["Blockchain", "Crypto", "DeFi", "Digital Assets"],
-        link: "https://example.com/crypto-ecosystem",
-        status: "Completed"
       }
     ],
     criticalSystems: [
@@ -322,7 +293,7 @@ const Study = () => {
           {/* Title - Fixed centered position */}
           <div className="absolute top-0 left-0 right-0 py-8 text-center">
             <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Study</h1>
-            <p className="text-xl text-white">where deep thinking meets continuous learning</p>
+            <p className="text-xl text-white">where analysis meets synthesis</p>
           </div>
           
           {/* Buttons Container - Right justified when collapsed, centered when open */}
@@ -376,10 +347,10 @@ const Study = () => {
                   <div className="p-4 pt-0 section-content">
                     <div className="space-y-4 mb-6">
                       <p className="text-slate-700">
-                        Understanding markets is about seeing the complex interplay of companies, industries, and systems that form our economic landscape. Beyond financial analysis, this is about grasping the deeper patterns and forces that shape our world.
+                        Investment analysis is about understanding the complex dynamics of financial markets, companies, and economic systems to make informed capital allocation decisions.
                       </p>
                       <p className="text-slate-700">
-                        Here, the focus is on critical systems, emerging trends, and the frameworks we use to make sense of an increasingly complex marketplace.
+                        This section documents my learning journey through various investment disciplines, including equity research, valuation methodologies, financial modeling, and portfolio construction principles.
                       </p>
                     </div>
                     
@@ -433,7 +404,7 @@ const Study = () => {
                           </div>
                           
                           {/* Media & Links */}
-                          <div className="flex justify-end">
+                          <div className="flex justify-end relative z-50">
                             {project.media && (
                               <a 
                                 href={project.media.url} 
@@ -460,7 +431,7 @@ const Study = () => {
                                 href={project.link} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800 relative z-50"
                               >
                                 <span>Learn more</span>
                                 <FaArrowRight className="ml-2" />
@@ -581,7 +552,7 @@ const Study = () => {
                         </div>
                           
                           {/* Media & Links */}
-                          <div className="flex justify-end">
+                          <div className="flex justify-end relative z-50">
                             {project.media && (
                               <a 
                                 href={project.media.url} 
@@ -608,7 +579,7 @@ const Study = () => {
                                 href={project.link} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800 relative z-50"
                               >
                                 <span>Learn more</span>
                                 <FaArrowRight className="ml-2" />
@@ -729,7 +700,7 @@ const Study = () => {
                           </div>
                           
                           {/* Media & Links */}
-                          <div className="flex justify-end">
+                          <div className="flex justify-end relative z-50">
                             {project.media && (
                               <a 
                                 href={project.media.url} 
@@ -756,7 +727,7 @@ const Study = () => {
                                 href={project.link} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800 relative z-50"
                               >
                                 <span>Learn more</span>
                                 <FaArrowRight className="ml-2" />
