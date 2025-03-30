@@ -317,7 +317,7 @@ const StudySection = () => (
           <h2 className="section-title text-white content-title text-center">Study</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">A space dedicated to educational content and my journey through various disciplines.<br/>Where analysis synthesis happens.<br/>A space for learning and deep thinking. </p>
+              <p className="text-lg mb-6">My learning and thinking space. Dedicated to educational content and a journey through various disciplines. Where analysis and synthesis happens. </p>
             </div>
             <Link to="/study" className="btn btn-primary content-button"><span>Explore</span></Link>
           </div>

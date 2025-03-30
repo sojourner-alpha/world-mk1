@@ -276,16 +276,7 @@ const Study = () => {
       </div>
       
       {/* Header */}
-      <header className="relative z-10 py-4 px-6">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="text-2xl font-heading text-white">Curtis James | Lederle</Link>
-            <div>
-              <Link to="/" className="text-white hover:text-blue-300 transition">← Home</Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <PageHeader pageName="Study" />
       
       {/* Main content area - with custom scrollbar */}
       <div className="relative z-10 h-[calc(100vh-96px)] overflow-auto scrollbar-custom">

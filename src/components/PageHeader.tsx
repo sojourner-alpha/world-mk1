@@ -23,14 +23,31 @@ const PageHeader: React.FC<PageHeaderProps> = ({ pageName }) => {
             </div>
             
             {/* Desktop navigation - hidden on mobile */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-white/80 hover:text-white text-sm flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                <span>Home</span>
+            <nav className="hidden md:flex items-center gap-6">
+              <Link 
+                to="/" 
+                className={`text-white/80 hover:text-white text-sm flex items-center transition-colors ${pageName === 'Home' ? 'text-white underline underline-offset-4' : ''}`}
+              >
+                Home
               </Link>
-              <span className="text-white/80 text-sm">{pageName}</span>
+              <Link 
+                to="/workshop" 
+                className={`text-white/80 hover:text-white text-sm transition-colors ${pageName === 'Workshop' ? 'text-white underline underline-offset-4' : ''}`}
+              >
+                Workshop
+              </Link>
+              <Link 
+                to="/study" 
+                className={`text-white/80 hover:text-white text-sm transition-colors ${pageName === 'Study' ? 'text-white underline underline-offset-4' : ''}`}
+              >
+                Study
+              </Link>
+              <Link 
+                to="/loft" 
+                className={`text-white/80 hover:text-white text-sm transition-colors ${pageName === 'Loft' ? 'text-white underline underline-offset-4' : ''}`}
+              >
+                Loft
+              </Link>
             </nav>
           </div>
         </div>
