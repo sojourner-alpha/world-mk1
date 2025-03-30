@@ -220,11 +220,12 @@ const Workshop = () => {
   // Projects data
   const projects: ProjectCardProps[] = [
     {
-      name: "Impact on Executive Search",
+      name: "AI Impact on Executive Search",
       description: "Research report exploring the rise of interim placements amid increasing uncertainty, and how AI is reshaping talent acquisition and executive placement.",
       technologies: ["AI/ML", "Research", "Talent Acquisition"],
+      url: "https://sojourninsight.notion.site/ai-leadership",
       type: "notion",
-      isPublic: false,
+      isPublic: true,
       // url will be added later: "https://sojournhabits.notion.site/ai-executive-search"
     },
     {

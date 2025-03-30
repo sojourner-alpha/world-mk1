@@ -556,7 +556,7 @@ const Home = () => {
                 <div className="card-container md:w-auto md:-mx-0">
                   <PortalCard 
                     title="Study" 
-                    description="Analysis & synthesis" 
+                    description="Research, analysis & synthesis" 
                     image={studyImage} 
                     link="/study"
                     tag="LEARN"
