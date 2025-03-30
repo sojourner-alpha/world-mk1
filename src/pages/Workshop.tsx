@@ -483,7 +483,7 @@ const Workshop = () => {
             <div className="w-full h-px bg-slate-200 mb-16"></div>
 
             {/* Career Journey */}
-            <h2 className="text-3xl font-heading mb-8 text-center">Journey</h2>
+            <h2 className="text-3xl font-heading mb-8 text-center">Career Path</h2>
             
             <div className="space-y-12">
               {careerTimeline.map((position, index) => (
