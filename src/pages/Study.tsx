@@ -282,7 +282,7 @@ const Study = () => {
       <div className="relative z-10 h-[calc(100vh-96px)] overflow-auto scrollbar-custom">
         <div className="container mx-auto p-6 flex flex-col">
           {/* Title - Fixed centered position */}
-          <div className="absolute top-0 left-0 right-0 py-8 text-center">
+          <div className="absolute top-0 left-0 right-0 py-8 md:py-8 pt-28 md:pt-8 text-center">
             <div className="bg-matted/60 backdrop-blur-sm inline-block px-8 py-4 rounded-lg shadow-sm">
               <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Study</h1>
               <p className="text-xl text-white">where analysis meets synthesis</p>
@@ -290,7 +290,7 @@ const Study = () => {
           </div>
           
           {/* Buttons Container - Right justified when collapsed, centered when open */}
-          <div className="mt-32 flex flex-col gap-8 items-end">
+          <div className="mt-60 md:mt-32 flex flex-col gap-8 items-end">
             {/* Markets Section */}
             <div 
               className={`transition-all duration-500 ease-in-out ${

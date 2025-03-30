@@ -9,17 +9,17 @@ interface PageHeaderProps {
 const PageHeader: React.FC<PageHeaderProps> = ({ pageName }) => {
   return (
     <header className="absolute top-0 left-0 right-0 z-50">
-      <div className="bg-gradient-to-b from-black/50 to-transparent pt-6 pb-4">
-        <div className="container-custom">
+      <div className="bg-gradient-to-b from-black/70 to-black/20 pt-4 md:pt-6 pb-4">
+        <div className="container-custom px-4 md:px-6">
           <div className="flex items-center justify-between relative">
             {/* Mobile back arrow - visible on mobile only */}
-            <Link to="/" className="md:hidden text-white/80 hover:text-white absolute left-0 z-10">
+            <Link to="/" className="md:hidden text-white/80 hover:text-white z-10 px-2 py-1 -ml-2">
               <FaChevronLeft size={18} />
             </Link>
             
             {/* Center title on mobile, left-aligned on desktop */}
             <div className="w-full md:w-auto flex justify-center md:justify-start">
-              <Link to="/" className="text-2xl font-heading text-white">Curtis James | Lederle</Link>
+              <Link to="/" className="text-xl md:text-2xl font-heading text-white">Curtis James | Lederle</Link>
             </div>
             
             {/* Desktop navigation - hidden on mobile */}
