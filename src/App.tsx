@@ -6,7 +6,7 @@ import { BASE_URL, ASSETS_URL, GITHUB_URL, LINKEDIN_URL, TWITTER_URL, SUBSTACK_U
 import Origin from './pages/Origin';
 import Workshop from './pages/Workshop';
 import Loft from './pages/Loft';
-import Observatory from './pages/Observatory';
+import Study from './pages/Study';
 import Crossroads from './pages/Crossroads';
 import CvPage from './pages/CvPage';
 import ScrollToTop from './components/ScrollToTop';
@@ -17,7 +17,7 @@ import { useDarkMode } from './context/DarkModeContext';
 const originImage = `/assets/images/origin.png`;
 const workshopImage = `/assets/images/workshop.png`;
 const loftImage = `/assets/images/loft.png`;
-const observatoryImage = `/assets/images/observatory.png`;
+const studyImage = `/assets/images/study.png`;
 const crossroadsImage = `/assets/images/crossroads.png`;
 
 const Header = () => {
@@ -303,23 +303,23 @@ const WorkshopSection = () => (
   </section>
 );
 
-const ObservatorySection = () => (
-  <section id="observatory" className="scroll-section relative">
+const StudySection = () => (
+  <section id="study" className="scroll-section relative">
     <div className="section-transition top"></div>
     <div className="absolute inset-0 z-0">
-      <img src={observatoryImage} alt="Observatory" className="w-full h-full object-cover" style={{aspectRatio: "16/9", objectPosition: "center 20%"}} />
+      <img src={studyImage} alt="Study" className="w-full h-full object-cover" style={{aspectRatio: "16/9", objectPosition: "center 20%"}} />
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
     </div>
     <div className="section-transition bottom"></div>
     <div className="container-wide relative z-10 h-full flex items-center">
       <div className="max-w-lg ml-auto mr-20 text-white">
         <div className="content-container content-container-right">
-          <h2 className="section-title text-white content-title text-center">Observatory</h2>
+          <h2 className="section-title text-white content-title text-center">Study</h2>
           <div className="content-text">
             <div className="text-left w-full">
-              <p className="text-lg mb-6">Where I try to extend my mind beyond the horizon. A lookout point into markets, mental models and meditations on the present and future.</p>
+              <p className="text-lg mb-6">Where deep thinking, learning, and analysis happen. A space dedicated to educational content and my journey through various disciplines.</p>
             </div>
-            <Link to="/observatory" className="btn btn-primary content-button"><span>Consider</span></Link>
+            <Link to="/study" className="btn btn-primary content-button"><span>Explore</span></Link>
           </div>
         </div>
       </div>
@@ -511,7 +511,7 @@ const Home = () => {
   const portalDescriptions = {
     workshop: "Explore my open source projects, professional portfolio, technical skills and career path.",
     loft: "Discover my creative pursuits, hobby projects, podcasts, music and writing.",
-    observatory: "Consider forward looking musings, predictions, and thought experiments."
+    study: "Dive into educational content, deep thinking, and analysis where I share my learning journey across disciplines."
   };
 
   return (
@@ -546,8 +546,8 @@ const Home = () => {
                     description="Professional portfolio & skills" 
                     image={workshopImage} 
                     link="/workshop"
-                    tag="TECH"
-                    tagColor="tag-green"
+                    tag="WORK"
+                    tagColor="tag-blue"
                     longDescription={portalDescriptions.workshop}
                     shadowActive={shadowsActive}
                     animationDelay="1.5s"
@@ -555,13 +555,13 @@ const Home = () => {
                 </div>
                 <div className="card-container md:w-auto md:-mx-0">
                   <PortalCard 
-                    title="Observatory" 
-                    description="Ideas & future perspectives" 
-                    image={observatoryImage} 
-                    link="/observatory"
-                    tag="FUTURE"
+                    title="Study" 
+                    description="Analysis & synthesis" 
+                    image={studyImage} 
+                    link="/study"
+                    tag="LEARN"
                     tagColor="tag-amber"
-                    longDescription={portalDescriptions.observatory}
+                    longDescription={portalDescriptions.study}
                     shadowActive={shadowsActive}
                     animationDelay="2s"
                   />
@@ -572,8 +572,8 @@ const Home = () => {
                     description="Hobbies & creative pursuits" 
                     image={loftImage} 
                     link="/loft"
-                    tag="CREATIVE"
-                    tagColor="tag-blue"
+                    tag="EXPLORE"
+                    tagColor="tag-green"
                     longDescription={portalDescriptions.loft}
                     shadowActive={shadowsActive}
                     animationDelay="2.5s"
@@ -652,7 +652,7 @@ const Home = () => {
       {/* Scroll Sections */}
       <div ref={sectionsRef} className="relative z-20">
         <WorkshopSection />
-        <ObservatorySection />
+        <StudySection />
         <LoftSection />
         <CrossroadsSection />
       </div>
@@ -710,7 +710,7 @@ function App() {
           <Route path="/origin" element={<Origin />} />
           <Route path="/workshop" element={<Workshop />} />
           <Route path="/loft" element={<Loft />} />
-          <Route path="/observatory" element={<Observatory />} />
+          <Route path="/study" element={<Study />} />
           <Route path="/crossroads" element={<Crossroads />} />
           <Route path="/cv" element={<CvPage />} />
         </Routes>

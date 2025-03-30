@@ -7,7 +7,7 @@ A digital workshop functioning as a nexus with portals to different "worlds" rep
 This website is designed as an immersive digital experience with distinct portal experiences:
 
 1. **Workshop** - Professional portfolio & skills
-2. **Observatory** - Ideas & future perspectives
+2. **Study** - Ideas & future perspectives
 3. **Loft** - Hobbies & creative pursuits
 4. **Crossroads** - Connect & collaborate
 99. **Origin** - Personal story & journey (easter egg)
@@ -71,7 +71,7 @@ This website is designed as an immersive digital experience with distinct portal
    - ✅ Add media gallery
    - Implement three.js
 
-3. **Observatory Portal**
+3. **Study Portal**
    - ✅ Create thought experiment space
    - ✅ Add prediction timeline
    - Critical systems theory research
@@ -140,7 +140,7 @@ As of 3/25/2025
 #Top 5 Largest Files:
 - src/pages/Loft.tsx - 1,205 lines
 - src/index.css - 1,084 lines
-- src/pages/Observatory.tsx - 779 lines
+- src/pages/Study.tsx - 779 lines
 - src/App.tsx - 721 lines
 - src/pages/Workshop.tsx - 677 lines
 

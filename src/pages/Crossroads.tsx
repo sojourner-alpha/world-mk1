@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaGithub, FaLinkedinIn, FaEnvelope, FaArrowCircleRight } from 'react-icons/fa';
+import { FaArrowRight, FaGithub, FaLinkedinIn, FaEnvelope, FaArrowCircleRight, FaGlobe } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiSubstack } from 'react-icons/si';
 
@@ -227,14 +227,13 @@ const Crossroads = () => {
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow-sm fade-in-up">
-                <h3 className="text-xl font-heading mb-2">Observatory</h3>
-                <p className="text-slate-600 mb-4">Analysis of emerging technology and future trends</p>
+                <h3 className="text-xl font-heading mb-2">Study</h3>
+                <p className="text-slate-600 mb-4">Educational content, deep analysis, and my learning journey across disciplines.</p>
                 <Link 
-                  to="/observatory" 
-                  className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                  to="/study" 
+                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
-                  Visit Observatory
-                  <FaArrowRight className="ml-2" />
+                  Visit Study
                 </Link>
               </div>
               

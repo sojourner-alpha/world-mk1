@@ -22,7 +22,7 @@ interface ProjectType {
   };
 }
 
-const Observatory = () => {
+const Study = () => {
   // Track which sections are expanded - using an array to allow multiple sections
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const [activeSection, setActiveSection] = useState<string>('research');
@@ -30,8 +30,8 @@ const Observatory = () => {
   // Use shared animations
   useAnimations();
 
-  // Observatory image from App.tsx
-  const observatoryImage = "/assets/images/observatory.png";
+  // Study image from App.tsx
+  const studyImage = "/assets/images/study.png";
 
   // Projects/Research data for Markets section
   const marketProjects: Record<string, ProjectType[]> = {
@@ -296,10 +296,10 @@ const Observatory = () => {
       {/* Full-screen background image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src={observatoryImage} 
-          alt="Observatory" 
+          src={studyImage} 
+          alt="Study" 
           className="w-full h-full object-cover"
-          style={{objectPosition: "center 15%"}}
+          style={{objectPosition: "center 50%"}}
         />
         <div className="absolute inset-0 bg-black bg-opacity-25"></div>
       </div>
@@ -321,8 +321,8 @@ const Observatory = () => {
         <div className="container mx-auto p-6 flex flex-col">
           {/* Title - Fixed centered position */}
           <div className="absolute top-0 left-0 right-0 py-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Observatory</h1>
-            <p className="text-xl text-white">inspecting the inner and outer cosmos</p>
+            <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Study</h1>
+            <p className="text-xl text-white">where deep thinking meets continuous learning</p>
           </div>
           
           {/* Buttons Container - Right justified when collapsed, centered when open */}
@@ -777,4 +777,4 @@ const Observatory = () => {
   );
 };
 
-export default Observatory; 
+export default Study; 
