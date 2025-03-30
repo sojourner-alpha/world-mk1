@@ -292,8 +292,10 @@ const Study = () => {
         <div className="container mx-auto p-6 flex flex-col">
           {/* Title - Fixed centered position */}
           <div className="absolute top-0 left-0 right-0 py-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Study</h1>
-            <p className="text-xl text-white">where analysis meets synthesis</p>
+            <div className="bg-matted/60 backdrop-blur-sm inline-block px-8 py-4 rounded-lg shadow-sm">
+              <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Study</h1>
+              <p className="text-xl text-white">where analysis meets synthesis</p>
+            </div>
           </div>
           
           {/* Buttons Container - Right justified when collapsed, centered when open */}

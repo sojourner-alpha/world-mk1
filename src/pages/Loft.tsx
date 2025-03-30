@@ -528,7 +528,7 @@ const Loft = () => {
         
         <div className="absolute inset-0 z-20">
           <div className="h-full flex items-center p-8">
-            <div className="max-w-2xl">
+            <div className="max-w-2xl ml-auto">
               <div className="bg-matted/60 backdrop-blur-sm text-white p-8 rounded-lg shadow-sm">
                 <h1 className="text-4xl font-heading mb-4">Loft</h1>
                 <p className="text-xl mb-6">Creative Space & Media Collection</p>
