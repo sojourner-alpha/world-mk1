@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaDownload, FaSpinner } from 'react-icons/fa';
-import CvTemplate from './CvTemplate';
+import AltCvTemplate from './AltCvTemplate';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-const CvPage: React.FC = () => {
+const AltCvPage: React.FC = () => {
   const cvRef = useRef<HTMLDivElement>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -67,7 +67,7 @@ const CvPage: React.FC = () => {
         });
       }
       
-      pdf.save('curtis_lederle_cv.pdf');
+      pdf.save('curtis_lederle_alt_cv.pdf');
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Error generating PDF. Please try again.');
@@ -80,7 +80,7 @@ const CvPage: React.FC = () => {
     <div className="bg-slate-100 min-h-screen py-4 md:py-8">
       <div className="max-w-5xl mx-auto px-0 md:px-4">
         <header className="mb-4 md:mb-8 px-4">
-          <h1 className="text-2xl md:text-3xl font-heading text-slate-800 mb-4 text-center">Curtis James | Lederle</h1>
+          <h1 className="text-2xl md:text-3xl font-heading text-slate-800 mb-4 text-center">Curtis James | Lederle (Alternative)</h1>
           
           {/* Desktop layout - row */}
           <div className="hidden md:flex justify-between items-center">
@@ -89,19 +89,10 @@ const CvPage: React.FC = () => {
               <span>Back to Workshop</span>
             </Link>
             <div className="flex space-x-4">
-              <a
-                href="/curtis_lederle_cv.pdf"
-                download
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-              >
-                <FaDownload className="mr-2" />
-                <span>Download CV</span>
-              </a>
-              {/* Hidden generate button for future updates */}
               <button
                 onClick={generatePDF}
                 disabled={isGenerating}
-                className="hidden"
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
               >
                 {isGenerating ? (
                   <>
@@ -111,7 +102,7 @@ const CvPage: React.FC = () => {
                 ) : (
                   <>
                     <FaDownload className="mr-2" />
-                    <span>Generate PDF</span>
+                    <span>Generate & Download</span>
                   </>
                 )}
               </button>
@@ -120,19 +111,10 @@ const CvPage: React.FC = () => {
           
           {/* Mobile layout - centered buttons */}
           <div className="flex md:hidden flex-col items-center justify-center space-y-3">
-            <a
-              href="/curtis_lederle_cv.pdf"
-              download
-              className="flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full max-w-[220px] justify-center shadow-sm font-medium"
-            >
-              <FaDownload className="mr-2" />
-              <span>Download CV</span>
-            </a>
-            {/* Hidden generate button for future updates */}
             <button
               onClick={generatePDF}
               disabled={isGenerating}
-              className="hidden"
+              className="flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full max-w-[220px] justify-center shadow-sm font-medium"
             >
               {isGenerating ? (
                 <>
@@ -142,7 +124,7 @@ const CvPage: React.FC = () => {
               ) : (
                 <>
                   <FaDownload className="mr-2" />
-                  <span>Generate PDF</span>
+                  <span>Generate & Download</span>
                 </>
               )}
             </button>
@@ -159,7 +141,7 @@ const CvPage: React.FC = () => {
         {/* CV template for PDF generation */}
         <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
           <div ref={cvRef} style={{ width: '816px', height: '1056px', background: 'white' }}>
-            <CvTemplate />
+            <AltCvTemplate />
           </div>
         </div>
         
@@ -177,7 +159,7 @@ const CvPage: React.FC = () => {
                 transform: 'scale(0.5)',
                 transformOrigin: 'top left' 
               }}>
-                <CvTemplate />
+                <AltCvTemplate />
               </div>
             </div>
           </div>
@@ -186,19 +168,19 @@ const CvPage: React.FC = () => {
         {/* Desktop container with centered alignment */}
         <div className="hidden md:flex justify-center mb-10">
           <div className="bg-white shadow-2xl rounded-lg overflow-hidden transform scale-[0.85] origin-top" style={{ width: '8.5in', height: '11in' }}>
-            <CvTemplate />
+            <AltCvTemplate />
           </div>
         </div>
         
         <div className="mt-4 md:mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg mx-4">
-          <p className="font-medium">Click the download button to get the latest version of the CV.</p>
-          <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
+          <p className="font-medium">Click the generate button to create and download the latest version of your alternative CV.</p>
+          <p className="text-sm mt-2">The PDF will be generated with active links for digital distribution.</p>
           <p className="text-sm mt-2 md:hidden">The CV is shown at reduced size to fit your screen.</p>
         </div>
         
         <div className="mt-4 text-center">
-          <Link to="/alt-cv" className="text-blue-600 hover:text-blue-800">
-            View Alternative CV
+          <Link to="/cv" className="text-blue-600 hover:text-blue-800">
+            Back to Standard CV
           </Link>
         </div>
       </div>
@@ -206,4 +188,4 @@ const CvPage: React.FC = () => {
   );
 };
 
-export default CvPage; 
+export default AltCvPage; 

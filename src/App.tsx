@@ -9,6 +9,7 @@ import Loft from './pages/Loft';
 import Study from './pages/Study';
 import Crossroads from './pages/Crossroads';
 import CvPage from './pages/CvPage';
+import AltCvPage from './pages/AltCvPage';
 import ScrollToTop from './components/ScrollToTop';
 import { useDarkMode } from './context/DarkModeContext';
 
@@ -713,6 +714,7 @@ function App() {
           <Route path="/study" element={<Study />} />
           <Route path="/crossroads" element={<Crossroads />} />
           <Route path="/cv" element={<CvPage />} />
+          <Route path="/alt-cv" element={<AltCvPage />} />
         </Routes>
       </Router>
     </div>
