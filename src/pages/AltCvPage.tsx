@@ -67,7 +67,7 @@ const AltCvPage: React.FC = () => {
         });
       }
       
-      pdf.save('curtis_lederle_alt_cv.pdf');
+      pdf.save('curtis_lederle_cv.pdf');
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Error generating PDF. Please try again.');
@@ -80,7 +80,7 @@ const AltCvPage: React.FC = () => {
     <div className="bg-slate-100 min-h-screen py-4 md:py-8">
       <div className="max-w-5xl mx-auto px-0 md:px-4">
         <header className="mb-4 md:mb-8 px-4">
-          <h1 className="text-2xl md:text-3xl font-heading text-slate-800 mb-4 text-center">Curtis James | Lederle (Alternative)</h1>
+          <h1 className="text-2xl md:text-3xl font-heading text-slate-800 mb-4 text-center">Curtis James | Lederle</h1>
           
           {/* Desktop layout - row */}
           <div className="hidden md:flex justify-between items-center">
@@ -173,14 +173,14 @@ const AltCvPage: React.FC = () => {
         </div>
         
         <div className="mt-4 md:mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg mx-4">
-          <p className="font-medium">Click the generate button to create and download the latest version of your alternative CV.</p>
+          <p className="font-medium">Click the generate button to create and download the latest version of your general CV.</p>
           <p className="text-sm mt-2">The PDF will be generated with active links for digital distribution.</p>
           <p className="text-sm mt-2 md:hidden">The CV is shown at reduced size to fit your screen.</p>
         </div>
         
         <div className="mt-4 text-center">
           <Link to="/cv" className="text-blue-600 hover:text-blue-800">
-            Back to Standard CV
+            Back to Buy-Side CV
           </Link>
         </div>
       </div>

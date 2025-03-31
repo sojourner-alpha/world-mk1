@@ -1,6 +1,34 @@
 import React from 'react';
 import { FaGithub, FaLinkedinIn, FaEnvelope } from 'react-icons/fa';
 
+// Skills data from Workshop page
+const skills = {
+  business: [
+    "Contract Negotiation",
+    "Business Strategy",
+    "Sales Management",
+    "Investment Management",
+    "Process Improvement",
+    "Systems Implementation",
+  ],
+  leadership: [
+    "C-Suite Staff Support",
+    "Team Management",
+    "Strategic Planning",
+    "Cross-functional Leadership",
+    "Organizational Development",
+    "Partnership Building",
+  ],
+  technical: [
+    "Calculus + Linear Algebra",
+    "Probability Theory",
+    "Financial Modeling",
+    "Asset Pricing",
+    "Operations Management",
+    "Machine Learning",
+  ],
+};
+
 // Career timeline from Workshop page
 const careerHighlights = [
   {
@@ -38,18 +66,6 @@ const careerHighlights = [
     hasAcquisition: true,
     tags: ["Enterprise", "SaaS", "CRM", "Public", "B2B/B2C"]
   },
-  {
-    company: "Enercon",
-    role: "Commercial Manager / Commercial Analyst",
-    period: "2013 - 2016",
-    description: "Led business development, sales, and contract negotiations for utility-scale wind power projects across North America.",
-    achievements: [
-      "$320M+ contracts negotiated",
-      "140MW project portfolio",
-      "Utility scale negotiations"
-    ],
-    tags: ["Enterprise", "OEM", "Energy", "Private", "B2B", "First US Employee"]
-  }
 ];
 
 // Acquisition data (Smooch.io was acquired by Zendesk)
@@ -125,7 +141,7 @@ const AltCvTemplate: React.FC = () => {
       <header className="flex justify-between items-center mb-6 border-b border-gray-400 pb-4">
         <div>
           <h1 className="text-2xl font-bold" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Curtis James Lederle</h1>
-          <p className="text-gray-600">Analyst + Strategist + Engineer + Business Developer</p>
+          <p className="text-gray-600">Analyst + Technologist + Investor + Consultant</p>
         </div>
         <div className="flex items-center space-x-5">
           <a href="https://curtislederle.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 text-sm">
@@ -144,18 +160,17 @@ const AltCvTemplate: React.FC = () => {
         </div>
       </header>
 
-      {/* Professional Summary - MODIFIED */}
-      <section className="mb-6">
+      {/* Professional Summary */}
+      <section className="mb-4">
         <p className="text-sm leading-snug">
-          Investment-focused analyst with engineering foundation and executive experience across multiple industries. Offers 
-          unique perspective combining operational expertise from scaling startups, technical proficiency in software and AI/ML applications,
-          and deep understanding of business fundamentals from managing P&L responsibilities. Demonstrated success in financial modeling,
-          contract negotiation, and strategic decision-making positions me to deliver exceptional value as an investment analyst.
+          Partner at Sojourn Insight consulting on AI/ML and operations. Proven experience in propelling B2B SaaS growth.
+          Background in scaling startups, driving revenue, supporting executive decision-making and a unique blend of technical 
+          and business expertise.
         </p>
       </section>
 
       {/* Professional Experience */}
-      <section className="mb-8">
+      <section className="mb-4">
         <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Professional Experience</h2>
         <div className="space-y-3">
           {careerHighlights.map((job, index) => (
@@ -296,8 +311,48 @@ const AltCvTemplate: React.FC = () => {
         </div>
       </section>
 
-      {/* Education */}
+      {/* Skills Section */}
       <section className="mb-6">
+        <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Skills</h2>
+        <div className="grid grid-cols-3 gap-2">
+          <div>
+            <h3 className="text-sm font-medium mb-1">Business</h3>
+            <ul className="text-xs text-gray-700 pl-4">
+              {skills.business.map((skill, index) => (
+                <li key={index} className="leading-tight ml-2 relative">
+                  <span className="absolute -left-4">•</span>
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium mb-1">Leadership</h3>
+            <ul className="text-xs text-gray-700 pl-4">
+              {skills.leadership.map((skill, index) => (
+                <li key={index} className="leading-tight ml-2 relative">
+                  <span className="absolute -left-4">•</span>
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium mb-1">Technical</h3>
+            <ul className="text-xs text-gray-700 pl-4">
+              {skills.technical.map((skill, index) => (
+                <li key={index} className="leading-tight ml-2 relative">
+                  <span className="absolute -left-4">•</span>
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Education */}
+      <section className="mb-4">
         <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Education</h2>
         {[...education].reverse().map((edu, index) => (
           <div key={index} className="text-sm mb-1">
@@ -311,61 +366,20 @@ const AltCvTemplate: React.FC = () => {
         ))}
       </section>
 
-      {/* Skills Section - REPLACES Projects Section */}
+      {/* Projects */}
       <section>
-        <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Key Skills</h2>
-        <div className="grid grid-cols-3 gap-2">
-          <div>
-            <h3 className="text-sm font-medium mb-1">Investment</h3>
-            <ul className="text-xs text-gray-700 pl-4">
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Financial Modeling
-              </li>
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Asset Pricing
-              </li>
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Contract Negotiation
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium mb-1">Technical</h3>
-            <ul className="text-xs text-gray-700 pl-4">
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Machine Learning
-              </li>
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Python/SQL/FastAPI
-              </li>
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Probability Theory
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-medium mb-1">Business</h3>
-            <ul className="text-xs text-gray-700 pl-4">
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                P&L Responsibility
-              </li>
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Strategic Planning
-              </li>
-              <li className="leading-tight ml-2 relative">
-                <span className="absolute -left-4">•</span>
-                Executive Leadership
-              </li>
-            </ul>
-          </div>
+        <h2 className="text-base font-semibold border-b border-gray-400 pb-1 mb-3">Projects</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {projects.map((project, index) => (
+            <div key={index} className="text-sm">
+              <h3 className="font-medium">
+                <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-900">
+                  {project.name}
+                </a>
+              </h3>
+              <p className="text-xs text-gray-700">{project.description}</p>
+            </div>
+          ))}
         </div>
       </section>
 

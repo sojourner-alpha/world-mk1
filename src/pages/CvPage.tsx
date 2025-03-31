@@ -89,19 +89,10 @@ const CvPage: React.FC = () => {
               <span>Back to Workshop</span>
             </Link>
             <div className="flex space-x-4">
-              <a
-                href="/curtis_lederle_cv.pdf"
-                download
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-              >
-                <FaDownload className="mr-2" />
-                <span>Download CV</span>
-              </a>
-              {/* Hidden generate button for future updates */}
               <button
                 onClick={generatePDF}
                 disabled={isGenerating}
-                className="hidden"
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
               >
                 {isGenerating ? (
                   <>
@@ -111,7 +102,7 @@ const CvPage: React.FC = () => {
                 ) : (
                   <>
                     <FaDownload className="mr-2" />
-                    <span>Generate PDF</span>
+                    <span>Generate & Download</span>
                   </>
                 )}
               </button>
@@ -120,19 +111,10 @@ const CvPage: React.FC = () => {
           
           {/* Mobile layout - centered buttons */}
           <div className="flex md:hidden flex-col items-center justify-center space-y-3">
-            <a
-              href="/curtis_lederle_cv.pdf"
-              download
-              className="flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full max-w-[220px] justify-center shadow-sm font-medium"
-            >
-              <FaDownload className="mr-2" />
-              <span>Download CV</span>
-            </a>
-            {/* Hidden generate button for future updates */}
             <button
               onClick={generatePDF}
               disabled={isGenerating}
-              className="hidden"
+              className="flex items-center px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full max-w-[220px] justify-center shadow-sm font-medium"
             >
               {isGenerating ? (
                 <>
@@ -142,7 +124,7 @@ const CvPage: React.FC = () => {
               ) : (
                 <>
                   <FaDownload className="mr-2" />
-                  <span>Generate PDF</span>
+                  <span>Generate & Download</span>
                 </>
               )}
             </button>
@@ -191,14 +173,14 @@ const CvPage: React.FC = () => {
         </div>
         
         <div className="mt-4 md:mt-8 text-center text-gray-600 bg-slate-200 p-4 rounded-lg mx-4">
-          <p className="font-medium">Click the download button to get the latest version of the CV.</p>
-          <p className="text-sm mt-2">All links in the PDF remain active for digital distribution.</p>
+          <p className="font-medium">Click the generate button to create and download the latest version.</p>
+          <p className="text-sm mt-2">The PDF will be generated with active links for digital distribution.</p>
           <p className="text-sm mt-2 md:hidden">The CV is shown at reduced size to fit your screen.</p>
         </div>
         
         <div className="mt-4 text-center">
           <Link to="/alt-cv" className="text-blue-600 hover:text-blue-800">
-            View Alternative CV
+            View General CV
           </Link>
         </div>
       </div>
