@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaFilePdf, FaVideo } from 'react-icons/fa';
+import { FaArrowRight, FaFilePdf, FaVideo, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 // Custom components
 import PageHeader from '../components/PageHeader';
@@ -22,16 +22,69 @@ interface ProjectType {
   };
 }
 
+// Interface for curriculum days
+interface CurriculumDay {
+  title: string;
+  goal: string;
+  keyConcepts: string[];
+  resources: Array<{
+    title: string;
+    type: 'article' | 'video' | 'book' | 'website';
+    url?: string;
+  }>;
+  activities: string[];
+  outcome: string;
+}
+
 const Study = () => {
   // Track which sections are expanded - using an array to allow multiple sections
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
   const [activeSection, setActiveSection] = useState<string>('research');
+  const [expandedCurriculum, setExpandedCurriculum] = useState<boolean>(false);
   
   // Use shared animations
   useAnimations();
 
   // Study image from App.tsx
   const studyImage = "/assets/images/study.png";
+
+  // Curriculum data for Buy Side Analysis
+  const buySideCurriculum: CurriculumDay[] = [
+    {
+      title: "Day 1: Introduction to Buy Side and Industry Landscape",
+      goal: "Understand the role of buy-side analysts and the broader investment management ecosystem.",
+      keyConcepts: [
+        "Differences between buy-side and sell-side analysis",
+        "Investment management industry structure",
+        "Types of investment firms and their strategies",
+        "Core responsibilities of a buy-side analyst",
+        "Career progression in investment analysis"
+      ],
+      resources: [
+        {
+          title: "The Buy Side: A Wall Street Trader's Tale - Turney Duff",
+          type: "book"
+        },
+        {
+          title: "Introduction to Investment Management",
+          type: "article",
+          url: "https://www.cfainstitute.org/en/membership/professional-development/refresher-readings/introduction-investment-management"
+        },
+        {
+          title: "Buy-Side vs. Sell-Side Analysts: What's the Difference?",
+          type: "article",
+          url: "https://www.investopedia.com/articles/professionals/093015/buyside-vs-sellside-analysts-what-difference.asp"
+        }
+      ],
+      activities: [
+        "Map the investment management ecosystem with key players and their relationships",
+        "Analyze job descriptions for buy-side analysts across different firms",
+        "Create a comparison table of buy-side vs. sell-side analysis approaches",
+        "Review sample analyst reports to understand structure and content"
+      ],
+      outcome: "Comprehensive understanding of the buy-side analyst role, responsibilities, and industry positioning to provide foundation for the remainder of the curriculum."
+    }
+  ];
 
   // Projects/Research data for Markets section
   const marketProjects: Record<string, ProjectType[]> = {
@@ -282,10 +335,10 @@ const Study = () => {
       <div className="relative z-10 h-[calc(100vh-96px)] overflow-auto scrollbar-custom">
         <div className="container mx-auto p-6 flex flex-col">
           {/* Title - Fixed centered position */}
-          <div className="absolute top-0 left-0 right-0 py-8 md:py-8 pt-28 md:pt-8 text-center">
+          <div className="absolute top-0 left-0 right-0 py-8 md:py-8 pt-28 md:pt-20 text-center">
             <div className="bg-matted/60 backdrop-blur-sm inline-block px-8 py-4 rounded-lg shadow-sm">
-              <h1 className="text-4xl md:text-5xl font-heading text-white mb-2">Study</h1>
-              <p className="text-xl text-white">where analysis meets synthesis</p>
+              <h1 className="text-4xl font-heading mb-2 text-white">Study</h1>
+              <p className="text-xl mb-6 text-white">Research, Analysis & Synthesis</p>
             </div>
           </div>
           
@@ -395,6 +448,102 @@ const Study = () => {
                               </span>
                             ))}
                           </div>
+                          
+                          {/* Curriculum Expand Button - Only for Buy Side Analysis */}
+                          {project.title === "Self Guided Curriculum for Buy Side Analysis" && (
+                            <div className="mt-4 mb-2 relative z-50">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedCurriculum(!expandedCurriculum);
+                                }}
+                                className="flex items-center text-blue-600 hover:text-blue-800 font-medium relative z-50"
+                              >
+                                {expandedCurriculum ? (
+                                  <>
+                                    <FaChevronUp className="mr-2" />
+                                    <span>Hide Curriculum Details</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <FaChevronDown className="mr-2" />
+                                    <span>View Curriculum Details</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          )}
+                          
+                          {/* Expanded Curriculum Content */}
+                          {project.title === "Self Guided Curriculum for Buy Side Analysis" && expandedCurriculum && (
+                            <div 
+                              className="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200 relative z-50"
+                              onClick={(e) => e.stopPropagation()} // Prevent click from bubbling up
+                            >
+                              <h4 className="text-lg font-medium text-slate-800 mb-4">Curriculum Schedule</h4>
+                              
+                              {buySideCurriculum.map((day, dayIndex) => (
+                                <div key={dayIndex} className="mb-6 pb-6 border-b border-slate-200 last:border-0 last:mb-0 last:pb-0">
+                                  <h5 className="text-lg font-medium text-blue-700 mb-3">{day.title}</h5>
+                                  
+                                  {/* Goal */}
+                                  <div className="mb-4">
+                                    <h6 className="text-sm font-bold text-slate-700 mb-1">Goal</h6>
+                                    <p className="text-slate-700">{day.goal}</p>
+                                  </div>
+                                  
+                                  {/* Key Concepts */}
+                                  <div className="mb-4">
+                                    <h6 className="text-sm font-bold text-slate-700 mb-1">Key Concepts</h6>
+                                    <ul className="list-disc pl-5">
+                                      {day.keyConcepts.map((concept, conceptIndex) => (
+                                        <li key={conceptIndex} className="text-slate-700 mb-1">{concept}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                  
+                                  {/* Resources */}
+                                  <div className="mb-4">
+                                    <h6 className="text-sm font-bold text-slate-700 mb-1">Resources</h6>
+                                    <ul className="list-disc pl-5">
+                                      {day.resources.map((resource, resourceIndex) => (
+                                        <li key={resourceIndex} className="text-slate-700 mb-1">
+                                          {resource.url ? (
+                                            <a 
+                                              href={resource.url} 
+                                              target="_blank" 
+                                              rel="noopener noreferrer"
+                                              className="text-blue-600 hover:text-blue-800 hover:underline"
+                                            >
+                                              {resource.title} ({resource.type})
+                                            </a>
+                                          ) : (
+                                            <span>{resource.title} ({resource.type})</span>
+                                          )}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                  
+                                  {/* Activities */}
+                                  <div className="mb-4">
+                                    <h6 className="text-sm font-bold text-slate-700 mb-1">Activities</h6>
+                                    <ul className="list-disc pl-5">
+                                      {day.activities.map((activity, activityIndex) => (
+                                        <li key={activityIndex} className="text-slate-700 mb-1">{activity}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                  
+                                  {/* Outcome */}
+                                  <div className="mb-2">
+                                    <h6 className="text-sm font-bold text-slate-700 mb-1">Outcome</h6>
+                                    <p className="text-slate-700">{day.outcome}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                           
                           {/* Media & Links */}
                           <div className="flex justify-end relative z-50">
@@ -528,7 +677,7 @@ const Study = () => {
                             }`}>
                               {project.status}
                             </span>
-                        </div>
+                          </div>
                           
                           <p className="text-slate-700 mb-4">{project.description}</p>
                           
@@ -542,7 +691,7 @@ const Study = () => {
                                 {tech}
                               </span>
                             ))}
-                        </div>
+                          </div>
                           
                           {/* Media & Links */}
                           <div className="flex justify-end relative z-50">
