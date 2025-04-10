@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaFilePdf, FaVideo, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaArrowRight, FaFilePdf, FaVideo, FaChevronDown, FaChevronUp, FaGithub } from 'react-icons/fa';
 
 // Custom components
 import PageHeader from '../components/PageHeader';
@@ -15,6 +15,11 @@ interface ProjectType {
   description: string;
   technologies: string[];
   link?: string;
+  links?: Array<{
+    title: string;
+    url: string;
+    icon: string;
+  }>;
   status: 'Completed' | 'In Progress' | 'Planned';
   media?: {
     type: 'pdf' | 'video';
@@ -56,6 +61,24 @@ const Study = () => {
         description: "Pursuing the Chartered Financial Analyst designation, starting with Level I which covers ethical and professional standards, quantitative methods, economics, financial reporting and analysis, corporate finance, equity investments, fixed income, derivatives, and portfolio management.",
         technologies: ["Financial Analysis", "Investment Management", "Portfolio Theory", "Ethics"],
         status: "In Progress"
+      },
+      {
+        title: "Python Financial Analysis Projects",
+        description: "A collection of Python projects focused on financial analysis, including fundamental analysis tools and technical analysis indicators.",
+        technologies: ["Python", "Pandas", "NumPy", "Financial Analysis", "Data Science"],
+        status: "In Progress",
+        links: [
+          {
+            title: "Fundamental Analysis Tools",
+            url: "https://github.com/sojourner-alpha/fundamental-analysis",
+            icon: "github"
+          },
+          {
+            title: "Technical Analysis Tools",
+            url: "https://github.com/sojourner-alpha/technical-analysis",
+            icon: "github"
+          }
+        ]
       }
     ],
     criticalSystems: [
@@ -410,13 +433,13 @@ const Study = () => {
                           </div>
                           
                           {/* Media & Links */}
-                          <div className="flex justify-end relative z-50">
+                          <div className="flex justify-end items-center gap-4 relative z-50">
                             {project.media && (
                               <a 
                                 href={project.media.url} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center mr-4 text-blue-600 hover:text-blue-800"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
                               >
                                 {project.media.type === 'pdf' ? (
                                   <>
@@ -432,6 +455,7 @@ const Study = () => {
                               </a>
                             )}
                             
+                            {/* Single link case */}
                             {project.link && (
                               <a 
                                 href={project.link} 
@@ -442,6 +466,25 @@ const Study = () => {
                                 <span>Learn more</span>
                                 <FaArrowRight className="ml-2" />
                               </a>
+                            )}
+
+                            {/* Multiple links case */}
+                            {project.links && (
+                              <div className="flex justify-between w-full mt-4 border-t border-slate-200 pt-4">
+                                {project.links.map((link, index) => (
+                                  <a
+                                    key={index}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center text-blue-600 hover:text-blue-800 gap-2 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
+                                    title={link.title}
+                                  >
+                                    <FaGithub size={20} />
+                                    <span className="text-sm">{link.title}</span>
+                                  </a>
+                                ))}
+                              </div>
                             )}
                           </div>
                         </div>
@@ -544,13 +587,13 @@ const Study = () => {
                           </div>
                           
                           {/* Media & Links */}
-                          <div className="flex justify-end relative z-50">
+                          <div className="flex justify-end items-center gap-4 relative z-50">
                             {project.media && (
                               <a 
                                 href={project.media.url} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center mr-4 text-blue-600 hover:text-blue-800"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
                               >
                                 {project.media.type === 'pdf' ? (
                                   <>
@@ -566,6 +609,7 @@ const Study = () => {
                               </a>
                             )}
                             
+                            {/* Single link case */}
                             {project.link && (
                               <a 
                                 href={project.link} 
@@ -576,6 +620,25 @@ const Study = () => {
                                 <span>Learn more</span>
                                 <FaArrowRight className="ml-2" />
                               </a>
+                            )}
+
+                            {/* Multiple links case */}
+                            {project.links && (
+                              <div className="flex justify-between w-full mt-4 border-t border-slate-200 pt-4">
+                                {project.links.map((link, index) => (
+                                  <a
+                                    key={index}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center text-blue-600 hover:text-blue-800 gap-2 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
+                                    title={link.title}
+                                  >
+                                    <FaGithub size={20} />
+                                    <span className="text-sm">{link.title}</span>
+                                  </a>
+                                ))}
+                              </div>
                             )}
                           </div>
                         </div>
@@ -678,13 +741,13 @@ const Study = () => {
                           </div>
                           
                           {/* Media & Links */}
-                          <div className="flex justify-end relative z-50">
+                          <div className="flex justify-end items-center gap-4 relative z-50">
                             {project.media && (
                               <a 
                                 href={project.media.url} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center mr-4 text-blue-600 hover:text-blue-800"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-800"
                               >
                                 {project.media.type === 'pdf' ? (
                                   <>
@@ -700,6 +763,7 @@ const Study = () => {
                               </a>
                             )}
                             
+                            {/* Single link case */}
                             {project.link && (
                               <a 
                                 href={project.link} 
@@ -710,6 +774,25 @@ const Study = () => {
                                 <span>Learn more</span>
                                 <FaArrowRight className="ml-2" />
                               </a>
+                            )}
+
+                            {/* Multiple links case */}
+                            {project.links && (
+                              <div className="flex justify-between w-full mt-4 border-t border-slate-200 pt-4">
+                                {project.links.map((link, index) => (
+                                  <a
+                                    key={index}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center text-blue-600 hover:text-blue-800 gap-2 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
+                                    title={link.title}
+                                  >
+                                    <FaGithub size={20} />
+                                    <span className="text-sm">{link.title}</span>
+                                  </a>
+                                ))}
+                              </div>
                             )}
                           </div>
                         </div>
