@@ -376,10 +376,10 @@ const Study = () => {
                   <div className="p-4 pt-0 section-content">
                     <div className="space-y-4 mb-6">
                       <p className="text-slate-700">
-                        Financial analysis is about understanding the complex dynamics of financial markets, companies, and economic systems to make informed decisions about capital allocation and investment strategies.
+                        Investment analysis is a disciplined pursuit of objective reality through data—a journey to understand the true nature of value creation across interconnected systems. At its core, it requires interpreting the complex dynamics between company operations, capital markets, technological disruption, and global economic conditions.
                       </p>
                       <p className="text-slate-700">
-                        This section documents my journey through various financial disciplines, including the CFA program, critical systems analysis, and artificial intelligence applications in finance.
+                        This section explores the first principles of capital allocation decisions: quantifying risk-return relationships, evaluating operational efficiency, modeling cash flows under uncertainty, and understanding how technological evolution impacts market liquidity and volatility. It's about building mental models that reflect the world as it actually is, not as we wish it to be.
                       </p>
                     </div>
                     
