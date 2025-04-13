@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaDownload, FaBuilding, FaChartLine, FaCogs, FaGithub, FaLinkedinIn, FaLandmark, FaGraduationCap } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiNotion, SiSubstack } from 'react-icons/si';
@@ -38,12 +38,87 @@ interface CareerTimelineItem {
 
 const Workshop = () => {
   const [showStudentOrgs, setShowStudentOrgs] = useState(false);
+  const [matrixVisible, setMatrixVisible] = useState(false);
+  const [matrixHovered, setMatrixHovered] = useState(false);
   
   // Use shared animations
   useAnimations();
 
   // Workshop image from App.tsx
   const workshopImage = "/assets/images/workshop.png";
+
+  // Matrix Easter Egg
+  useEffect(() => {
+    // Show matrix icon after a delay
+    const timer = setTimeout(() => {
+      setMatrixVisible(true);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Add Matrix code animation styles
+  useEffect(() => {
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = `
+      @keyframes matrixRain {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+      }
+      
+      .matrix-code-column {
+        animation: matrixRain linear infinite;
+      }
+      
+      .matrix-char {
+        height: 1em;
+        line-height: 1em;
+      }
+    `;
+    document.head.appendChild(styleSheet);
+    
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
+  // Matrix Code Component
+  const MatrixCodeIcon = () => {
+    return (
+      <Link 
+        to="/finance" 
+        className={`absolute right-10 top-[200px] z-50 transition-all duration-500 ${
+          matrixVisible ? 'opacity-60' : 'opacity-0'
+        } ${matrixHovered ? 'scale-110' : 'scale-100'} hover:opacity-100`}
+        onMouseEnter={() => setMatrixHovered(true)}
+        onMouseLeave={() => setMatrixHovered(false)}
+        aria-label="Hidden terminal"
+      >
+        <div className="relative h-16 w-8 md:h-24 md:w-10 overflow-hidden rounded-md bg-black shadow-lg border border-green-500/30">
+          <div className="matrix-code-rain absolute inset-0">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div 
+                key={i} 
+                className="matrix-code-column text-xs md:text-sm text-green-500 font-mono absolute top-0 opacity-70"
+                style={{ 
+                  left: `${i * 25}%`, 
+                  animationDuration: `${3 + Math.random() * 2}s`,
+                  animationDelay: `${Math.random()}s` 
+                }}
+              >
+                {Array.from({ length: 20 }).map((_, j) => (
+                  <div key={j} className="matrix-char mb-1">
+                    {['0', '1', '$', '%', '&', '{', '}', ':', '*', '>', '<', ';', '=', '+', '-', '_'][Math.floor(Math.random() * 16)]}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Link>
+    );
+  };
 
   // Career timeline data
   const careerTimeline: CareerTimelineItem[] = [
@@ -356,9 +431,12 @@ const Workshop = () => {
   ];
   
   return (
-    <div className="bg-parchment text-slate-800 min-h-screen">
+    <div className="bg-parchment text-slate-800 min-h-screen relative">
       {/* Header - using reusable component */}
       <PageHeader pageName="Workshop" />
+      
+      {/* Matrix Easter Egg */}
+      <MatrixCodeIcon />
       
       {/* Hero Section */}
       <section className="relative h-screen">

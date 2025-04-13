@@ -100,8 +100,8 @@ const Finance = () => {
     };
   }, []);
 
-  // Projects background image from Workshop.tsx
-  const projectsImage = "/assets/images/projects.png";
+  // Finance background image
+  const financeImage = "/assets/images/finance.png";
 
   // Finance project categories
   const categories = [
@@ -189,44 +189,44 @@ const Finance = () => {
       {/* Background image - darken for terminal feel */}
       <div className="fixed inset-0 z-0">
         <img 
-          src={projectsImage} 
+          src={financeImage} 
           alt="Finance Background" 
           className="w-full h-full object-cover opacity-40"
         />
-        <div className="fixed inset-0 bg-black bg-opacity-75"></div>
+        <div className="fixed inset-0 bg-black bg-opacity-50"></div>
       </div>
       
       {/* Header */}
       <PageHeader pageName="Finance" />
       
       {/* Main content area - full height and scrollable */}
-      <div className="relative z-10 pt-16 pb-12">
-        <div className="container mx-auto p-6 flex flex-col">
+      <div className="relative z-10 pt-12 md:pt-16 pb-12">
+        <div className="container mx-auto px-3 md:px-6 flex flex-col">
           {/* Terminal Title Container */}
-          <div className="mb-4 mt-4 flex flex-col items-start ml-4">
-            {/* Command Prompt Container */}
-            <div className="bg-black/80 backdrop-blur-sm px-5 py-4 rounded-md shadow-md">
+          <div className="mb-4 mt-4 flex flex-col items-center md:items-start md:ml-4 w-full">
+            {/* Command Prompt Container - Make fully transparent */}
+            <div className="bg-transparent px-2 md:px-5 py-3 rounded-md shadow-none w-full md:w-auto">
               {/* Command Prompt */}
-              <div className={`font-mono text-green-500 flex items-center text-lg ${typingComplete ? 'typing-done' : 'typing'}`}>
+              <div className={`font-mono text-green-500 flex items-center text-base md:text-lg ${typingComplete ? 'typing-done' : 'typing'} justify-center md:justify-start`}>
                 <span className="text-gray-500 mr-2">$</span>
                 <span className={`${typingComplete ? '' : 'typing-animation'}`}>finance_lab</span>
                 <span className="cursor-blink ml-1"></span>
               </div>
               
               {/* Comment Line */}
-              <div className="font-mono text-xs text-gray-500 mt-2 opacity-0 animate-fadeIn" 
+              <div className="font-mono text-xs text-gray-500 mt-2 opacity-0 animate-fadeIn text-center md:text-left" 
                 style={{ animationDelay: '1.5s', animationFillMode: 'forwards' }}>
                 <span>// quantitative & fundamental analysis toolbox</span>
               </div>
             </div>
             
             {/* Filter Buttons - Centered Below Title */}
-            <div className="mt-6 mb-8 flex flex-wrap justify-center w-full gap-2">
+            <div className="mt-5 mb-6 md:mt-6 md:mb-8 flex flex-wrap justify-center md:justify-start w-full gap-1.5 md:gap-2">
               {categories.map((category) => (
                 <button 
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  className={`px-3 py-1 rounded font-mono text-sm ${
+                  className={`px-2 md:px-3 py-1 rounded font-mono text-xs md:text-sm ${
                     activeCategory === category.id 
                       ? 'bg-green-900/50 text-green-400 border border-green-600' 
                       : 'bg-black/70 text-gray-400 border border-gray-700 hover:border-gray-500 hover:text-gray-300'
@@ -239,19 +239,20 @@ const Finance = () => {
           </div>
           
           {/* Projects Grid - Terminal Style */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-20">
             {filteredProjects.map((project, index) => (
               <div key={index} 
-                className="bg-black/80 backdrop-blur-sm rounded-md shadow-md border border-gray-700 hover:border-green-600/50 transition-all duration-300 flex flex-col h-full">
+                className="bg-black/80 backdrop-blur-sm rounded-md shadow-md border border-gray-700 hover:border-green-600/50 transition-all duration-300 flex flex-col h-full"
+              >
                 {/* Card Header - Terminal Style */}
-                <div className="border-b border-gray-800 px-4 py-3 flex justify-between items-start">
+                <div className="border-b border-gray-800 px-3 md:px-4 py-2.5 md:py-3 flex justify-between items-start">
                   <div className="flex items-center overflow-hidden">
-                    <project.icon size={18} className="text-green-500 mr-3 flex-shrink-0" />
-                    <h3 className="text-base font-mono font-medium text-green-400 truncate">
+                    <project.icon size={16} className="text-green-500 mr-2 md:mr-3 flex-shrink-0" />
+                    <h3 className="text-sm md:text-base font-mono font-medium text-gray-300 truncate">
                       <span className="card-typing-animation">{project.name}</span>
                     </h3>
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-sm font-mono flex-shrink-0 ml-2 ${
+                  <span className={`text-xs px-1.5 md:px-2 py-0.5 md:py-1 rounded-sm font-mono flex-shrink-0 ml-2 ${
                     project.status === 'Completed' ? 'bg-green-900/30 text-green-500 border border-green-800' :
                     project.status === 'In Progress' ? 'bg-yellow-900/30 text-yellow-500 border border-yellow-800' :
                     'bg-blue-900/30 text-blue-400 border border-blue-800'
@@ -261,11 +262,11 @@ const Finance = () => {
                 </div>
                 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-1 p-4 pb-2">
+                <div className="flex flex-wrap gap-1 p-3 md:p-4 pb-1 md:pb-2">
                   {project.technologies.map((tech, techIndex) => (
                     <span 
                       key={techIndex}
-                      className="bg-gray-900 text-gray-400 px-2 py-0.5 rounded text-xs border border-gray-800 font-mono"
+                      className="bg-gray-900 text-gray-400 px-1.5 md:px-2 py-0.5 rounded text-[10px] md:text-xs border border-gray-800 font-mono"
                     >
                       {tech}
                     </span>
@@ -273,24 +274,24 @@ const Finance = () => {
                 </div>
                 
                 {/* Description - Terminal Style */}
-                <div className="p-4 pt-2 flex-grow">
-                  <p className="text-gray-300 text-sm font-mono leading-relaxed">{project.description}</p>
+                <div className="p-3 md:p-4 pt-1 md:pt-2 flex-grow">
+                  <p className="text-gray-300 text-xs md:text-sm font-mono leading-relaxed">{project.description}</p>
                 </div>
                 
                 {/* Action Button - Terminal Style */}
-                <div className="p-4 pt-0 border-t border-gray-800">
+                <div className="p-3 md:p-4 pt-0 border-t border-gray-800">
                   {project.isPublic ? (
                     <a 
                       href={project.githubUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center px-4 py-2 rounded bg-green-900/40 text-green-400 border border-green-800 hover:bg-green-900/60 transition-all font-mono w-full"
+                      className="flex items-center justify-center px-3 md:px-4 py-2 rounded bg-green-900/40 text-green-400 border border-green-800 hover:bg-green-900/60 transition-all font-mono w-full text-sm"
                     >
-                      <FaGithub size={18} className="mr-2" /> git clone
+                      <FaGithub size={16} className="mr-2" /> git clone
                     </a>
                   ) : (
-                    <span className="flex items-center justify-center px-4 py-2 rounded bg-gray-900/40 text-gray-500 border border-gray-800 cursor-not-allowed font-mono w-full">
-                      <FaGithub size={18} className="mr-2" /> coming_soon
+                    <span className="flex items-center justify-center px-3 md:px-4 py-2 rounded bg-gray-900/40 text-gray-500 border border-gray-800 cursor-not-allowed font-mono w-full text-sm">
+                      <FaGithub size={16} className="mr-2" /> coming_soon
                     </span>
                   )}
                 </div>
