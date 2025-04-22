@@ -1,153 +1,184 @@
-# Open Source Digital World Building 
+# World-MK1
 
-A digital workshop functioning as a nexus with portals to different "worlds" representing aspects of identity. This project is built with React, TypeScript, and Tailwind CSS.
+A personal portfolio website with an integrated finance API for financial calculations and payment processing.
 
 ## Project Overview
 
-This website is designed as an immersive digital experience with distinct portal experiences:
+This project combines a React-based personal website with a Python FastAPI backend for financial tools:
 
-1. **Workshop** - Professional portfolio & skills
-2. **Study** - Ideas & future perspectives
-3. **Loft** - Hobbies & creative pursuits
-4. **Crossroads** - Connect & collaborate
-99. **Origin** - Personal story & journey (easter egg)
+- **Portfolio Website**: Showcases professional work, studies, and creative projects
+- **Finance API**: Provides financial calculations and payment processing capabilities
+- **Interactive Tools**: Includes mortgage calculators, NPV/IRR tools, and more
 
-## Tech Stack
+## Project Structure
 
-- **Frontend**: React 18 with TypeScript
-- **Styling**: Tailwind CSS
-- **Routing**: React Router v6
-- **Icons**: React Icons
-- **Maps**: OpenLayers
-- **Hosting**: GitHub Pages
-- **Version Control**: Git
-- **Building**: Vite
+The project is divided into two main components:
 
-## Recent Improvements
-
-### Mobile Optimization
-- **Responsive Design**: Thoroughly optimized for mobile devices
-- **CSS Performance**: Fixed minification issues by disabling CSS minification in Vite config
-- **Card Layout**: Improved spacing and interaction on mobile devices
-- **Animation Timing**: Adjusted animation delays for better mobile performance
-
-### Portal Card Enhancements
-- **Spacing Optimization**: Refined card spacing for better desktop presentation
-- **Shadow Effects**: Enhanced shadow animations with responsive adjustments
-- **Interactive Lightbulb**: Optimized lightbulb toggle effect for enabling/disabling card shadows
-- **Card Width**: Adjusted to optimal width for balance between spacing and content display
-- **Z-index Management**: Improved card stacking behavior on hover
-
-### Workshop Portal
-- **Career Timeline**: Enhanced with detailed role descriptions and key achievements
-- **Skills Section**: Organized into Technical, Business, and Leadership categories
-- **Tools Section**: Added categorized sections for Ops, AI/ML, and FinTech tools
-- **Student Organizations**: Implemented as an easter egg feature with graduation cap trigger
-- **Project Cards**: Added hover effects and status indicators
-- **Metrics Display**: Added key achievements section to career entries
-
-### UI/UX Enhancements
-- **Responsive Design**: Optimized for both mobile and desktop
-- **Animation System**: Implemented shared animation hooks for consistent effects
-- **Typography**: Updated with improved hierarchy and readability
-- **Color Scheme**: Refined with consistent slate and blue tones
-- **Social Media Integration**: Added professional social media links
-- **Navigation**: Enhanced header and footer navigation
-
-### Build Process
-- **Vite Configuration**: Disabled CSS minification to resolve syntax issues with complex CSS
-- **CSS Organization**: Improved structure with proper media queries and keyframe animations
-- **Performance**: Increased chunk size warning limit for better build output
-
-## Next Steps
-
-### Phase 1: World Building
-1. **Workshop**
-   - ✅ Finalize layout
-   - ✅ Create CV download
-
-2. **Loft Portal**
-   - ✅ Design creative showcase layout
-   - ✅ Add media gallery
-   - Implement three.js
-
-3. **Study Portal**
-   - ✅ Create thought experiment space
-   - ✅ Add prediction timeline
-   - Critical systems theory research
-
-4. **Crossroads Portal**
-   - Design connection hub
-   - Add contact form
-   - Implement visitor map
-
+```
+world-mk1/
+├── frontend/          # React/TypeScript SPA with Vite
+│   ├── src/pages      # Website sections (Finance, Workshop, Study, etc.)
+│   ├── src/components # Reusable UI components
+│   └── public/        # Static assets and images
+│
+├── backend/           # Python FastAPI backend
+│   ├── app/           # Main application code 
+│   ├── app/routes     # API endpoints
+│   └── app/models     # Database models
+│
+├── docker/            # Docker configuration
+├── run-dev.sh         # Development script
+└── docker-compose.yml # Docker Compose configuration
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- npm (v9 or higher)
+- Node.js (v18+)
+- Python (v3.10+)
+- Git
 
-### Installation
+### Quick Start
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/sojourner-alpha/world-mk1.git
-   cd world-mk1
-   ```
-
-2. Install dependencies
-   ```bash
-   npm install
-   ```
-
-3. Start the development server
-   ```bash
-   npm run dev
-   ```
-
-4. Open your browser and navigate to `http://localhost:5173/`
-
-## Building for Production
+The easiest way to run the entire project is using the provided script:
 
 ```bash
-npm run build
+# Make the script executable (first time only)
+chmod +x run-dev.sh
+
+# Start both frontend and backend
+./run-dev.sh
 ```
 
-The built files will be in the `dist` directory, ready to be deployed.
+This will:
+- Set up a Python virtual environment if needed
+- Install all dependencies
+- Start the FastAPI backend on http://localhost:8000
+- Start the Vite frontend on http://localhost:5173
+
+### Manual Setup
+
+#### Frontend
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Create .env file from template
+cp .env.example .env
+
+# Start development server
+npm run dev
+```
+
+#### Backend
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Create .env file from template
+cp .env.example .env
+
+# Start development server
+uvicorn app.main:app --reload
+```
+
+### Using Docker
+
+```bash
+# Start both services
+npm run docker:dev
+
+# Or use docker-compose directly
+docker-compose up
+
+# Stop services
+npm run docker:down
+```
+
+## Features
+
+### Frontend
+
+- **Multi-page SPA**: Workshop (portfolio), Finance, Study, Loft, and more
+- **Responsive Design**: Mobile and desktop optimized with Tailwind CSS
+- **Interactive Elements**: GSAP animations, 3D components, and visual effects
+- **CV Generation**: Dynamic resume display and PDF download
+- **Terminal UI**: Command-line inspired interface for Finance section
+
+### Backend
+
+- **Financial Calculators**: Mortgage, NPV, IRR, etc.
+- **Stripe Integration**: Payment processing for financial tools
+- **Data Persistence**: SQLAlchemy models for user data
+- **API Documentation**: Auto-generated with FastAPI
+- **JWT Authentication**: Secure user access (coming soon)
+
+## Development
+
+### Available Scripts
+
+From the project root:
+
+```bash
+# Start both frontend and backend
+npm run dev
+
+# Start only the frontend
+npm run frontend:dev
+
+# Start only the backend
+npm run backend:dev
+
+# Build the frontend
+npm run frontend:build
+
+# Deploy the frontend to GitHub Pages
+npm run frontend:deploy
+```
+
+### API Documentation
+
+When the backend is running, auto-generated API documentation is available at:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
 
 ## Deployment
 
-The site is deployed to GitHub Pages using the gh-pages package:
+### GitHub Pages (Frontend Only)
+
+The frontend can be deployed to GitHub Pages while keeping the backend code in the repository:
 
 ```bash
-npm run deploy
+npm run frontend:deploy
 ```
 
-## Project Statistics
-As of 3/25/2025
+The site will be deployed to https://curtislederle.com
 
-# Source Code Files: 26 files
-- 17 React TSX component files
-- 1 CSS file
-- 2 HTML files
-- 3 TypeScript configuration files
-- 3 JavaScript configuration files
+### Full Stack Deployment (Coming Soon)
 
-# Total Lines of Code: 6,637 lines
-
-#Top 5 Largest Files:
-- src/pages/Loft.tsx - 1,205 lines
-- src/index.css - 1,084 lines
-- src/pages/Study.tsx - 779 lines
-- src/App.tsx - 721 lines
-- src/pages/Workshop.tsx - 677 lines
-
-The site is accessible at both URLs until DNS propagation is complete:
-- Custom domain: https://curtislederle.com
-- GitHub Pages: https://sojourner-alpha.github.io/world-mk1/
+Instructions for deploying both frontend and backend to Railway will be added soon.
 
 ## License
 
-This project is open source and licensed under the MIT License - see the LICENSE file for details.
+This project is private and not licensed for public use or distribution.
+
+## Acknowledgements
+
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Stripe](https://stripe.com/)
