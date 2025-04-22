@@ -127,8 +127,8 @@ const Workshop = () => {
       url: "https://www.sojourninsight.com",
       role: "Partner",
       period: "2023 - Present",
-      location: "Minneapolis · Remote",
-      description: "Consulting services for founders, executives and researchers.\nR&D in machine learning applications in operations and finance.",
+      location: "Minneapolis · Seoul",
+      description: "Consulting services for founders, executives and researchers.\nFractional COO services.",
       skills: ["Investment Management", "Analysis", "Financial Modeling", "Operations Management", "Machine Learning"],
       tags: ["Startup", "Consulting", "AI/ML", "Private", "B2B", "Founder"],
       metrics: [

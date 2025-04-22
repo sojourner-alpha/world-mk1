@@ -389,7 +389,7 @@ const Home = () => {
   const [shadowsActive, setShadowsActive] = useState(() => {
     // Get saved preference from localStorage on initial render
     const saved = localStorage.getItem('shadowsActive');
-    return saved ? JSON.parse(saved) : false;
+    return saved ? JSON.parse(saved) : true;
   });
 
   const toggleShadows = () => {
@@ -538,6 +538,32 @@ const Home = () => {
             </div>
           </div>
           
+          {/* Action Buttons - Moved above the portal cards */}
+          <div className="flex justify-center mb-6">
+            <div className="flex space-x-4">
+              {/* Lightbulb toggle */}
+              <div 
+                className={`social-icon light-toggle ${shadowsActive ? 'active' : ''}`}
+                onClick={toggleShadows}
+                aria-label="Toggle light effects"
+                style={{ backgroundColor: shadowsActive ? 'rgba(100, 100, 100, 0.7)' : '#d1d5db' }}
+              >
+                <FaLightbulb className="w-5 h-5 md:w-6 md:h-6" />
+              </div>
+              {/* Dark mode toggle */}
+              <div 
+                className="social-icon dark-toggle"
+                onClick={toggleDarkMode}
+                aria-label="Toggle dark mode"
+                style={{ 
+                  backgroundColor: darkMode ? '#4b5563' : '#9ca3af' 
+                }}
+              >
+                {darkMode ? <FaSun size={24} /> : <FaMoon size={24} />}
+              </div>
+            </div>
+          </div>
+          
           {/* Portal Cards Row */}
           <div className="flex items-center justify-center py-4">
             <div className="w-full">
@@ -583,7 +609,7 @@ const Home = () => {
                 </div>
               </div>
               
-              {/* Social Media Icons - moved above the divider */}
+              {/* Social Media Icons */}
               <div className="flex justify-center my-6">
                 <div className="social-icon-container z-30">
                   <SocialIcon 
@@ -596,26 +622,6 @@ const Home = () => {
                     icon={FaLinkedinIn}
                     name="LinkedIn"
                   />
-                  {/* Add lightbulb toggle as a social icon */}
-                  <div 
-                    className={`social-icon light-toggle ${shadowsActive ? 'active' : ''}`}
-                    onClick={toggleShadows}
-                    aria-label="Toggle light effects"
-                    style={{ backgroundColor: shadowsActive ? 'rgba(100, 100, 100, 0.7)' : '#d1d5db' }}
-                  >
-                    <FaLightbulb className="w-5 h-5 md:w-6 md:h-6" />
-                  </div>
-                  {/* Add dark mode toggle */}
-                  <div 
-                    className="social-icon dark-toggle"
-                    onClick={toggleDarkMode}
-                    aria-label="Toggle dark mode"
-                    style={{ 
-                      backgroundColor: darkMode ? '#4b5563' : '#9ca3af' 
-                    }}
-                  >
-                    {darkMode ? <FaSun size={24} /> : <FaMoon size={24} />}
-                  </div>
                   <SocialIcon 
                     url="https://x.com/curtlederle" 
                     icon={FaXTwitter}

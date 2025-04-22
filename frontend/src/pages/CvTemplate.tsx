@@ -35,12 +35,12 @@ const careerHighlights = [
     company: "Sojourn Insight",
     role: "Partner",
     period: "2023 - Present",
-    description: "Consulting services for founders, executives and researchers. R&D in machine learning applications in operations and finance.",
+    description: "Consulting services for founders, executives and researchers. Fractional COO services to startups.",
     achievements: [
-      "Fundraising readiness for Toronto based startup",
-      "ML applications input to a Stanford Lab",
+      "Fractional COO services for Toronto based startup",
+      "Consulting services on ML input to a Stanford Lab",
     ],
-    tags: ["Startup", "Consulting", "AI/ML", "Private", "B2B", "Founder"]
+    tags: ["Consulting", "AI/ML", "Private", "B2B", "Founder"]
   },
   {
     company: "Tread Technologies",
@@ -52,7 +52,7 @@ const careerHighlights = [
       "500% increased avg. contract size",
       "Deployed CRM, sales ops and website"
     ],
-    tags: ["Startup", "SaaS", "Data Tracking", "Private", "B2B", "First US Employee"]
+    tags: ["Startup", "SaaS", "Logistics", "Private", "B2B", "First US Employee"]
   },
   {
     company: "Zendesk",
@@ -105,7 +105,7 @@ const education = [
   {
     institution: "MIT edX",
     degree: "Professional Certificate",
-    field: "Probability & Finance",
+    field: "Probability & Finance Courses",
     period: "2021 - 2024",
   },
   {
@@ -113,7 +113,13 @@ const education = [
     degree: "Technical Development",
     field: "Python, React, SQL, HTML, Three.js, MCP",
     period: "2022 - 2025",
-  }
+  },
+  {
+    institution: "CFA Institute",
+    degree: "Pursuing CFA - Level I",
+    field: "Quant, Econ, Finance, Asset Management",
+    period: "November 2025 Exam",
+  },
 ];
 
 const CvTemplate: React.FC = () => {
@@ -129,7 +135,7 @@ const CvTemplate: React.FC = () => {
       <header className="flex justify-between items-center mb-6 border-b border-gray-400 pb-4">
         <div>
           <h1 className="text-2xl font-bold" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Curtis James Lederle</h1>
-          <p className="text-gray-600">Analyst + Strategist + Engineer + Business Developer</p>
+          <p className="text-gray-600">Analyst + Technologist + Engineer + Investor</p>
         </div>
         <div className="flex items-center space-x-5">
           <a href="https://curtislederle.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600 text-sm">
@@ -151,10 +157,10 @@ const CvTemplate: React.FC = () => {
       {/* Professional Summary - BUY SIDE FOCUS */}
       <section className="mb-6">
         <p className="text-sm leading-snug">
-          Investment-focused analyst with engineering foundation and executive experience across multiple industries. Offers 
-          unique perspective combining operational expertise from scaling startups, technical proficiency in software and AI/ML applications,
-          and deep understanding of business fundamentals from managing P&L responsibilities. Demonstrated success in financial modeling,
-          contract negotiation, and strategic decision-making positions me to deliver exceptional value as a buy-side investment analyst.
+          Analyst with a foundation in engineering and a decade as an executive across multiple industries.  
+          Unique combination of operational expertise, technical proficiency, and lived experience of business fundamentals. 
+          Demonstrated success in quantitative analysis, modeling, contract negotiation, systems implementation and strategic decision-making.
+          Seeking to leverage these skills to deliver exceptional value as an investment analyst in public and/or private markets.
         </p>
       </section>
 
@@ -375,7 +381,7 @@ const CvTemplate: React.FC = () => {
 
       {/* Footer */}
       <footer className="text-center text-xs text-gray-500 mt-auto pt-4">
-        <p>References and earlier prior experience available upon request</p>
+        <p>References available upon request</p>
       </footer>
     </div>
   );
