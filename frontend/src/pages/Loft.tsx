@@ -35,12 +35,19 @@ const Loft = () => {
   const [activePodcast, setActivePodcast] = useState<number | null>(null);
   const [clickedBook, setClickedBook] = useState<number | null>(null);
   const [fullscreenArt, setFullscreenArt] = useState<boolean>(false);
-  const [activeMusic, setActiveMusic] = useState<number | null>(null);
+  const [activeMusic, setActiveMusic] = useState<number>(1);
   const [popupPosition, setPopupPosition] = useState<'center' | 'left' | 'right'>('center');
   const [currentQuote, setCurrentQuote] = useState<number>(0);
   
   // Use shared animations
   useAnimations();
+
+  // Debug the YouTube ID extraction
+  useEffect(() => {
+    const fredVideoUrl = music[1].link;
+    const videoId = getYoutubeId(fredVideoUrl);
+    console.log('Fred Again Video ID:', videoId);
+  }, []);
 
   // Background image
   const loftImage = "/assets/images/loft.png";
@@ -69,13 +76,67 @@ const Loft = () => {
   // Media content by category
   const books: Media[] = [
     {
+      title: "The 38 Letters",
+      creator: "John D. Rockefeller",
+      year: "2023",
+      description: "A collection of letters from one of history's wealthiest businessmen to his son, offering timeless wisdom on business, leadership, and personal development.",
+      tags: ["Business", "Leadership", "Letters"],
+      link: "https://www.audible.com/pd/The-38-Letters-from-JD-Rockefeller-to-His-Son-Audiobook/B0CDYFVDJS",
+      color: bookColors[1]
+    },
+    {
+      title: "Irrefutable Laws of Leadership",
+      creator: "John C. Maxwell",
+      year: "2007",
+      description: "A comprehensive guide to the fundamental principles that make a great leader, with practical insights that can be applied to any organization or situation.",
+      tags: ["Leadership", "Business", "Self-Improvement"],
+      link: "https://www.audible.com/pd/The-21-Irrefutable-Laws-of-Leadership-25th-Anniversary-Audiobook/B09MGC94DG",
+      color: bookColors[2]
+    },
+    {
+      title: "Meditations",
+      creator: "Marcus Aurelius",
+      year: "180 AD",
+      description: "Personal writings of the Roman Emperor Marcus Aurelius, recording his private notes to himself and ideas on Stoic philosophy, with profound insights on virtue, duty, and resilience.",
+      tags: ["Philosophy", "Stoicism", "Personal Development"],
+      link: "https://www.audible.com/pd/Meditations-Audiobook/B004IBRMZS",
+      color: bookColors[3]
+    },
+    {
+      title: "Boyd",
+      creator: "Robert Coram",
+      year: "2002",
+      description: "The remarkable story of John Boyd, the fighter pilot who changed the art of war through his revolutionary ideas about military strategy and aircraft design.",
+      tags: ["Biography", "Military", "Strategy"],
+      link: "https://www.audible.com/pd/Boyd-Audiobook/B01I5OKXKO",
+      color: bookColors[0]
+    },
+    {
+      title: "48 Laws of Power",
+      creator: "Robert Greene",
+      year: "1998",
+      description: "A comprehensive guide to the art of power, distilling 3,000 years of history into 48 essential laws that reveal the dynamics of control, influence, and defense against manipulation.",
+      tags: ["Psychology", "Strategy", "History"],
+      link: "https://www.audible.com/pd/The-48-Laws-of-Power-Audiobook/B00WSZG4EM",
+      color: bookColors[2]
+    },
+    {
+      title: "Security Analysis",
+      creator: "Benjamin Graham & David Dodd",
+      year: "1934",
+      description: "The foundational text of value investing, providing a framework for analyzing securities and identifying undervalued investments, written in the aftermath of the 1929 stock market crash.",
+      tags: ["Finance", "Investing", "Economics"],
+      link: "https://www.audible.com/pd/Security-Analysis-Sixth-Edition-Audiobook/B002V0GVIK",
+      color: bookColors[4]
+    },
+    {
       title: "Nexus",
       creator: "Yuval Noah Harari",
       year: "2023",
       description: "An exploration of how technological innovations are reshaping society, connecting humanity, and changing the future of our species.",
       tags: ["Technology", "Society", "Future"],
       link: "https://www.audible.com/pd/Nexus-Audiobook/B0CT49S3V8",
-      color: bookColors[0]
+      color: bookColors[3]
     },
     {
       title: "On Writing",
@@ -230,42 +291,23 @@ const Loft = () => {
       link: "https://www.audible.com/pd/Deep-Work-Audiobook/B0189PX1RQ",
       color: bookColors[1]
     },
-    {
-      title: "48 Laws of Power",
-      creator: "Robert Greene",
-      year: "1998",
-      description: "A comprehensive guide to the art of power, distilling 3,000 years of history into 48 essential laws that reveal the dynamics of control, influence, and defense against manipulation.",
-      tags: ["Psychology", "Strategy", "History"],
-      link: "https://www.audible.com/pd/The-48-Laws-of-Power-Audiobook/B00WSZG4EM",
-      color: bookColors[2]
-    },
-    {
-      title: "Meditations",
-      creator: "Marcus Aurelius",
-      year: "180 AD",
-      description: "Personal writings of the Roman Emperor Marcus Aurelius, recording his private notes to himself and ideas on Stoic philosophy, with profound insights on virtue, duty, and resilience.",
-      tags: ["Philosophy", "Stoicism", "Personal Development"],
-      link: "https://www.audible.com/pd/Meditations-Audiobook/B004IBRMZS",
-      color: bookColors[3]
-    },
-    {
-      title: "Security Analysis",
-      creator: "Benjamin Graham & David Dodd",
-      year: "1934",
-      description: "The foundational text of value investing, providing a framework for analyzing securities and identifying undervalued investments, written in the aftermath of the 1929 stock market crash.",
-      tags: ["Finance", "Investing", "Economics"],
-      link: "https://www.audible.com/pd/Security-Analysis-Sixth-Edition-Audiobook/B002V0GVIK",
-      color: bookColors[4]
-    }
   ];
 
   const podcasts: Media[] = [
+    {
+      title: "Lex Fridman - Robert Rodriguez",
+      creator: "Lex Fridman Podcast",
+      description: "Interview with Robert Rodriguez, filmmaker and visual artist, discussing creativity, filmmaking, and storytelling techniques.",
+      tags: ["Filmmaking", "Creativity", "Art"],
+      link: "https://open.spotify.com/embed/episode/3umqY5k2abfrNmlekFGcq1/video?utm_source=generator",
+      imageUrl: podcastPlaceholder
+    },
     {
       title: "Lex Fridman - Narendra Modi",
       creator: "Lex Fridman Podcast",
       description: "Conversation with Narendra Modi, Prime Minister of India, discussing leadership, technology, and the future of India.",
       tags: ["Leadership", "Politics", "India"],
-      link: "https://open.spotify.com/episode/40sptZNuCXjhzPYTG6K2rh?si=d64a669bb7ea4f91",
+      link: "https://open.spotify.com/embed/episode/40sptZNuCXjhzPYTG6K2rh/video?utm_source=generator",
       imageUrl: podcastPlaceholder
     },
     {
@@ -273,7 +315,7 @@ const Loft = () => {
       creator: "Lex Fridman Podcast",
       description: "Discussion about Deepseek, artificial intelligence, and innovations in deep learning technology.",
       tags: ["AI", "Technology", "Deep Learning"],
-      link: "https://open.spotify.com/episode/5JKVOvxQ0c9xJmVK3O1asA?si=c3194131223a44cf",
+      link: "https://open.spotify.com/embed/episode/5JKVOvxQ0c9xJmVK3O1asA/video?utm_source=generator",
       imageUrl: podcastPlaceholder
     },
     {
@@ -281,11 +323,11 @@ const Loft = () => {
       creator: "Lex Fridman Podcast",
       description: "Interview with Marc Andreessen, co-founder of Andreessen Horowitz, discussing venture capital, startups, and the future of technology.",
       tags: ["Venture Capital", "Technology", "Startups"],
-      link: "https://open.spotify.com/episode/5iXQAfEnrO3kWtg4WzYXUD?si=445aa20832f64b21",
+      link: "https://open.spotify.com/embed/episode/5iXQAfEnrO3kWtg4WzYXUD/video?utm_source=generator",
       imageUrl: podcastPlaceholder
     },
     {
-      title: "Lex Fridman - Guido van Rossum",
+      title: "Lex Fridman - Anthropic",
       creator: "Lex Fridman Podcast",
       description: "Conversation with Guido van Rossum, creator of Python, discussing programming languages and software development.",
       tags: ["Programming", "Python", "Software"],
@@ -293,7 +335,7 @@ const Loft = () => {
       imageUrl: podcastPlaceholder
     },
     {
-      title: "Lex Fridman - Demis Hassabis",
+      title: "Lex Fridman - Cursor",
       creator: "Lex Fridman Podcast",
       description: "Interview with Demis Hassabis, CEO of DeepMind, discussing artificial intelligence and the quest to solve intelligence.",
       tags: ["AI", "DeepMind", "Research"],
@@ -508,8 +550,10 @@ const Loft = () => {
 
   // Helper function to extract YouTube video ID
   const getYoutubeId = (url: string): string => {
-    const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    return match ? match[1] : '';
+    // First try the standard format
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[7].length === 11) ? match[7] : '';
   };
 
   return (
@@ -591,7 +635,7 @@ const Loft = () => {
                     <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-100 to-transparent z-10 pointer-events-none"></div>
                     
                     <div className="flex gap-4 min-w-max pb-2">
-                    {books.slice().reverse().map((book, index) => (
+                    {books.map((book, index) => (
                       <div 
                         key={index} 
                         className="relative cursor-pointer"
@@ -625,8 +669,8 @@ const Loft = () => {
                     >
                       <div className="flex justify-between items-start">
                         <div>
-                          <h4 className="font-heading text-slate-800 text-xl">{books.slice().reverse()[clickedBook].title}</h4>
-                          <p className="text-slate-600">{books.slice().reverse()[clickedBook].creator} • {books.slice().reverse()[clickedBook].year}</p>
+                          <h4 className="font-heading text-slate-800 text-xl">{books[clickedBook].title}</h4>
+                          <p className="text-slate-600">{books[clickedBook].creator} • {books[clickedBook].year}</p>
                         </div>
                         <button 
                           onClick={(e) => {
@@ -641,19 +685,19 @@ const Loft = () => {
                       </div>
                       
                       <div className="my-3 h-px bg-slate-200"></div>
-                      <p className="text-slate-700 mb-4">{books.slice().reverse()[clickedBook].description}</p>
+                      <p className="text-slate-700 mb-4">{books[clickedBook].description}</p>
                       
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {books.slice().reverse()[clickedBook].tags?.map((tag, tagIndex) => (
+                        {books[clickedBook].tags?.map((tag, tagIndex) => (
                           <span key={tagIndex} className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">
                             {tag}
                           </span>
                         ))}
                       </div>
                       
-                      {books.slice().reverse()[clickedBook].link && (
+                      {books[clickedBook].link && (
                         <a 
-                          href={books.slice().reverse()[clickedBook].link} 
+                          href={books[clickedBook].link} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
@@ -696,7 +740,7 @@ const Loft = () => {
                     
                     {/* Podcasts list */}
                     <div className="space-y-4">
-                      {podcasts.slice(0, 3).map((podcast, index) => (
+                      {podcasts.slice(0, 6).map((podcast, index) => (
                         <div 
                           key={index} 
                           className={`bg-slate-800 rounded p-3 transition-all ${activePodcast === index ? 'ring-2 ring-blue-500' : 'hover:bg-slate-700'}`}
@@ -718,13 +762,16 @@ const Loft = () => {
                           {activePodcast === index && podcast.link && (
                             <div className="mt-3 pt-3 border-t border-slate-700">
                               <iframe 
-                                src={podcast.link.replace('episode/', 'embed/episode/')} 
+                                src={podcast.link.includes('/embed/') ? podcast.link : podcast.link.replace('episode/', 'embed/episode/')}
                                 width="100%" 
-                                height="152" 
+                                height={podcast.link.includes('/video') ? "279" : "152"}
                                 frameBorder="0" 
-                                allow="encrypted-media"
+                                allow="encrypted-media; autoplay; clipboard-write; fullscreen; picture-in-picture"
                                 title={podcast.title}
                                 className="rounded"
+                                allowFullScreen
+                                loading="lazy"
+                                style={{borderRadius: '12px'}}
                               ></iframe>
                             </div>
                           )}
@@ -836,7 +883,7 @@ const Loft = () => {
                     
                     {/* Music video/thumbnail container */}
                     <div className="aspect-video bg-black relative">
-                      {activeMusic !== null ? (
+                      {activeMusic >= 0 ? (
                         <iframe 
                           width="100%" 
                           height="100%" 
@@ -871,18 +918,7 @@ const Loft = () => {
                           </div>
                         </>
                       )}
-                  </div>
-                  
-                    {/* Close button for active video */}
-                    {activeMusic !== null && (
-                      <button
-                        onClick={() => setActiveMusic(null)}
-                        className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full z-10"
-                        aria-label="Close video"
-                      >
-                        &times;
-                      </button>
-                    )}
+                    </div>
                     
                     {/* Music playlist */}
                     <div className="p-3 space-y-2">
@@ -905,6 +941,10 @@ const Loft = () => {
                           </div>
                           <button 
                             className="p-2 text-slate-400 hover:text-white"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveMusic(activeMusic === index ? -1 : index);
+                            }}
                           >
                             {activeMusic === index ? <FaPause size={12} /> : <FaPlay size={12} />}
                           </button>
