@@ -1,53 +1,26 @@
 {
-  "name": "world-mk1",
+  "name": "world-mk1-monorepo",
+  "version": "1.0.0",
+  "description": "Personal website with frontend and backend services",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "homepage": "https://curtislederle.com",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "type-check": "tsc -b",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "predeploy": "npm run build && cpy public/CNAME public/404.html dist",
-    "deploy": "gh-pages -d dist"
+    "frontend:dev": "cd frontend && npm run dev",
+    "backend:dev": "cd backend && python -m uvicorn app.main:app --reload",
+    "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
+    "frontend:build": "cd frontend && npm run build",
+    "frontend:deploy": "cd frontend && npm run deploy",
+    "docker:dev": "docker-compose -f docker/docker-compose.yml up --build",
+    "docker:down": "docker-compose -f docker/docker-compose.yml down"
   },
-  "dependencies": {
-    "@react-pdf/renderer": "^4.3.0",
-    "@react-three/drei": "^9.122.0",
-    "@react-three/fiber": "^8.18.0",
-    "gsap": "^3.12.7",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^3.0.1",
-    "maplibre-gl": "^5.2.0",
-    "ol": "^10.4.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.5.0",
-    "react-router-dom": "^6.22.3",
-    "three": "^0.163.0"
-  },
+  "keywords": [
+    "react",
+    "typescript",
+    "fastapi",
+    "python",
+    "finance"
+  ],
+  "author": "Curtis Lederle",
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21",
-    "@types/three": "^0.162.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.19",
-    "cpy-cli": "^5.0.0",
-    "cross-env": "^7.0.3",
-    "dotenv-cli": "^7.4.4",
-    "eslint": "^9.21.0",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "gh-pages": "^6.1.1",
-    "globals": "^15.15.0",
-    "lightningcss": "^1.29.3",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.1",
-    "typescript": "~5.7.2",
-    "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
+    "concurrently": "^8.2.2"
   }
-}
+} 

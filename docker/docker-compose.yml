@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/frontend.Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=${API_URL:-http://backend:8000/api}
+    depends_on:
+      - backend
+    networks:
+      - world-mk1-network
+
+  # Backend service
+  backend:
+    build:
+      context: ../backend
+      dockerfile: ../docker/backend.Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-sk_test_your_test_key}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-whsec_your_webhook_secret}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./finance.db}
+      - FRONTEND_URL=${FRONTEND_URL:-http://frontend}
+    volumes:
+      - ../backend/app:/app/app
+      - backend-data:/app/data
+    networks:
+      - world-mk1-network
+
+# Persistent volumes
+volumes:
+  backend-data:
+
+# Network configuration
+networks:
+  world-mk1-network:
+    driver: bridge 

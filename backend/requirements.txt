@@ -1,0 +1,11 @@
+fastapi==0.110.0
+uvicorn==0.27.0
+python-dotenv==1.0.1
+stripe==7.10.0
+sqlalchemy==2.0.28
+pydantic==2.5.3
+pytest==7.4.3
+httpx==0.26.0
+numpy==1.26.3
+pandas==2.2.0
+scipy==1.12.0 
