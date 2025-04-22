@@ -5,7 +5,6 @@ import { SiJupyter, SiPandas, SiNumpy } from 'react-icons/si';
 // Custom components
 import PageHeader from '../components/PageHeader';
 import { ProjectCardProps } from '../components/ProjectCard';
-import MortgageCalculator from '../components/finance/MortgageCalculator';
 
 // Custom hooks
 import { useAnimations } from '../hooks/useAnimations';
@@ -13,7 +12,7 @@ import { useAnimations } from '../hooks/useAnimations';
 // Interface for our project cards
 interface FinanceProjectProps extends ProjectCardProps {
   icon: React.ComponentType<{ size?: number; className?: string }>;
-  status: 'Completed' | 'In Progress' | 'Planned';
+  status: 'Completed' | 'In Progress' | 'Planned' | 'Available';
   categories: string[];
 }
 
@@ -22,7 +21,7 @@ const Finance = () => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [typingComplete, setTypingComplete] = useState<boolean>(false);
-  const [showCalculator, setShowCalculator] = useState<boolean>(false);
+  const [toolsExpanded, setToolsExpanded] = useState<boolean>(false);
   
   // Use shared animations
   useAnimations();
@@ -110,11 +109,22 @@ const Finance = () => {
     { id: 'all', name: 'All Projects' },
     { id: 'fundamentals', name: 'Fundamental Analysis' },
     { id: 'technical', name: 'Technical Analysis' },
-    { id: 'tools', name: 'Calculators & Tools' }
+    { id: 'ai', name: 'AI & ML' }
   ];
 
   // Finance projects data
   const projects: FinanceProjectProps[] = [
+    {
+      name: "AI Hedge Fund",
+      description: "Open source AI-powered hedge fund simulation with multiple investing agents (Buffett, Graham, Munger, etc.) for algorithmic trading decisions.",
+      technologies: ["Python", "AI/ML", "Quantitative Finance", "Backtesting"],
+      type: "github",
+      isPublic: true,
+      githubUrl: "https://github.com/virattt/ai-hedge-fund",
+      status: "Available",
+      icon: FaRobot,
+      categories: ["ai", "fundamentals", "technical"]
+    },
     {
       name: "Fundamental Analysis Dashboard",
       description: "Interactive dashboard for analyzing company financials, valuation metrics, and growth indicators. Built with Python and Streamlit.",
@@ -153,17 +163,7 @@ const Finance = () => {
       isPublic: false,
       status: "Planned",
       icon: FaRobot,
-      categories: ["ml"]
-    },
-    {
-      name: "Jupyter Notebooks Collection",
-      description: "Series of educational notebooks covering key financial analysis concepts, CFA curriculum topics, and practical implementation examples.",
-      technologies: ["Jupyter", "Python", "Financial Analysis", "Education"],
-      type: "github",
-      isPublic: false,
-      status: "In Progress",
-      icon: SiJupyter,
-      categories: ["fundamentals", "technical", "portfolio"]
+      categories: ["ml", "ai"]
     },
     {
       name: "Data Pipeline for Financial Analysis",
@@ -174,16 +174,6 @@ const Finance = () => {
       status: "Planned",
       icon: FaPython,
       categories: ["fundamentals", "technical", "ml"]
-    },
-    {
-      name: "Financial Calculators",
-      description: "Interactive financial calculators for mortgage payments, investment returns, retirement planning, and more.",
-      technologies: ["Python", "FastAPI", "React", "Financial Planning"],
-      type: "tool",
-      isPublic: true,
-      status: "In Progress",
-      icon: FaCalculator,
-      categories: ["tools"]
     }
   ];
 
@@ -197,9 +187,9 @@ const Finance = () => {
     setExpandedSection(expandedSection === sectionName ? null : sectionName);
   };
 
-  // Handle calculator toggle
-  const handleCalculatorToggle = () => {
-    setShowCalculator(!showCalculator);
+  // Toggle tools expanded state
+  const toggleToolsExpanded = () => {
+    setToolsExpanded(!toolsExpanded);
   };
 
   return (
@@ -256,27 +246,38 @@ const Finance = () => {
             </div>
           </div>
 
-          {/* Calculator Section - Show only for tools category */}
-          {(activeCategory === 'tools' || activeCategory === 'all') && (
-            <div className="mb-8 w-full">
-              <button
-                onClick={handleCalculatorToggle}
-                className="w-full bg-green-900/30 hover:bg-green-900/40 border border-green-800/50 text-green-400 py-3 px-4 rounded-md font-mono mb-4 flex items-center justify-between transition-colors"
-              >
-                <div className="flex items-center">
-                  <FaCalculator className="mr-2" />
-                  <span>Mortgage Calculator</span>
-                </div>
-                <span>{showCalculator ? '[-]' : '[+]'}</span>
-              </button>
-              
-              {showCalculator && (
-                <div className="animate-fadeIn">
-                  <MortgageCalculator />
-                </div>
-              )}
-            </div>
-          )}
+          {/* Financial Analysis Tools Section */}
+          <div className="mb-8 w-full">
+            <button 
+              onClick={toggleToolsExpanded}
+              className="w-full bg-green-900/30 hover:bg-green-900/40 border border-green-800/50 text-green-400 py-3 px-4 rounded-md font-mono mb-4 flex items-center justify-between transition-colors"
+            >
+              <div className="flex items-center">
+                <FaCalculator className="mr-2" />
+                <span>Financial Analysis Tools</span>
+              </div>
+              <span>{toolsExpanded ? '[-]' : '[+]'}</span>
+            </button>
+            
+            {toolsExpanded && (
+              <div className="bg-black/70 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg animate-fadeIn">
+                <h2 className="text-2xl mb-4 font-heading">Coming Soon</h2>
+                <p className="text-slate-300 mb-4">
+                  Interactive financial modeling tools for evaluating:
+                </p>
+                <ul className="list-disc pl-6 text-slate-300 space-y-2">
+                  <li>Discounted cash flow models</li> 
+                  <li>Financial statement analysis</li>
+                  <li>Valuation benchmarks</li>
+                  <li>Capital allocation strategies</li>
+                  <li>Risk assessment models</li>
+                </ul>
+                <p className="text-slate-400 text-sm mt-6 italic">
+                  Backend API integration in progress. Check back soon for interactive tools.
+                </p>
+              </div>
+            )}
+          </div>
           
           {/* Projects Grid - Terminal Style */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-20">
@@ -295,6 +296,7 @@ const Finance = () => {
                   <span className={`text-xs px-1.5 md:px-2 py-0.5 md:py-1 rounded-sm font-mono flex-shrink-0 ml-2 ${
                     project.status === 'Completed' ? 'bg-green-900/30 text-green-500 border border-green-800' :
                     project.status === 'In Progress' ? 'bg-yellow-900/30 text-yellow-500 border border-yellow-800' :
+                    project.status === 'Available' ? 'bg-purple-900/30 text-purple-400 border border-purple-800' :
                     'bg-blue-900/30 text-blue-400 border border-blue-800'
                   }`}>
                     {project.status}
@@ -321,27 +323,14 @@ const Finance = () => {
                 {/* Action Button - Terminal Style */}
                 <div className="p-3 md:p-4 pt-0 border-t border-gray-800">
                   {project.isPublic ? (
-                    project.type === 'tool' ? (
-                      <button 
-                        onClick={() => {
-                          setActiveCategory('tools');
-                          setShowCalculator(true);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }}
-                        className="flex items-center justify-center px-3 md:px-4 py-2 rounded bg-green-900/40 text-green-400 border border-green-800 hover:bg-green-900/60 transition-all font-mono w-full text-sm"
-                      >
-                        <FaCalculator size={16} className="mr-2" /> Try Calculator
-                      </button>
-                    ) : (
-                      <a 
-                        href={project.githubUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center px-3 md:px-4 py-2 rounded bg-green-900/40 text-green-400 border border-green-800 hover:bg-green-900/60 transition-all font-mono w-full text-sm"
-                      >
-                        <FaGithub size={16} className="mr-2" /> git clone
-                      </a>
-                    )
+                    <a 
+                      href={project.githubUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center px-3 md:px-4 py-2 rounded bg-green-900/40 text-green-400 border border-green-800 hover:bg-green-900/60 transition-all font-mono w-full text-sm"
+                    >
+                      <FaGithub size={16} className="mr-2" /> git clone
+                    </a>
                   ) : (
                     <span className="flex items-center justify-center px-3 md:px-4 py-2 rounded bg-gray-900/40 text-gray-500 border border-gray-800 cursor-not-allowed font-mono w-full text-sm">
                       <FaGithub size={16} className="mr-2" /> coming_soon

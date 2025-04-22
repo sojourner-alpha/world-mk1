@@ -453,11 +453,11 @@ const Workshop = () => {
               <div className="bg-matted/60 backdrop-blur-sm text-white p-8 rounded-lg shadow-sm">
                 <div>
                   <h1 className="text-4xl font-heading mb-4">Workshop</h1>
-                  <p className="text-xl mb-6">Portfolio, Skills & Career</p>
+                  <p className="text-xl mb-6">Projects, Tools & Experience</p>
                   <p className="mb-6">
-                    Professional history in scaling startups, driving revenue growth, and supporting executive decision-making with a blend of technical and business expertise.
-                  <br/> <br/>
-                    This space showcases open source projects, professional skills, and a detailed career timeline.
+                    Open source projects, tools & skills, and a record of past work.
+                    <br/><br/>
+                    Enter the matrix to see financial analysis powered by AI.
                   </p>
                 </div>
                 <div className="flex justify-end items-center gap-4">
