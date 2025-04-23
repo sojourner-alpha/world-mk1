@@ -35,7 +35,7 @@ const careerHighlights = [
     company: "Sojourn Insight",
     role: "Partner",
     period: "2023 - Present",
-    description: "Consulting services for founders, executives and researchers. Fractional COO services to startups.",
+    description: "Investment research, analysis and management. Fractional COO services to startups.",
     achievements: [
       "Fractional COO services for Toronto based startup",
       "Consulting services on ML input to a Stanford Lab",

@@ -559,7 +559,7 @@ const Home = () => {
                   backgroundColor: darkMode ? '#4b5563' : '#9ca3af' 
                 }}
               >
-                {darkMode ? <FaSun size={24} /> : <FaMoon size={24} />}
+                {darkMode ? <FaSun className="w-5 h-5 md:w-6 md:h-6" /> : <FaMoon className="w-5 h-5 md:w-6 md:h-6" />}
               </div>
             </div>
           </div>
