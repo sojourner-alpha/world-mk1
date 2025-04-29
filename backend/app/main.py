@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
@@ -6,47 +6,57 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Import database models
-from app.models.base import create_tables
+# Import routes
+from app.routes import finance
 
 # Create FastAPI app
 app = FastAPI(
     title="World-MK1 Finance API",
-    description="API for financial calculations and payment processing",
-    version="0.1.0"
+    description="Financial analysis and calculation API",
+    version="0.1.0",
 )
 
 # Configure CORS
+origins = [
+    "http://localhost:5173",  # Vite dev server
+    "http://localhost:3000",  # Alternative dev server
+    "https://curtislederle.com",  # Production domain
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",  # Vite dev server
-        "http://localhost:3000",  # Alternate dev port
-        "https://curtislederle.com",  # Production
-        "*"  # During development - restrict this in production
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Health check endpoint
+# API router setup
+api_router = APIRouter(prefix="/api")
+api_router.include_router(finance.router, prefix="/finance", tags=["finance"])
+
+# Include API router
+app.include_router(api_router)
+
+# Root endpoint
 @app.get("/")
 async def root():
-    return {"status": "healthy", "message": "Finance API is running"}
+    return {
+        "message": "Welcome to World-MK1 Finance API",
+        "docs": "/docs",
+        "redoc": "/redoc"
+    }
 
-# Simple test endpoint for connection testing
+# Test endpoint
 @app.get("/api/finance/test")
-async def test_connection():
-    return {"status": "connected", "message": "Successfully connected to Finance API"}
+async def test():
+    return {"status": "ok", "message": "Finance API is running"}
 
-# Import and include routers
-from app.routes import stripe, finance
-
-app.include_router(stripe.router, prefix="/api/stripe", tags=["stripe"])
-app.include_router(finance.router, prefix="/api/finance", tags=["finance"])
-
-# Create database tables on startup
-@app.on_event("startup")
-async def startup_event():
-    create_tables() 
+# Run the app
+if __name__ == "__main__":
+    import uvicorn
+    
+    # Get port from environment variable or use default
+    port = int(os.getenv("PORT", 8000))
+    
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=True) 
