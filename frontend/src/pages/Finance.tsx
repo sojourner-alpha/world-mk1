@@ -353,6 +353,17 @@ const Finance = () => {
                             <p className="text-gray-400 text-sm">
                               These functions are available through our Python API. Frontend integration via React components is in progress.
                             </p>
+                            <div className="mt-4 flex items-center">
+                              <a 
+                                href="https://github.com/sojourner-alpha/world-mk1/blob/main/backend/app/finance/README.md" 
+                                target="_blank"
+                                rel="noopener noreferrer" 
+                                className="flex items-center text-gray-400 hover:text-green-400 transition-colors"
+                              >
+                                <FaGithub size={16} className="mr-2" />
+                                <span className="text-sm font-mono">View full documentation on GitHub</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       ))}
