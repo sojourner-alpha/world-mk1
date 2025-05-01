@@ -37,6 +37,12 @@ const PageHeader: React.FC<PageHeaderProps> = ({ pageName }) => {
                 Workshop
               </Link>
               <Link 
+                to="/finance" 
+                className={`text-white/80 hover:text-white text-sm transition-colors ${pageName === 'Finance' ? 'text-white underline underline-offset-4' : ''}`}
+              >
+                Finance
+              </Link>
+              <Link 
                 to="/study" 
                 className={`text-white/80 hover:text-white text-sm transition-colors ${pageName === 'Study' ? 'text-white underline underline-offset-4' : ''}`}
               >

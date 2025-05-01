@@ -19,7 +19,7 @@ interface FinanceProjectProps extends ProjectCardProps {
 }
 
 // Define section types
-type ExpandedSection = 'libraries' | 'opensource' | 'calculators' | null;
+type ExpandedSection = 'libraries' | 'regression' | 'opensource' | 'calculators' | null;
 type CalculatorType = 'mortgage' | 'financialRatios' | null;
 type LibraryType = 'fundamentals' | 'technical' | 'valuation' | 'portfolio' | 'risk' | null;
 
@@ -375,6 +375,87 @@ const Finance = () => {
                       <p className="text-slate-300">Select a library from the tabs above to view documentation</p>
                     </div>
                   )}
+                </div>
+              )}
+            </div>
+
+            {/* Regression Analysis Tool Section */}
+            <div className="mb-6 w-full">
+              <button 
+                onClick={() => toggleSection('regression')}
+                className="w-full bg-green-900/30 hover:bg-green-900/40 border border-green-800/50 text-white py-3 px-4 rounded-md font-mono mb-4 flex items-center justify-between transition-colors"
+              >
+                <div className="flex items-center">
+                  <FaChartLine className="mr-2" />
+                  <span>Regression Analysis Tool</span>
+                </div>
+                <span>{expandedSection === 'regression' ? '[-]' : '[+]'}</span>
+              </button>
+              
+              {expandedSection === 'regression' && (
+                <div className="space-y-6 animate-fadeIn">
+                  <div className="bg-black/70 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg">
+                    <h3 className="text-xl font-heading text-green-400 mb-3">Stock Regression Analysis</h3>
+                    <p className="text-slate-300 mb-6">
+                      Analyze the relationship between two stocks using regression analysis. This tool collects up to 10 years of quarterly data,
+                      performs statistical analysis, and generates ANOVA tables and regression coefficients.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                      <div className="space-y-3">
+                        <label className="block text-green-400 font-mono text-sm">Independent Variable (X)</label>
+                        <div className="flex">
+                          <span className="bg-green-900/30 text-green-400 px-3 py-2 border border-green-800 rounded-l-md font-mono">$</span>
+                          <input 
+                            type="text" 
+                            placeholder="Enter ticker (e.g. AAPL)" 
+                            className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-r-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500">Base stock for comparison (X variable)</p>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <label className="block text-green-400 font-mono text-sm">Dependent Variable (Y)</label>
+                        <div className="flex">
+                          <span className="bg-green-900/30 text-green-400 px-3 py-2 border border-green-800 rounded-l-md font-mono">$</span>
+                          <input 
+                            type="text" 
+                            placeholder="Enter ticker (e.g. MSFT)" 
+                            className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-r-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500">Target stock to analyze (Y variable)</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <button 
+                        className="flex items-center justify-center px-4 py-3 rounded bg-gray-900/40 text-gray-500 border border-gray-800 cursor-not-allowed font-mono w-full text-sm"
+                        disabled
+                      >
+                        <FaChartLine size={16} className="mr-2" /> Coming Soon
+                      </button>
+                      
+                      <div className="border border-gray-800 rounded-md p-4 bg-black/50">
+                        <h4 className="text-md font-mono text-green-400 border-b border-green-900/50 pb-1 mb-3">Regression Results</h4>
+                        <p className="text-gray-400 text-sm mb-2">
+                          The regression analysis will show the following information:
+                        </p>
+                        <ul className="list-disc list-inside text-gray-400 text-sm space-y-1">
+                          <li>ANOVA table with F-statistic and p-values</li>
+                          <li>Regression statistics (R², adjusted R², standard error)</li>
+                          <li>Regression coefficients (slope, intercept)</li>
+                          <li>Historical correlation data visualization</li>
+                          <li>AI-generated interpretation of results</li>
+                        </ul>
+                      </div>
+                      
+                      <div className="text-xs text-gray-500 italic">
+                        Note: This tool will store analyses in a SQL database, allowing you to retrieve and compare historical regression data.
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

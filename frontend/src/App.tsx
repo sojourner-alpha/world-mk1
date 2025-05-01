@@ -23,10 +23,10 @@ const studyImage = `/assets/images/study.png`;
 const crossroadsImage = `/assets/images/crossroads.png`;
 
 const Header = () => {
-  const [socialExpanded, setSocialExpanded] = useState(false);
+  const [menuExpanded, setMenuExpanded] = useState(false);
   
-  const toggleSocial = () => {
-    setSocialExpanded(!socialExpanded);
+  const toggleMenu = () => {
+    setMenuExpanded(!menuExpanded);
   };
   
   return (
@@ -36,47 +36,39 @@ const Header = () => {
           <div className="flex flex-col md:flex-row md:items-baseline md:justify-between items-center text-center md:text-left">
             <h1 className="text-3xl font-heading text-slate-800 dark:text-slate-100">Curtis James | Lederle</h1>
             <div className="md:flex hidden items-center">
-              <div className={`social-icons-header flex items-center ${socialExpanded ? 'expanded' : 'collapsed'}`}>
-                {socialExpanded && (
+              <div className={`main-nav-header flex items-center ${menuExpanded ? 'expanded' : 'collapsed'}`}>
+                {menuExpanded && (
                   <>
-                    <a 
-                      href="https://github.com/sojourner-alpha" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
+                    <Link 
+                      to="/workshop" 
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                     >
-                      <FaGithub size={20} />
-                    </a>
-                    <a 
-                      href="https://www.linkedin.com/in/clederle/" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
+                      Workshop
+                    </Link>
+                    <Link 
+                      to="/finance" 
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                     >
-                      <FaLinkedinIn size={20} />
-                    </a>
-                    <a 
-                      href="https://x.com/curtlederle" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
+                      Finance
+                    </Link>
+                    <Link 
+                      to="/study" 
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                     >
-                      <FaXTwitter size={20} />
-                    </a>
-                    <a 
-                      href="https://curtislederle.substack.com" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-2"
+                      Study
+                    </Link>
+                    <Link 
+                      to="/loft" 
+                      className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                     >
-                      <SiSubstack size={20} />
-                    </a>
+                      Loft
+                    </Link>
                   </>
                 )}
                 <button 
-                  onClick={toggleSocial} 
+                  onClick={toggleMenu} 
                   className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors ml-2 p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
-                  aria-label="Toggle social media links"
+                  aria-label="Toggle main navigation"
                 >
                   <FaEllipsis size={20} />
                 </button>
@@ -85,51 +77,43 @@ const Header = () => {
           </div>
           <p className="text-slate-600 dark:text-slate-400 mt-1 text-center md:text-left"> techologist + analyst + investor + consultant </p>
           
-          {/* Mobile social icons - collapsed by default */}
+          {/* Mobile navigation menu - collapsed by default */}
           <div className="flex md:hidden justify-center mt-3">
-            <div className="social-icons-header flex items-center">
-              {socialExpanded && (
+            <div className="main-nav-header flex items-center">
+              {menuExpanded && (
                 <>
-                  <a 
-                    href="https://github.com/sojourner-alpha" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                  <Link 
+                    to="/workshop" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                   >
-                    <FaGithub size={20} />
-                  </a>
-                  <a 
-                    href="https://www.linkedin.com/in/clederle/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                    Workshop
+                  </Link>
+                  <Link 
+                    to="/finance" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                   >
-                    <FaLinkedinIn size={20} />
-                  </a>
-                  <a 
-                    href="https://x.com/curtlederle" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                    Finance
+                  </Link>
+                  <Link 
+                    to="/study" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                   >
-                    <FaXTwitter size={20} />
-                  </a>
-                  <a 
-                    href="https://curtislederle.substack.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3"
+                    Study
+                  </Link>
+                  <Link 
+                    to="/loft" 
+                    className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors px-3 font-medium"
                   >
-                    <SiSubstack size={20} />
-                  </a>
+                    Loft
+                  </Link>
                 </>
               )}
               
               {/* Toggle button - always visible */}
               <button 
-                onClick={toggleSocial} 
+                onClick={toggleMenu} 
                 className="text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white transition-colors mx-2 p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
-                aria-label="Toggle social media links"
+                aria-label="Toggle main navigation"
               >
                 <FaEllipsis size={20} />
               </button>
