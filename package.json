@@ -9,8 +9,12 @@
     "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
     "frontend:build": "cd frontend && npm run build",
     "frontend:deploy": "cd frontend && npm run deploy",
-    "docker:dev": "docker-compose -f docker/docker-compose.yml up --build",
-    "docker:down": "docker-compose -f docker/docker-compose.yml down"
+    "docker:dev": "./start-dev.sh",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "db:init": "cd backend && python init_db.py",
+    "db:psql": "docker-compose exec db psql -U postgres -d finance",
+    "test:regression": "cd backend && python test_regression_api.py"
   },
   "keywords": [
     "react",

@@ -68,6 +68,15 @@ interface ValuationRatiosInput {
   annual_dividend?: number;
 }
 
+interface RegressionInput {
+  x_ticker: string;
+  y_ticker: string;
+  start_date: string;
+  end_date?: string;
+  interval?: string;
+  use_cache?: boolean;
+}
+
 // ----- Types for API Responses -----
 
 interface NPVResponse {
@@ -137,6 +146,45 @@ interface EfficientFrontierResponse {
   weights: number[][];
 }
 
+interface RegressionResponse {
+  id: number;
+  x_ticker: string;
+  y_ticker: string;
+  start_date: string;
+  end_date: string;
+  data_points: number;
+  statistics: {
+    slope: number;
+    intercept: number;
+    r_squared: number;
+    adjusted_r_squared: number;
+    p_value: number;
+    standard_error: number;
+    anova_table: {
+      df_model: number;
+      df_residual: number;
+      df_total: number;
+      sum_squares_model: number;
+      sum_squares_residual: number;
+      sum_squares_total: number;
+      mean_square_model: number;
+      mean_square_residual: number;
+      f_value: number;
+      p_value: number;
+    };
+  };
+  summary: string;
+  created_at: string;
+}
+
+interface RecentRegressionSearch {
+  id: number;
+  regression_id: number;
+  x_ticker: string;
+  y_ticker: string;
+  searched_at: string;
+}
+
 // Financial calculation API methods
 export const financeApi = {
   /**
@@ -192,6 +240,18 @@ export const financeApi = {
    */
   calculateEfficientFrontier: (data: PortfolioInput) =>
     api.post<EfficientFrontierResponse>('finance/efficient-frontier', data),
+  
+  /**
+   * Perform regression analysis on two stocks
+   */
+  runRegressionAnalysis: (data: RegressionInput) =>
+    api.post<RegressionResponse>('finance/regression-analysis', data),
+  
+  /**
+   * Get recent regression searches
+   */
+  getRecentRegressions: (limit: number = 10) =>
+    api.get<RecentRegressionSearch[]>(`finance/recent-regressions?limit=${limit}`),
 };
 
 export default financeApi; 

@@ -25,13 +25,16 @@ world-mk1/
 ├── backend/                 # Python FastAPI backend
 │   ├── app/                 # Main application code
 │   │   ├── routes/          # API endpoints
+│   │   ├── models/          # Database models
+│   │   ├── services/        # Business logic services
 │   │   └── finance/         # Financial analysis library
 │   │       ├── fundamentals.py  # Financial ratio calculations
 │   │       ├── technical.py     # Technical analysis indicators
 │   │       ├── valuation.py     # Valuation models and ratios
 │   │       ├── portfolio.py     # Portfolio optimization
-│   │       └── risk.py          # Risk analysis tools
-│   └── app/                 # Main application code
+│   │       ├── risk.py          # Risk analysis tools
+│   │       └── regression.py    # Stock regression analysis
+│   └── migrations/          # Alembic database migrations
 │
 ├── docker/            # Docker configuration
 ├── run-dev.sh         # Development script
@@ -49,6 +52,7 @@ The backend includes a comprehensive financial analysis library with:
 - **Valuation Models**: DCF models, valuation ratios, NPV/IRR calculators
 - **Portfolio Management**: Portfolio optimization, efficient frontier, performance metrics
 - **Risk Assessment**: Value at Risk calculations, Monte Carlo simulations, stress testing
+- **Regression Analysis**: Stock correlation analysis, ANOVA calculations, and statistical modeling
 
 ### Interactive Components
 
@@ -56,8 +60,23 @@ The frontend includes interactive financial tools:
 
 - **Mortgage Calculator**: For mortgage payment analysis
 - **Financial Ratio Calculator**: For fundamental company analysis
+- **Regression Analysis Tool**: For analyzing relationships between stocks
 - **Library Documentation**: Interactive documentation of available financial functions
 - *(Coming Soon)* Portfolio Optimizer and Technical Analysis Tools
+
+## Database Infrastructure
+
+The application uses a PostgreSQL database for persistent storage:
+
+- **Stock Data**: Historical price and earnings data for stocks
+- **Regression Analysis**: Results of regression analyses between stocks
+- **Search History**: Record of user searches for quick retrieval
+
+The database layer uses:
+- **SQLAlchemy**: ORM for database interactions
+- **Alembic**: Database migration system
+- **PostgreSQL**: Robust relational database
+- **pgAdmin**: Database administration interface
 
 ## Getting Started
 
@@ -66,6 +85,7 @@ The frontend includes interactive financial tools:
 - Node.js (v18+)
 - Python (v3.10+)
 - Git
+- Docker and Docker Compose (recommended)
 
 ### Quick Start
 
@@ -85,56 +105,17 @@ This will:
 - Start the FastAPI backend on http://localhost:8000
 - Start the Vite frontend on http://localhost:5173
 
-### Manual Setup
-
-#### Frontend
-
-```bash
-# Navigate to frontend directory
-cd frontend
-
-# Install dependencies
-npm install
-
-# Create .env file from template
-cp .env.example .env
-
-# Start development server
-npm run dev
-```
-
-#### Backend
-
-```bash
-# Navigate to backend directory
-cd backend
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create .env file from template
-cp .env.example .env
-
-# Start development server
-uvicorn app.main:app --reload
-```
-
 ### Using Docker
 
 ```bash
-# Start both services
-npm run docker:dev
-
-# Or use docker-compose directly
+# Start all services (frontend, backend, PostgreSQL, pgAdmin)
 docker-compose up
 
 # Stop services
-npm run docker:down
+docker-compose down
 ```
+
+Access pgAdmin at http://localhost:5050 (email: admin@admin.com, password: admin)
 
 ## Using the Financial Library
 
@@ -156,23 +137,26 @@ dupont = fundamentals.dupont_analysis(
 )
 ```
 
-### Example: Portfolio Optimization
+### Example: Performing Regression Analysis
 
 ```python
-import numpy as np
-from app.finance import portfolio
+from app.finance import regression
 
-# Sample data
-returns = np.array([0.10, 0.15, 0.05, 0.08])
-cov_matrix = np.array([
-    [0.0100, 0.0018, 0.0011, 0.0014],
-    [0.0018, 0.0225, 0.0010, 0.0070],
-    [0.0011, 0.0010, 0.0400, 0.0020],
-    [0.0014, 0.0070, 0.0020, 0.0100]
-])
+# Run regression analysis between two stocks
+results = regression.run_stock_regression(
+    x_ticker="AAPL",
+    y_ticker="MSFT",
+    start_date="2018-01-01",
+    end_date="2023-01-01",
+    interval="1mo"
+)
 
-# Optimize portfolio
-result = portfolio.optimize_portfolio(returns, cov_matrix, risk_free_rate=0.02)
+# Access regression statistics
+r_squared = results["statistics"]["r_squared"]
+print(f"R-squared: {r_squared:.2%}")  # Example: R-squared: 78.50%
+
+# Access the summary
+print(results["summary"])
 ```
 
 ## API Documentation
@@ -181,9 +165,17 @@ When the backend is running, auto-generated API documentation is available at:
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
+### Regression Analysis API Endpoints
+
+- `POST /api/finance/regression-analysis`: Perform regression analysis between two stocks
+- `GET /api/finance/recent-regressions`: Get list of recent regression searches
+
 ## Roadmap
 
-- [ ] Stock data integration from external financial APIs
+- [x] Stock data integration via Yahoo Finance API
+- [x] Regression analysis infrastructure
+- [x] PostgreSQL database setup
+- [ ] Visualization of regression results
 - [ ] Interactive technical analysis charting
 - [ ] Portfolio visualization tools
 - [ ] Machine learning for financial analysis
@@ -215,5 +207,7 @@ This project is private and not licensed for public use or distribution.
 - [Vite](https://vitejs.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [FastAPI](https://fastapi.tiangolo.com/)
+- [SQLAlchemy](https://sqlalchemy.org/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [NumPy](https://numpy.org/) and [Pandas](https://pandas.pydata.org/)
-- [SciPy](https://scipy.org/)
+- [SciPy](https://scipy.org/) and [statsmodels](https://www.statsmodels.org/)

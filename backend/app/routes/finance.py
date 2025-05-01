@@ -1,11 +1,15 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
+from sqlalchemy.orm import Session
 import numpy as np
 import numpy_financial as npf
+from datetime import datetime
 
 # Import our finance library
-from app.finance import fundamentals, valuation, portfolio, risk, technical
+from app.finance import fundamentals, valuation, portfolio, risk, technical, regression
+from app.db import get_db
+from app.services.regression_service import RegressionService
 
 router = APIRouter()
 
@@ -67,6 +71,15 @@ class ValuationRatiosInput(BaseModel):
     sales: Optional[float] = None
     earnings_growth_rate: Optional[float] = None
     annual_dividend: Optional[float] = None
+
+# New model for regression analysis
+class RegressionInput(BaseModel):
+    x_ticker: str
+    y_ticker: str
+    start_date: str
+    end_date: Optional[str] = None
+    interval: Optional[str] = "1mo"
+    use_cache: Optional[bool] = True
 
 # ---- API Routes ----
 
@@ -409,6 +422,46 @@ async def calculate_efficient_frontier(input_data: PortfolioOptimizationInput):
         )
         
         return result
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/regression-analysis")
+async def run_regression_analysis(
+    input_data: RegressionInput,
+    db: Session = Depends(get_db)
+):
+    """
+    Perform regression analysis on two stocks
+    """
+    try:
+        # Call the service to perform the analysis
+        results = await RegressionService.run_regression_analysis(
+            db=db,
+            x_ticker=input_data.x_ticker,
+            y_ticker=input_data.y_ticker, 
+            start_date=input_data.start_date,
+            end_date=input_data.end_date,
+            interval=input_data.interval,
+            use_cache=input_data.use_cache
+        )
+        
+        return results
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/recent-regressions")
+async def get_recent_regressions(
+    limit: int = 10,
+    db: Session = Depends(get_db)
+):
+    """
+    Get recent regression searches
+    """
+    try:
+        searches = await RegressionService.get_recent_searches(db, limit)
+        return searches
     
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e)) 
