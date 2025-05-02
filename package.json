@@ -26,5 +26,8 @@
   "author": "Curtis Lederle",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "docker": "^0.2.14"
   }
-} 
+}

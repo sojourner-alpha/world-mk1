@@ -1,14 +1,43 @@
-# World-MK1
+# World-MK1: An Open Source Digital Multiverse
 
-A personal portfolio website with an integrated financial analysis platform featuring CFA-level calculation tools and interactive components.
+A personal portfolio website with an integrated financial analysis platform featuring CFA-level calculation tools and interactive components. This project serves as both a workbook for advanced financial analysis and a showcase of different conceptual spaces built with modern AI tools.
 
-## Project Overview
+## 🌍 Project Vision: The Digital Multiverse
 
-This project combines a React-based personal website with a Python FastAPI backend for comprehensive financial analysis:
+This project represents a new way of thinking about personal websites - not as static showcases, but as living digital spaces that reflect different aspects of thought, work, and creativity. It's built on the premise that our digital presence should be as multifaceted as we are.
 
-- **Portfolio Website**: Showcases professional work, studies, and creative projects
-- **Financial Analysis Library**: Provides CFA-level financial calculations and tools
-- **Interactive Components**: Includes financial calculators, visualization tools, and educational resources
+- **Open Source Blueprint**: Take this framework and adapt it to build your own digital world
+- **AI-Enhanced Development**: Leveraging modern AI tools to accelerate creation and analysis
+- **Conceptual Spaces**: Different areas for different types of work and thought
+- **Cross-disciplinary Tools**: Bringing powerful financial analysis capabilities to everyone
+
+### The Different Spaces
+
+#### 🔧 Workshop
+The Workshop is a space for practical projects, tools, and professional experience. It showcases real-world applications, coding projects, and the technical skills used to build them. It's where ideas become tangible products and where the craftsperson's tools are displayed.
+
+#### 📚 Study
+The Study is dedicated to research, learning, and intellectual exploration. It houses investigations into markets, mental models, and meditative practices. This is where knowledge is gathered, analyzed, and synthesized into new insights, with sections on technical analysis, fundamental principles, and cross-disciplinary thinking.
+
+#### 🛋️ Loft
+The Loft is a personal space for creative inspiration, featuring books, art, music, and other media that influence thinking and creativity. It's a digital representation of the things that shape perspective outside of work - the cultural inputs that inform the outputs.
+
+#### 💹 Finance 
+The Finance section is the centerpiece of practical application - an AI powered analysis dashboard for the everyday investor, combining powerful analytical tools with an intuitive interface. This is where the intersection of machine learning and financial analysis creates something truly valuable.
+
+## 🔍 A New Vision for Financial Analysis
+
+At the core of this project is the belief that sophisticated financial analysis shouldn't be limited to institutions with expensive terminals. By combining modern AI capabilities with financial expertise, we're building:
+
+- **Professional-grade Analysis**: CFA-level calculations accessible to retail investors
+- **Machine Learning Integration**: AI-enhanced pattern recognition and predictive modeling
+- **Intuitive Interface**: Complex analysis made accessible through thoughtful design
+- **Educational Component**: Learning built into the platform to develop financial literacy
+- **Symmetrical Access**: Democratizing access to advanced computational, analytical, and algorithms
+
+This space serves dual purposes:
+1. A workbook for developing high-level financial analysis capabilities
+2. A demonstration of how AI and finance can intersect to create powerful tools for everyone
 
 ## Project Structure
 
@@ -37,7 +66,7 @@ world-mk1/
 │   └── migrations/          # Alembic database migrations
 │
 ├── docker/            # Docker configuration
-├── run-dev.sh         # Development script
+├── start-dev.sh       # Development script
 └── docker-compose.yml # Docker Compose configuration
 ```
 
@@ -52,7 +81,15 @@ The backend includes a comprehensive financial analysis library with:
 - **Valuation Models**: DCF models, valuation ratios, NPV/IRR calculators
 - **Portfolio Management**: Portfolio optimization, efficient frontier, performance metrics
 - **Risk Assessment**: Value at Risk calculations, Monte Carlo simulations, stress testing
-- **Regression Analysis**: Stock correlation analysis, ANOVA calculations, and statistical modeling
+- **Regression Analysis**: Advanced stock correlation and regression analysis with multiple models:
+  - OLS (Ordinary Least Squares)
+  - Robust Linear Regression
+  - Ridge Regression (L2 regularization)
+  - Lasso Regression (L1 regularization)
+  - Elastic Net Regression
+  - Quantile Regression
+  - GARCH Volatility Models
+  - Statistical diagnostic tests (heteroskedasticity, autocorrelation, normality)
 
 ### Interactive Components
 
@@ -60,7 +97,12 @@ The frontend includes interactive financial tools:
 
 - **Mortgage Calculator**: For mortgage payment analysis
 - **Financial Ratio Calculator**: For fundamental company analysis
-- **Regression Analysis Tool**: For analyzing relationships between stocks
+- **Regression Analysis Tool**: Advanced tool for analyzing relationships between stocks
+  - Multiple regression model types (OLS, Ridge, Lasso, etc.)
+  - Historical stock data visualization
+  - Correlation statistics (Pearson, Spearman, Rolling)
+  - Model diagnostics and statistical summaries
+  - Recent search history tracking
 - **Library Documentation**: Interactive documentation of available financial functions
 - *(Coming Soon)* Portfolio Optimizer and Technical Analysis Tools
 
@@ -82,40 +124,91 @@ The database layer uses:
 
 ### Prerequisites
 
-- Node.js (v18+)
-- Python (v3.10+)
+- Docker Desktop (recommended for easy setup)
 - Git
-- Docker and Docker Compose (recommended)
 
-### Quick Start
+### Docker Desktop Setup
 
-The easiest way to run the entire project is using the provided script:
+#### macOS
+
+1. Download Docker Desktop from the [official Docker website](https://www.docker.com/products/docker-desktop)
+2. Install Docker Desktop by dragging it to the Applications folder
+3. Launch Docker Desktop from your Applications folder
+4. After startup, you'll see the Docker whale icon in the menu bar
+5. Sign in to Docker if prompted
+6. **Important:** After installation, close and reopen your Terminal to update your PATH
+7. Verify Docker is working by running:
+   ```bash
+   docker --version
+   docker-compose --version
+   ```
+
+If you run into permissions issues on macOS, you may need to:
+1. Go to System Preferences > Security & Privacy
+2. Click the lock icon to make changes
+3. Approve Docker Desktop to run
+
+#### Windows
+
+1. Download Docker Desktop from the [official Docker website](https://www.docker.com/products/docker-desktop)
+2. Run the installer and follow the prompts
+3. Ensure "Use WSL 2 instead of Hyper-V" is selected (recommended)
+4. Launch Docker Desktop from the Start menu
+5. Sign in to Docker if prompted
+6. **Important:** Restart your command prompt or PowerShell to update your PATH
+7. Verify Docker is working by running:
+   ```powershell
+   docker --version
+   docker-compose --version
+   ```
+
+### Quick Start with Docker (Recommended)
+
+Using Docker is the easiest way to run the entire project with all dependencies:
 
 ```bash
-# Make the script executable (first time only)
-chmod +x run-dev.sh
+# Clone the repository
+git clone https://github.com/curtislederle/world-mk1.git
+cd world-mk1
 
-# Start both frontend and backend
-./run-dev.sh
+# Make the script executable
+chmod +x start-dev.sh
+
+# Start the Docker development environment
+./start-dev.sh
 ```
 
-This will:
-- Set up a Python virtual environment if needed
-- Install all dependencies
-- Start the FastAPI backend on http://localhost:8000
-- Start the Vite frontend on http://localhost:5173
+This script will:
+- Check if Docker and Docker Compose are installed
+- Build and start all containers (frontend, backend, PostgreSQL, pgAdmin)
+- Display access URLs for each service
+- Show the container logs
 
-### Using Docker
+You can then access:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API Documentation: http://localhost:8000/docs
+- pgAdmin: http://localhost:5050 (email: admin@admin.com, password: admin)
 
+### Manual Setup (Alternative)
+
+If you prefer to run the services directly:
+
+#### Backend
 ```bash
-# Start all services (frontend, backend, PostgreSQL, pgAdmin)
-docker-compose up
-
-# Stop services
-docker-compose down
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
 ```
 
-Access pgAdmin at http://localhost:5050 (email: admin@admin.com, password: admin)
+#### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ## Using the Financial Library
 
@@ -148,7 +241,8 @@ results = regression.run_stock_regression(
     y_ticker="MSFT",
     start_date="2018-01-01",
     end_date="2023-01-01",
-    interval="1mo"
+    interval="1mo",
+    model_type="ols"  # Can be "ols", "robust", "ridge", "lasso", "elastic_net", "quantile", "garch"
 )
 
 # Access regression statistics
@@ -168,34 +262,44 @@ When the backend is running, auto-generated API documentation is available at:
 ### Regression Analysis API Endpoints
 
 - `POST /api/finance/regression-analysis`: Perform regression analysis between two stocks
+  - Supports multiple regression models (OLS, Robust, Ridge, Lasso, Elastic Net, Quantile, GARCH)
+  - Returns detailed statistical analysis and diagnostics
 - `GET /api/finance/recent-regressions`: Get list of recent regression searches
+- `GET /api/finance/regression-models`: Get available regression model types
 
 ## Roadmap
 
 - [x] Stock data integration via Yahoo Finance API
-- [x] Regression analysis infrastructure
+- [x] Regression analysis infrastructure 
 - [x] PostgreSQL database setup
+- [x] Advanced regression models (OLS, Ridge, Lasso, Elastic Net, Quantile, GARCH)
+- [x] Docker development environment
 - [ ] Visualization of regression results
 - [ ] Interactive technical analysis charting
 - [ ] Portfolio visualization tools
 - [ ] Machine learning for financial analysis
 - [ ] ESG analysis components
 
-## Deployment
+## Troubleshooting
 
-### GitHub Pages (Frontend Only)
+### Docker Issues
+- Make sure Docker Desktop is running before executing `start-dev.sh`
+- If containers fail to start, try running `docker-compose down` followed by `./start-dev.sh`
+- View logs with `docker-compose logs -f [service-name]` (service names: frontend, backend, postgres, pgadmin)
 
-The frontend can be deployed to GitHub Pages while keeping the backend code in the repository:
+#### Common Docker Issues on macOS:
+- If Docker commands aren't found, try restarting your Terminal after installation
+- Ensure Docker Desktop is running (check for the whale icon in the menu bar)
+- If you see "Error response from daemon: Bad response from Docker engine", restart Docker Desktop
+- Sometimes Docker Desktop needs more resource allocation:
+  1. Click the Docker icon in the menu bar
+  2. Select "Preferences" or "Settings"
+  3. Go to "Resources" tab
+  4. Increase CPU, Memory and Swap as needed
 
-```bash
-npm run frontend:deploy
-```
-
-The site will be deployed to https://curtislederle.com
-
-### Full Stack Deployment (Coming Soon)
-
-Instructions for deploying both frontend and backend to Railway will be added soon.
+### Database Connection
+- The database may take a few moments to initialize on first run
+- Check connection settings in pgAdmin: Host: postgres, Port: 5432, Username: postgres, Password: postgres
 
 ## License
 

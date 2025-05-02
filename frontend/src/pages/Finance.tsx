@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaChartLine, FaCode, FaGithub, FaRobot, FaPython, FaCalculator, FaBook, FaCodeBranch } from 'react-icons/fa';
+import { FaChartLine, FaCode, FaGithub, FaRobot, FaPython, FaCalculator, FaBook, FaCodeBranch, FaClock, FaServer } from 'react-icons/fa';
 import { SiJupyter, SiPandas, SiNumpy } from 'react-icons/si';
 
 // Custom components
@@ -7,6 +7,9 @@ import PageHeader from '../components/PageHeader';
 import { ProjectCardProps } from '../components/ProjectCard';
 import MortgageCalculator from '../components/finance/MortgageCalculator';
 import FinancialRatioCalculator from '../components/finance/FinancialRatioCalculator';
+
+// API client
+import { financeApi } from '../api/finance';
 
 // Custom hooks
 import { useAnimations } from '../hooks/useAnimations';
@@ -22,6 +25,31 @@ interface FinanceProjectProps extends ProjectCardProps {
 type ExpandedSection = 'libraries' | 'regression' | 'opensource' | 'calculators' | null;
 type CalculatorType = 'mortgage' | 'financialRatios' | null;
 type LibraryType = 'fundamentals' | 'technical' | 'valuation' | 'portfolio' | 'risk' | null;
+type RegressionModelType = 'ols' | 'robust' | 'ridge' | 'lasso' | 'elastic_net' | 'quantile' | 'garch' | null;
+
+// Define interfaces for regression state
+interface RegressionInput {
+  xTicker: string;
+  yTicker: string;
+  startDate: string;
+  endDate: string;
+  interval: string;
+  modelType: RegressionModelType;
+  addFeatures: boolean;
+  testSize: number;
+}
+
+interface RegressionModels {
+  [key: string]: string;
+}
+
+interface RecentSearch {
+  id: number;
+  regression_id: number;
+  x_ticker: string;
+  y_ticker: string;
+  searched_at: string;
+}
 
 const Finance = () => {
   // Track which section is expanded
@@ -29,6 +57,26 @@ const Finance = () => {
   const [selectedCalculator, setSelectedCalculator] = useState<CalculatorType>(null);
   const [selectedLibrary, setSelectedLibrary] = useState<LibraryType>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  
+  // Additional state for regression tool
+  const [regressionModels, setRegressionModels] = useState<RegressionModels>({});
+  const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([]);
+  const [isLoadingModels, setIsLoadingModels] = useState(false);
+  const [isLoadingSearches, setIsLoadingSearches] = useState(false);
+  const [isRunningRegression, setIsRunningRegression] = useState(false);
+  const [regressionError, setRegressionError] = useState<string | null>(null);
+  const [regressionInput, setRegressionInput] = useState<RegressionInput>({
+    xTicker: '',
+    yTicker: '',
+    startDate: new Date(new Date().setFullYear(new Date().getFullYear() - 5)).toISOString().split('T')[0], // 5 years ago
+    endDate: new Date().toISOString().split('T')[0], // Today
+    interval: '1mo',
+    modelType: 'ols',
+    addFeatures: false,
+    testSize: 0.2,
+  });
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [regressionResults, setRegressionResults] = useState<any>(null);
   
   // Use shared animations
   useAnimations();
@@ -74,6 +122,91 @@ const Finance = () => {
       document.head.removeChild(styleSheet);
     };
   }, []);
+
+  // Load regression models and recent searches on mount
+  useEffect(() => {
+    const loadRegressionData = async () => {
+      setIsLoadingModels(true);
+      setIsLoadingSearches(true);
+      
+      try {
+        // Load regression models
+        const modelsResponse = await financeApi.getRegressionModels();
+        setRegressionModels(modelsResponse);
+        
+        // Load recent searches
+        const searchesResponse = await financeApi.getRecentRegressions(5);
+        setRecentSearches(searchesResponse);
+      } catch (error) {
+        console.error('Error loading regression data:', error);
+      } finally {
+        setIsLoadingModels(false);
+        setIsLoadingSearches(false);
+      }
+    };
+    
+    loadRegressionData();
+  }, []);
+  
+  // Function to handle input changes for regression tool
+  const handleRegressionInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    
+    setRegressionInput(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' 
+        ? (e.target as HTMLInputElement).checked
+        : name === 'testSize' 
+          ? parseFloat(value) 
+          : value
+    }));
+  };
+  
+  // Function to run regression analysis
+  const runRegressionAnalysis = async () => {
+    setIsRunningRegression(true);
+    setRegressionError(null);
+    
+    try {
+      // Validate inputs
+      if (!regressionInput.xTicker || !regressionInput.yTicker) {
+        throw new Error('Both ticker symbols are required');
+      }
+      
+      const response = await financeApi.runRegressionAnalysis({
+        x_ticker: regressionInput.xTicker,
+        y_ticker: regressionInput.yTicker,
+        start_date: regressionInput.startDate,
+        end_date: regressionInput.endDate,
+        interval: regressionInput.interval,
+        model_type: regressionInput.modelType || 'ols',
+        add_features: regressionInput.addFeatures,
+        test_size: regressionInput.testSize,
+        use_cache: true
+      });
+      
+      setRegressionResults(response);
+      
+      // Refresh recent searches
+      const searchesResponse = await financeApi.getRecentRegressions(5);
+      setRecentSearches(searchesResponse);
+      
+    } catch (error) {
+      console.error('Error running regression analysis:', error);
+      setRegressionError(error instanceof Error ? error.message : 'An error occurred');
+    } finally {
+      setIsRunningRegression(false);
+    }
+  };
+  
+  // Function to load a recent search
+  const loadRecentSearch = (xTicker: string, yTicker: string) => {
+    setRegressionInput(prev => ({
+      ...prev,
+      xTicker,
+      yTicker
+    }));
+  };
 
   // Finance background image
   const financeImage = "/assets/images/finance.png";
@@ -397,10 +530,11 @@ const Finance = () => {
                   <div className="bg-black/70 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg">
                     <h3 className="text-xl font-heading text-green-400 mb-3">Stock Regression Analysis</h3>
                     <p className="text-slate-300 mb-6">
-                      Analyze the relationship between two stocks using regression analysis. This tool collects up to 10 years of quarterly data,
-                      performs statistical analysis, and generates ANOVA tables and regression coefficients.
+                      Analyze the relationship between two stocks using sophisticated regression methods. This tool collects historical data,
+                      performs statistical analysis, and provides detailed regression diagnostics and interpretation.
                     </p>
                     
+                    {/* Stock Input Section */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div className="space-y-3">
                         <label className="block text-green-400 font-mono text-sm">Independent Variable (X)</label>
@@ -408,6 +542,9 @@ const Finance = () => {
                           <span className="bg-green-900/30 text-green-400 px-3 py-2 border border-green-800 rounded-l-md font-mono">$</span>
                           <input 
                             type="text" 
+                            name="xTicker"
+                            value={regressionInput.xTicker}
+                            onChange={handleRegressionInputChange}
                             placeholder="Enter ticker (e.g. AAPL)" 
                             className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-r-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
                           />
@@ -420,7 +557,10 @@ const Finance = () => {
                         <div className="flex">
                           <span className="bg-green-900/30 text-green-400 px-3 py-2 border border-green-800 rounded-l-md font-mono">$</span>
                           <input 
-                            type="text" 
+                            type="text"
+                            name="yTicker"
+                            value={regressionInput.yTicker}
+                            onChange={handleRegressionInputChange}
                             placeholder="Enter ticker (e.g. MSFT)" 
                             className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-r-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
                           />
@@ -429,30 +569,199 @@ const Finance = () => {
                       </div>
                     </div>
                     
-                    <div className="space-y-4">
-                      <button 
-                        className="flex items-center justify-center px-4 py-3 rounded bg-gray-900/40 text-gray-500 border border-gray-800 cursor-not-allowed font-mono w-full text-sm"
-                        disabled
-                      >
-                        <FaChartLine size={16} className="mr-2" /> Coming Soon
-                      </button>
-                      
-                      <div className="border border-gray-800 rounded-md p-4 bg-black/50">
-                        <h4 className="text-md font-mono text-green-400 border-b border-green-900/50 pb-1 mb-3">Regression Results</h4>
-                        <p className="text-gray-400 text-sm mb-2">
-                          The regression analysis will show the following information:
-                        </p>
-                        <ul className="list-disc list-inside text-gray-400 text-sm space-y-1">
-                          <li>ANOVA table with F-statistic and p-values</li>
-                          <li>Regression statistics (R², adjusted R², standard error)</li>
-                          <li>Regression coefficients (slope, intercept)</li>
-                          <li>Historical correlation data visualization</li>
-                          <li>AI-generated interpretation of results</li>
-                        </ul>
+                    {/* Date Range & Model Selection */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                      <div className="space-y-3">
+                        <label className="block text-green-400 font-mono text-sm">Start Date</label>
+                        <input 
+                          type="date"
+                          name="startDate"
+                          value={regressionInput.startDate}
+                          onChange={handleRegressionInputChange}
+                          className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
+                        />
                       </div>
                       
-                      <div className="text-xs text-gray-500 italic">
-                        Note: This tool will store analyses in a SQL database, allowing you to retrieve and compare historical regression data.
+                      <div className="space-y-3">
+                        <label className="block text-green-400 font-mono text-sm">End Date</label>
+                        <input 
+                          type="date"
+                          name="endDate"
+                          value={regressionInput.endDate}
+                          onChange={handleRegressionInputChange}
+                          className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
+                        />
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <label className="block text-green-400 font-mono text-sm">Model Type</label>
+                        <select
+                          name="modelType"
+                          value={regressionInput.modelType || 'ols'}
+                          onChange={handleRegressionInputChange}
+                          className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
+                        >
+                          {isLoadingModels ? (
+                            <option value="ols">Loading models...</option>
+                          ) : (
+                            Object.entries(regressionModels).map(([key, name]) => (
+                              <option key={key} value={key}>{name}</option>
+                            ))
+                          )}
+                        </select>
+                        <p className="text-xs text-gray-500">Statistical model for analysis</p>
+                      </div>
+                    </div>
+                    
+                    {/* Advanced Options Toggle */}
+                    <div className="mb-6">
+                      <button
+                        onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+                        className="text-green-400 hover:text-green-300 text-sm font-mono flex items-center"
+                      >
+                        {showAdvancedOptions ? '▼' : '▶'} Advanced Options
+                      </button>
+                      
+                      {showAdvancedOptions && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4 p-4 border border-gray-800 rounded-md bg-black/30">
+                          <div className="space-y-3">
+                            <label className="block text-green-400 font-mono text-sm">Interval</label>
+                            <select
+                              name="interval"
+                              value={regressionInput.interval}
+                              onChange={handleRegressionInputChange}
+                              className="bg-black/50 text-white font-mono px-3 py-2 border border-green-800 rounded-md w-full focus:outline-none focus:ring-1 focus:ring-green-600"
+                            >
+                              <option value="1d">Daily</option>
+                              <option value="1wk">Weekly</option>
+                              <option value="1mo">Monthly</option>
+                              <option value="3mo">Quarterly</option>
+                            </select>
+                          </div>
+                          
+                          <div className="space-y-3">
+                            <label className="block text-green-400 font-mono text-sm">Test Size (%)</label>
+                            <input 
+                              type="range"
+                              name="testSize"
+                              value={regressionInput.testSize}
+                              min="0"
+                              max="0.5"
+                              step="0.05"
+                              onChange={handleRegressionInputChange}
+                              className="w-full"
+                            />
+                            <div className="flex justify-between text-xs text-gray-500">
+                              <span>0%</span>
+                              <span>{(regressionInput.testSize * 100).toFixed(0)}%</span>
+                              <span>50%</span>
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-3 flex items-center">
+                            <label className="inline-flex items-center cursor-pointer">
+                              <input
+                                type="checkbox"
+                                name="addFeatures"
+                                checked={regressionInput.addFeatures}
+                                onChange={handleRegressionInputChange}
+                                className="form-checkbox rounded h-4 w-4 text-green-500 bg-black border-green-800 focus:ring-0"
+                              />
+                              <span className="ml-2 text-sm text-green-400 font-mono">Add engineered features</span>
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Recent Searches Section */}
+                    <div className="mb-6">
+                      <h4 className="text-md font-mono text-green-400 border-b border-green-900/50 pb-1 mb-3 flex items-center">
+                        <FaClock className="mr-2" /> Recent Searches
+                      </h4>
+                      
+                      {isLoadingSearches ? (
+                        <p className="text-gray-400 text-sm">Loading recent searches...</p>
+                      ) : recentSearches.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {recentSearches.map(search => (
+                            <button
+                              key={search.id}
+                              onClick={() => loadRecentSearch(search.x_ticker, search.y_ticker)}
+                              className="text-left p-2 border border-gray-800 rounded bg-black/20 hover:bg-gray-900/30 transition-colors text-gray-400 text-sm"
+                            >
+                              <span className="font-mono">{search.x_ticker}</span> vs <span className="font-mono">{search.y_ticker}</span>
+                              <span className="text-xs text-gray-500 block">{new Date(search.searched_at).toLocaleString()}</span>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-gray-400 text-sm">No recent searches found</p>
+                      )}
+                    </div>
+                    
+                    {/* Run Analysis Button */}
+                    <div className="space-y-4">
+                      <button 
+                        onClick={runRegressionAnalysis}
+                        disabled={isRunningRegression || !regressionInput.xTicker || !regressionInput.yTicker}
+                        className={`flex items-center justify-center px-4 py-3 rounded bg-green-900/40 text-green-400 border border-green-800 hover:bg-green-900/60 transition-all font-mono w-full text-sm ${
+                          isRunningRegression || !regressionInput.xTicker || !regressionInput.yTicker 
+                            ? 'opacity-50 cursor-not-allowed'
+                            : ''
+                        }`}
+                      >
+                        <FaChartLine size={16} className="mr-2" /> 
+                        {isRunningRegression ? 'Processing...' : 'Run Analysis'}
+                      </button>
+                      
+                      {regressionError && (
+                        <div className="bg-red-900/30 text-red-400 p-3 rounded-md border border-red-800 text-sm">
+                          {regressionError}
+                        </div>
+                      )}
+                      
+                      {/* Results Preview */}
+                      <div className="border border-gray-800 rounded-md p-4 bg-black/50">
+                        <h4 className="text-md font-mono text-green-400 border-b border-green-900/50 pb-1 mb-3">Regression Results</h4>
+                        
+                        {regressionResults ? (
+                          <div className="space-y-4">
+                            <div className="bg-black/40 p-3 rounded border border-gray-800">
+                              <p className="text-green-400 font-mono text-sm mb-2">Analysis Summary</p>
+                              <p className="text-gray-300 text-sm whitespace-pre-line">{regressionResults.summary}</p>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="bg-black/40 p-3 rounded border border-gray-800">
+                                <p className="text-green-400 font-mono text-sm mb-2">Correlation</p>
+                                <p className="text-gray-300 text-sm">Pearson r: <span className="text-green-400">{regressionResults.correlation?.pearson?.r.toFixed(4)}</span></p>
+                                <p className="text-gray-300 text-sm">Spearman r: <span className="text-green-400">{regressionResults.correlation?.spearman?.r.toFixed(4)}</span></p>
+                                <p className="text-gray-300 text-sm">p-value: <span className="text-green-400">{regressionResults.correlation?.pearson?.["p-value"].toFixed(6)}</span></p>
+                              </div>
+                              
+                              <div className="bg-black/40 p-3 rounded border border-gray-800">
+                                <p className="text-green-400 font-mono text-sm mb-2">Model Statistics</p>
+                                <p className="text-gray-300 text-sm">Model: <span className="text-green-400">{regressionResults.model_type}</span></p>
+                                <p className="text-gray-300 text-sm">Data Points: <span className="text-green-400">{regressionResults.data_points}</span></p>
+                                {regressionResults.statistics?.r_squared !== undefined && (
+                                  <p className="text-gray-300 text-sm">R²: <span className="text-green-400">{regressionResults.statistics.r_squared.toFixed(4)}</span></p>
+                                )}
+                                {regressionResults.statistics?.test_metrics?.r2 !== undefined && (
+                                  <p className="text-gray-300 text-sm">Test R²: <span className="text-green-400">{regressionResults.statistics.test_metrics.r2.toFixed(4)}</span></p>
+                                )}
+                              </div>
+                            </div>
+                            
+                            <div className="text-gray-400 text-xs text-right">
+                              Analysis date: {new Date(regressionResults.created_at).toLocaleString()}
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-gray-400 text-sm">
+                            Enter stock tickers and run analysis to see results.
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>

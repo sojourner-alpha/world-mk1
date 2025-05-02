@@ -12,4 +12,8 @@ seaborn==0.12.2
 sqlalchemy==2.0.9
 psycopg2-binary==2.9.6
 alembic==1.10.2
-yfinance==0.2.18 
+yfinance==0.2.18
+scikit-learn==1.2.2
+linearmodels==4.27
+pingouin==0.5.3
+arch==5.3.1 

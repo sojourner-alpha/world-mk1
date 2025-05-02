@@ -74,6 +74,9 @@ interface RegressionInput {
   start_date: string;
   end_date?: string;
   interval?: string;
+  model_type?: string;
+  add_features?: boolean;
+  test_size?: number;
   use_cache?: boolean;
 }
 
@@ -153,14 +156,49 @@ interface RegressionResponse {
   start_date: string;
   end_date: string;
   data_points: number;
+  model_type: string;
   statistics: {
-    slope: number;
-    intercept: number;
-    r_squared: number;
-    adjusted_r_squared: number;
-    p_value: number;
-    standard_error: number;
-    anova_table: {
+    model_type: string;
+    coefficients: number[] | { [quantile: string]: number[] };
+    std_errors?: number[];
+    t_values?: number[];
+    p_values?: number[];
+    r_squared?: number;
+    adjusted_r_squared?: number;
+    f_statistic?: number;
+    f_pvalue?: number;
+    aic?: number;
+    bic?: number;
+    residual_std_error?: number;
+    intercept?: number;
+    alpha?: number;
+    l1_ratio?: number;
+    diagnostics?: {
+      heteroskedasticity?: {
+        test: string;
+        statistic: number;
+        p_value: number;
+        conclusion: string;
+      };
+      autocorrelation?: {
+        test: string;
+        statistic: number;
+        p_value: number;
+        conclusion: string;
+      };
+      normality?: {
+        test: string;
+        statistic: number;
+        p_value: number;
+        conclusion: string;
+      };
+    };
+    test_metrics?: {
+      mse: number;
+      rmse: number;
+      r2: number;
+    };
+    anova_table?: {
       df_model: number;
       df_residual: number;
       df_total: number;
@@ -173,6 +211,36 @@ interface RegressionResponse {
       p_value: number;
     };
   };
+  correlation: {
+    pearson: {
+      r: number;
+      "p-value": number;
+      "CI95%": [number, number];
+      bf10: number;
+      power: number;
+    };
+    spearman: {
+      r: number;
+      "p-value": number;
+      "CI95%": [number, number];
+    };
+    partial_correlation?: {
+      r: number;
+      "p-value": number;
+    };
+    rolling_correlation: {
+      mean: number;
+      std: number;
+      min: number;
+      max: number;
+      current: number | null;
+    };
+    time_period: {
+      start: string;
+      end: string;
+      observations: number;
+    };
+  };
   summary: string;
   created_at: string;
 }
@@ -183,6 +251,10 @@ interface RecentRegressionSearch {
   x_ticker: string;
   y_ticker: string;
   searched_at: string;
+}
+
+interface RegressionModels {
+  [key: string]: string;
 }
 
 // Financial calculation API methods
@@ -252,6 +324,12 @@ export const financeApi = {
    */
   getRecentRegressions: (limit: number = 10) =>
     api.get<RecentRegressionSearch[]>(`finance/recent-regressions?limit=${limit}`),
+
+  /**
+   * Get available regression model types
+   */
+  getRegressionModels: () =>
+    api.get<RegressionModels>('finance/regression-models'),
 };
 
 export default financeApi; 

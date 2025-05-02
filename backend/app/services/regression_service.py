@@ -1,7 +1,7 @@
 """
 Service for regression analysis operations
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
 import json
@@ -46,6 +46,7 @@ class RegressionService:
         db: Session, 
         x_ticker: str, 
         y_ticker: str,
+        model_type: str = "ols",
         max_age_days: int = 30
     ) -> Optional[Dict[str, Any]]:
         """
@@ -55,13 +56,14 @@ class RegressionService:
             db: Database session
             x_ticker: Independent variable ticker
             y_ticker: Dependent variable ticker
+            model_type: Regression model type
             max_age_days: Maximum age in days for cached results
             
         Returns:
             Dictionary with regression results or None if not found/too old
         """
         # Calculate cutoff date
-        cutoff_date = datetime.now() - datetime.timedelta(days=max_age_days)
+        cutoff_date = datetime.now() - timedelta(days=max_age_days)
         
         # Query for recent analysis
         analysis = db.query(RegressionAnalysis).filter(
@@ -78,6 +80,7 @@ class RegressionService:
             "id": analysis.id,
             "x_ticker": analysis.x_ticker,
             "y_ticker": analysis.y_ticker,
+            "model_type": model_type,
             "start_date": analysis.start_date,
             "end_date": analysis.end_date,
             "slope": analysis.slope,
@@ -112,19 +115,69 @@ class RegressionService:
         Returns:
             ID of saved regression analysis
         """
+        # Extract statistics
+        stats = results.get('statistics', {})
+        
+        # For different model types, extract coefficients differently
+        model_type = results.get('model_type', 'ols')
+        
+        # Default values
+        slope = 0
+        intercept = 0
+        r_squared = 0
+        
+        if model_type == 'ols':
+            # Standard OLS regression
+            if 'coefficients' in stats and len(stats['coefficients']) > 1:
+                intercept = stats['coefficients'][0] 
+                slope = stats['coefficients'][1]
+            r_squared = stats.get('r_squared', 0)
+            adjusted_r_squared = stats.get('adjusted_r_squared', 0)
+            p_value = stats.get('f_pvalue', 1)
+            standard_error = stats.get('std_errors', [0, 0])[1] if 'std_errors' in stats and len(stats['std_errors']) > 1 else 0
+            
+        elif model_type in ['ridge', 'lasso', 'elastic_net']:
+            # Regularized regression from scikit-learn
+            intercept = stats.get('intercept', 0)
+            slope = stats.get('coefficients', [0])[0] if 'coefficients' in stats and len(stats['coefficients']) > 0 else 0
+            r_squared = stats.get('test_metrics', {}).get('r2', 0) if 'test_metrics' in stats else 0
+            adjusted_r_squared = 0  # Not directly available
+            p_value = 0  # Not directly available
+            standard_error = 0  # Not directly available
+            
+        elif model_type == 'quantile':
+            # Quantile regression (median)
+            if 'coefficients' in stats and '0.5' in stats['coefficients'] and len(stats['coefficients']['0.5']) > 1:
+                intercept = stats['coefficients']['0.5'][0]
+                slope = stats['coefficients']['0.5'][1]
+            r_squared = stats.get('pseudo_r2', {}).get('0.5', 0)
+            adjusted_r_squared = 0  # Not directly available
+            p_value = 0  # Not directly available
+            standard_error = 0  # Not directly available
+            
+        else:
+            # Default fallback
+            if 'coefficients' in stats and len(stats['coefficients']) > 1:
+                intercept = stats['coefficients'][0]
+                slope = stats['coefficients'][1]
+            r_squared = 0
+            adjusted_r_squared = 0
+            p_value = 1
+            standard_error = 0
+        
         # Create new regression analysis record
         db_analysis = RegressionAnalysis(
             x_ticker=x_ticker,
             y_ticker=y_ticker,
             start_date=results['start_date'],
             end_date=results['end_date'],
-            slope=results['statistics']['slope'],
-            intercept=results['statistics']['intercept'],
-            r_squared=results['statistics']['r_squared'],
-            adjusted_r_squared=results['statistics']['adjusted_r_squared'],
-            p_value=results['statistics']['p_value'],
-            standard_error=results['statistics']['standard_error'],
-            anova_table=results['statistics']['anova_table'],
+            slope=slope,
+            intercept=intercept,
+            r_squared=r_squared,
+            adjusted_r_squared=adjusted_r_squared,
+            p_value=p_value,
+            standard_error=standard_error,
+            anova_table=stats.get('anova_table', {}),
             summary=results['summary'],
             created_at=datetime.now(),
             created_by=user_id
@@ -182,6 +235,9 @@ class RegressionService:
         start_date: str,
         end_date: Optional[str] = None,
         interval: str = "1mo",
+        model_type: str = "ols",
+        add_features: bool = False,
+        test_size: float = 0.2,
         use_cache: bool = True,
         user_id: Optional[str] = None
     ) -> Dict[str, Any]:
@@ -195,6 +251,9 @@ class RegressionService:
             start_date: Start date for analysis
             end_date: End date for analysis
             interval: Data interval
+            model_type: Type of regression model
+            add_features: Whether to add engineered features
+            test_size: Proportion of data to use for testing
             use_cache: Whether to use cached results if available
             user_id: Optional user ID for tracking
             
@@ -203,7 +262,7 @@ class RegressionService:
         """
         # Check for cached results if requested
         if use_cache:
-            cached = await RegressionService.get_saved_regression(db, x_ticker, y_ticker)
+            cached = await RegressionService.get_saved_regression(db, x_ticker, y_ticker, model_type)
             if cached:
                 # Record this search in history
                 db_search = SearchHistory(
@@ -223,7 +282,10 @@ class RegressionService:
             y_ticker=y_ticker,
             start_date=start_date,
             end_date=end_date,
-            interval=interval
+            interval=interval,
+            model_type=model_type,
+            add_features=add_features,
+            test_size=test_size
         )
         
         # Save results to database
@@ -238,4 +300,14 @@ class RegressionService:
         # Add ID to results
         results['id'] = analysis_id
         
-        return results 
+        return results
+    
+    @staticmethod
+    async def get_available_models() -> Dict[str, str]:
+        """
+        Get available regression model types
+        
+        Returns:
+            Dictionary of model types and descriptions
+        """
+        return regression.REGRESSION_MODELS 

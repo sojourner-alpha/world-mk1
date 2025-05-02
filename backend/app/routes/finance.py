@@ -79,6 +79,9 @@ class RegressionInput(BaseModel):
     start_date: str
     end_date: Optional[str] = None
     interval: Optional[str] = "1mo"
+    model_type: Optional[str] = "ols"
+    add_features: Optional[bool] = False
+    test_size: Optional[float] = 0.2
     use_cache: Optional[bool] = True
 
 # ---- API Routes ----
@@ -443,6 +446,9 @@ async def run_regression_analysis(
             start_date=input_data.start_date,
             end_date=input_data.end_date,
             interval=input_data.interval,
+            model_type=input_data.model_type,
+            add_features=input_data.add_features,
+            test_size=input_data.test_size,
             use_cache=input_data.use_cache
         )
         
@@ -462,6 +468,18 @@ async def get_recent_regressions(
     try:
         searches = await RegressionService.get_recent_searches(db, limit)
         return searches
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/regression-models")
+async def get_regression_models():
+    """
+    Get available regression model types
+    """
+    try:
+        models = await RegressionService.get_available_models()
+        return models
     
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e)) 
