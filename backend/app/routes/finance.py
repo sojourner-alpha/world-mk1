@@ -10,6 +10,7 @@ from datetime import datetime
 from app.finance import fundamentals, valuation, portfolio, risk, technical, regression
 from app.db import get_db
 from app.services.regression_service import RegressionService
+from app.services.llm_service import LLMService
 
 router = APIRouter()
 
@@ -83,6 +84,14 @@ class RegressionInput(BaseModel):
     add_features: Optional[bool] = False
     test_size: Optional[float] = 0.2
     use_cache: Optional[bool] = True
+
+# Model for LLM regression insights
+class RegressionInsightInput(BaseModel):
+    regression_id: int
+    additional_context: Optional[str] = None
+    model: Optional[str] = None
+    temperature: Optional[float] = 0.2
+    max_tokens: Optional[int] = 350
 
 # ---- API Routes ----
 
@@ -480,6 +489,94 @@ async def get_regression_models():
     try:
         models = await RegressionService.get_available_models()
         return models
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/regression-summary")
+async def get_regression_summary(
+    regression_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Get AI-generated summary of regression analysis
+    """
+    try:
+        # Fetch regression analysis from database
+        regression = db.query(
+            "SELECT * FROM finance.regression_analysis WHERE id = :id",
+            {"id": regression_id}
+        ).first()
+        
+        if not regression:
+            raise HTTPException(status_code=404, detail="Regression analysis not found")
+        
+        # Convert regression to dictionary
+        regression_dict = {
+            "id": regression.id,
+            "x_ticker": regression.x_ticker,
+            "y_ticker": regression.y_ticker,
+            "model_type": regression.model_type,
+            "statistics": {
+                "r_squared": regression.r_squared,
+                "adjusted_r_squared": regression.adjusted_r_squared,
+                "f_pvalue": regression.p_value
+            },
+            "correlation": {
+                "pearson": {"r": regression.r_squared ** 0.5},
+                "spearman": {"r": 0}  # Placeholder, not stored in DB
+            }
+        }
+        
+        # Generate summary with LLM
+        summary = await LLMService.summarize_regression_analysis(regression_dict)
+        
+        return {"summary": summary}
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/regression-insights")
+async def get_regression_insights(
+    input_data: RegressionInsightInput,
+    db: Session = Depends(get_db)
+):
+    """
+    Get AI-generated investment insights based on regression analysis
+    """
+    try:
+        # Fetch regression analysis from database
+        regression = db.query(
+            "SELECT * FROM finance.regression_analysis WHERE id = :id",
+            {"id": input_data.regression_id}
+        ).first()
+        
+        if not regression:
+            raise HTTPException(status_code=404, detail="Regression analysis not found")
+        
+        # Convert regression to dictionary
+        regression_dict = {
+            "id": regression.id,
+            "x_ticker": regression.x_ticker,
+            "y_ticker": regression.y_ticker,
+            "model_type": regression.model_type,
+            "statistics": {
+                "r_squared": regression.r_squared,
+                "adjusted_r_squared": regression.adjusted_r_squared,
+                "f_pvalue": regression.p_value
+            }
+        }
+        
+        # Generate insights with LLM
+        insights = await LLMService.generate_investment_insights(
+            regression_dict,
+            additional_context=input_data.additional_context,
+            model=input_data.model,
+            temperature=input_data.temperature,
+            max_tokens=input_data.max_tokens
+        )
+        
+        return {"insights": insights}
     
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e)) 

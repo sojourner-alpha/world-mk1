@@ -80,6 +80,14 @@ interface RegressionInput {
   use_cache?: boolean;
 }
 
+interface RegressionInsightInput {
+  regression_id: number;
+  additional_context?: string;
+  model?: string;
+  temperature?: number;
+  max_tokens?: number;
+}
+
 // ----- Types for API Responses -----
 
 interface NPVResponse {
@@ -257,6 +265,18 @@ interface RegressionModels {
   [key: string]: string;
 }
 
+interface RegressionSummaryResponse {
+  summary: string;
+}
+
+interface RegressionInsightsResponse {
+  insights: {
+    risk: string;
+    diversification: string;
+    strategy: string;
+  };
+}
+
 // Financial calculation API methods
 export const financeApi = {
   /**
@@ -330,6 +350,18 @@ export const financeApi = {
    */
   getRegressionModels: () =>
     api.get<RegressionModels>('finance/regression-models'),
+    
+  /**
+   * Get AI-generated summary of regression analysis
+   */
+  getRegressionSummary: (regressionId: number) =>
+    api.post<RegressionSummaryResponse>('finance/regression-summary', { regression_id: regressionId }),
+    
+  /**
+   * Get AI-generated investment insights based on regression analysis
+   */
+  getRegressionInsights: (data: RegressionInsightInput) =>
+    api.post<RegressionInsightsResponse>('finance/regression-insights', data)
 };
 
 export default financeApi; 
