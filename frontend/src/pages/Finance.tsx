@@ -456,12 +456,16 @@ const Finance = () => {
               </button>
               
               {showEquityReport && (
-                <div className="p-4">
-                  <div className="text-gray-300 text-sm mb-4">
-                    <p className="mb-2">Professional-grade equity analysis reports with comprehensive financial metrics, industry positioning, and CFA-level insights.</p>
-                    <p className="text-xs text-gray-400 italic">Note: Future updates will include advanced data visualization powered by libraries like Chart.js, D3.js or Recharts for richer financial data presentation.</p>
+                <div className="w-full">
+                  {/* Section subtitle notes - left justified */}
+                  <div className="text-gray-300 text-sm mb-4 text-left">
+                    <p className="mb-2">Professional-grade equity analysis reports with comprehensive financial metrics, industry positioning, and CFA-level insights. Future updates will include for richer financial data presentation.</p>
                   </div>
-                  <EquityAnalystReportContainer />
+                  
+                  {/* Report container - centered */}
+                  <div className="flex justify-center">
+                    <EquityAnalystReportContainer />
+                  </div>
                 </div>
               )}
             </div>
