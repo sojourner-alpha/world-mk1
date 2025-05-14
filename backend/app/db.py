@@ -5,7 +5,6 @@ import os
 from sqlalchemy import create_engine, event
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import QueuePool
 
 # Get database URL from environment variable or use default
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432/finance")
@@ -17,8 +16,7 @@ engine = create_engine(
     max_overflow=10,           # Max number of connections to open above pool_size
     pool_timeout=30,           # Seconds to wait before giving up on getting a connection
     pool_recycle=1800,         # Recycle connections after 30 minutes to handle stale connections
-    pool_pre_ping=True,        # Test connections with a ping before using
-    pool_class=QueuePool      # Use QueuePool for connection pooling
+    pool_pre_ping=True         # Test connections with a ping before using
 )
 
 # Create session factory

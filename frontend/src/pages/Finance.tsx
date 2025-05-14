@@ -4,9 +4,11 @@ import { SiJupyter, SiPandas, SiNumpy } from 'react-icons/si';
 
 // Custom components
 import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
 import { ProjectCardProps } from '../components/ProjectCard';
 import MortgageCalculator from '../components/finance/MortgageCalculator';
 import FinancialRatioCalculator from '../components/finance/FinancialRatioCalculator';
+import EquityAnalystReportContainer from '../components/finance/EquityAnalystReport';
 
 // API client
 import { financeApi } from '../api/finance';
@@ -22,7 +24,7 @@ interface FinanceProjectProps extends ProjectCardProps {
 }
 
 // Define section types
-type ExpandedSection = 'libraries' | 'regression' | 'opensource' | 'calculators' | null;
+type ExpandedSection = 'libraries' | 'regression' | 'opensource' | 'calculators' | 'equityReport' | null;
 type CalculatorType = 'mortgage' | 'financialRatios' | null;
 type LibraryType = 'fundamentals' | 'technical' | 'valuation' | 'portfolio' | 'risk' | null;
 type RegressionModelType = 'ols' | 'robust' | 'ridge' | 'lasso' | 'elastic_net' | 'quantile' | 'garch' | null;
@@ -77,6 +79,9 @@ const Finance = () => {
   });
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [regressionResults, setRegressionResults] = useState<any>(null);
+  
+  // Add state for the equity report section
+  const [showEquityReport, setShowEquityReport] = useState(false);
   
   // Use shared animations
   useAnimations();
@@ -414,7 +419,7 @@ const Finance = () => {
       
       {/* Main content area - full height and scrollable */}
       <div className="relative z-10 pt-24 md:pt-28 pb-12">
-        <div className="container mx-auto px-8 md:px-12 flex flex-col">
+        <div className="container mx-auto px-8 md:px-12 flex flex-col min-h-[calc(100vh-4rem)]">
           {/* Terminal Title Container */}
           <div className="mb-8 pl-1 md:pl-2">
             {/* Command Prompt Container - Make fully transparent */}
@@ -433,81 +438,30 @@ const Finance = () => {
           </div>
 
           {/* Main content sections - fade in after typing */}
-          <div className="content-fade-in">
-            {/* Financial Libraries Documentation Section */}
+          <div className="content-fade-in relative z-20">
+            {/* Public Equity Analysis Reports Section (renamed from Equity Analyst Report) */}
             <div className="mb-6 w-full">
               <button 
-                onClick={() => toggleSection('libraries')}
+                onClick={() => {
+                  toggleSection('equityReport');
+                  setShowEquityReport(!showEquityReport);
+                }}
                 className="w-full bg-green-900/30 hover:bg-green-900/40 border border-green-800/50 text-white py-3 px-4 rounded-md font-mono mb-4 flex items-center justify-between transition-colors"
               >
                 <div className="flex items-center">
-                  <FaBook className="mr-2" />
-                  <span>Python Code Library</span>
+                  <FaChartLine className="mr-2" />
+                  <span>Public Equity Analysis</span>
                 </div>
-                <span>{expandedSection === 'libraries' ? '[-]' : '[+]'}</span>
+                <span>{showEquityReport ? '[-]' : '[+]'}</span>
               </button>
               
-              {expandedSection === 'libraries' && (
-                <div className="space-y-6 animate-fadeIn">
-                  {/* Tabs for different libraries */}
-                  <div className="flex flex-wrap justify-start gap-1.5 md:gap-2">
-                    {libraries.map(lib => (
-                      <button 
-                        key={lib.id}
-                        onClick={() => selectLibrary(lib.id as LibraryType)}
-                        className={getTabStyle(selectedLibrary === lib.id)}
-                      >
-                        {selectedLibrary === lib.id ? '>' : '--'} {lib.name}
-                      </button>
-                    ))}
+              {showEquityReport && (
+                <div className="p-4">
+                  <div className="text-gray-300 text-sm mb-4">
+                    <p className="mb-2">Professional-grade equity analysis reports with comprehensive financial metrics, industry positioning, and CFA-level insights.</p>
+                    <p className="text-xs text-gray-400 italic">Note: Future updates will include advanced data visualization powered by libraries like Chart.js, D3.js or Recharts for richer financial data presentation.</p>
                   </div>
-                  
-                  {/* Display selected library documentation */}
-                  {selectedLibrary && (
-                    <div className="bg-black/70 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg">
-                      {libraries.filter(lib => lib.id === selectedLibrary).map(library => (
-                        <div key={library.id}>
-                          <h3 className="text-xl font-heading text-green-400 mb-3">{library.name} Library</h3>
-                          <p className="text-slate-300 mb-6">{library.description}</p>
-                          
-                          <div className="space-y-4">
-                            <h4 className="text-md font-mono text-green-400 border-b border-green-900/50 pb-1">Available Functions</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {library.functions.map((func, idx) => (
-                                <div key={idx} className="bg-gray-900/40 p-3 rounded border border-gray-800">
-                                  <p className="font-mono text-green-300">{func.name}()</p>
-                                  <p className="text-sm text-gray-400 mt-1">{func.description}</p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          
-                          <div className="mt-6 pt-4 border-t border-gray-800">
-                            <p className="text-gray-400 text-sm">
-                              These functions are available through our Python API. Frontend integration via React components is in progress.
-                            </p>
-                            <div className="mt-4 flex items-center">
-                              <a 
-                                href="https://github.com/sojourner-alpha/world-mk1/blob/main/backend/app/finance/README.md" 
-                                target="_blank"
-                                rel="noopener noreferrer" 
-                                className="flex items-center text-gray-400 hover:text-green-400 transition-colors"
-                              >
-                                <FaGithub size={16} className="mr-2" />
-                                <span className="text-sm font-mono">View full documentation on GitHub</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  
-                  {(!selectedLibrary) && (
-                    <div className="bg-black/70 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg">
-                      <p className="text-slate-300">Select a library from the tabs above to view documentation</p>
-                    </div>
-                  )}
+                  <EquityAnalystReportContainer />
                 </div>
               )}
             </div>
@@ -520,7 +474,7 @@ const Finance = () => {
               >
                 <div className="flex items-center">
                   <FaChartLine className="mr-2" />
-                  <span>Regression Analysis Tool</span>
+                  <span>Regression Analysis Bot</span>
                 </div>
                 <span>{expandedSection === 'regression' ? '[-]' : '[+]'}</span>
               </button>
@@ -906,9 +860,92 @@ const Finance = () => {
                 </div>
               )}
             </div>
+
+            {/* Financial Libraries Documentation Section */}
+            <div className="mb-6 w-full">
+              <button 
+                onClick={() => toggleSection('libraries')}
+                className="w-full bg-green-900/30 hover:bg-green-900/40 border border-green-800/50 text-white py-3 px-4 rounded-md font-mono mb-4 flex items-center justify-between transition-colors"
+              >
+                <div className="flex items-center">
+                  <FaBook className="mr-2" />
+                  <span>Python Code Library</span>
+                </div>
+                <span>{expandedSection === 'libraries' ? '[-]' : '[+]'}</span>
+              </button>
+              
+              {expandedSection === 'libraries' && (
+                <div className="space-y-6 animate-fadeIn">
+                  {/* Tabs for different libraries */}
+                  <div className="flex flex-wrap justify-start gap-1.5 md:gap-2">
+                    {libraries.map(lib => (
+                      <button 
+                        key={lib.id}
+                        onClick={() => selectLibrary(lib.id as LibraryType)}
+                        className={getTabStyle(selectedLibrary === lib.id)}
+                      >
+                        {selectedLibrary === lib.id ? '>' : '--'} {lib.name}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {/* Display selected library documentation */}
+                  {selectedLibrary && (
+                    <div className="bg-black/70 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg">
+                      {libraries.filter(lib => lib.id === selectedLibrary).map(library => (
+                        <div key={library.id}>
+                          <h3 className="text-xl font-heading text-green-400 mb-3">{library.name} Library</h3>
+                          <p className="text-slate-300 mb-6">{library.description}</p>
+                          
+                          <div className="space-y-4">
+                            <h4 className="text-md font-mono text-green-400 border-b border-green-900/50 pb-1">Available Functions</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {library.functions.map((func, idx) => (
+                                <div key={idx} className="bg-gray-900/40 p-3 rounded border border-gray-800">
+                                  <p className="font-mono text-green-300">{func.name}()</p>
+                                  <p className="text-sm text-gray-400 mt-1">{func.description}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <div className="mt-6 pt-4 border-t border-gray-800">
+                            <p className="text-gray-400 text-sm">
+                              These functions are available through our Python API. Frontend integration via React components is in progress.
+                            </p>
+                            <div className="mt-4 flex items-center">
+                              <a 
+                                href="https://github.com/sojourner-alpha/world-mk1/blob/main/backend/app/finance/README.md" 
+                                target="_blank"
+                                rel="noopener noreferrer" 
+                                className="flex items-center text-gray-400 hover:text-green-400 transition-colors"
+                              >
+                                <FaGithub size={16} className="mr-2" />
+                                <span className="text-sm font-mono">View full documentation on GitHub</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {(!selectedLibrary) && (
+                    <div className="bg-black/70 backdrop-blur-sm text-white p-6 rounded-lg shadow-lg">
+                      <p className="text-slate-300">Select a library from the tabs above to view documentation</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+      
+      {/* Footer - adjust z-index to ensure it stays behind content */}
+      <footer className="relative z-0">
+        <PageFooter />
+      </footer>
     </div>
   );
 };

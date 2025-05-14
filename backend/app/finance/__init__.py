@@ -14,7 +14,7 @@ try:
 except ImportError as e:
     # Handle missing modules gracefully
     import warnings
-    warnings.warn(f"Some finance modules could not be imported: {e}")
+    warnings.warn(f"Some finance modules could not be imported: {e}") 
 
 # Export all modules
 __all__ = [
