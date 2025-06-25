@@ -417,3 +417,112 @@ This project is private and not licensed for public use or distribution.
 - [PostgreSQL](https://www.postgresql.org/)
 - [NumPy](https://numpy.org/) and [Pandas](https://pandas.pydata.org/)
 - [SciPy](https://scipy.org/) and [statsmodels](https://www.statsmodels.org/)
+
+# Finance API
+
+A professional-grade financial analysis API with advanced regression capabilities.
+
+## Features
+
+- Advanced regression analysis between stocks
+- Multiple regression models (OLS, Ridge, Lasso, Elastic Net, Quantile, GARCH)
+- Statistical diagnostics and validation
+- AI-powered insights generation
+- PostgreSQL database with pgAdmin
+- Docker-based development environment
+
+## Prerequisites
+
+- Docker and Docker Compose
+- OpenAI API key (for insights generation)
+
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
+
+2. Create a `.env` file with your OpenAI API key:
+```bash
+OPENAI_API_KEY=your_api_key_here
+```
+
+3. Start the development environment:
+```bash
+./start-dev.sh
+```
+
+This will start:
+- FastAPI backend on http://localhost:8000
+- PostgreSQL database on port 5432
+- pgAdmin on http://localhost:5050
+
+## API Documentation
+
+Once the application is running, you can access:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+## Development
+
+### Project Structure
+
+```
+.
+├── backend/
+│   ├── app/
+│   │   ├── models/         # SQLAlchemy models
+│   │   ├── routes/         # FastAPI routes
+│   │   ├── schemas/        # Pydantic schemas
+│   │   ├── services/       # Business logic
+│   │   └── main.py         # FastAPI application
+│   ├── tests/              # Test files
+│   ├── Dockerfile          # Backend Dockerfile
+│   └── requirements.txt    # Python dependencies
+├── docker-compose.yml      # Docker Compose configuration
+└── start-dev.sh           # Development startup script
+```
+
+### Running Tests
+
+```bash
+cd backend
+pytest
+```
+
+### Database Management
+
+- Access pgAdmin at http://localhost:5050
+- Default credentials:
+  - Email: admin@admin.com
+  - Password: admin
+- Add a new server:
+  - Host: db
+  - Port: 5432
+  - Database: finance
+  - Username: postgres
+  - Password: postgres
+
+## API Endpoints
+
+### Regression Analysis
+
+- `GET /api/finance/regression-models` - Get available regression models
+- `POST /api/finance/regression-analysis` - Run regression analysis
+- `GET /api/finance/recent-regressions` - Get recent regression searches
+- `POST /api/finance/regression-summary` - Get regression summary
+- `POST /api/finance/regression-insights` - Get AI-generated insights
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

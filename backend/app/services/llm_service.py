@@ -6,6 +6,8 @@ import json
 import httpx
 from typing import Dict, Any, List, Optional
 import logging
+import openai
+from app.models.regression import RegressionAnalysis
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -17,6 +19,13 @@ class LLMService:
     # Default model configurations
     DEFAULT_MODEL = "gpt-3.5-turbo"
     DEFAULT_TEMPERATURE = 0.2
+    
+    def __init__(self):
+        """Initialize the LLM service"""
+        self.api_key = os.getenv("OPENAI_API_KEY")
+        if not self.api_key:
+            raise ValueError("OPENAI_API_KEY environment variable not set")
+        openai.api_key = self.api_key
     
     @staticmethod
     async def summarize_regression_analysis(
@@ -279,4 +288,118 @@ class LLMService:
             return ""
         
         except Exception:
-            return "" 
+            return ""
+
+    async def generate_insights(
+        self,
+        regression: RegressionAnalysis,
+        additional_context: Optional[str] = None,
+        model: str = "gpt-4",
+        temperature: float = 0.2,
+        max_tokens: int = 350
+    ) -> str:
+        """
+        Generate insights from regression analysis using LLM
+        
+        Args:
+            regression: RegressionAnalysis object
+            additional_context: Additional market context
+            model: LLM model to use
+            temperature: Temperature for generation
+            max_tokens: Maximum tokens for response
+            
+        Returns:
+            Generated insights
+        """
+        # Prepare prompt
+        prompt = self._prepare_insight_prompt(regression, additional_context)
+        
+        try:
+            # Call OpenAI API
+            response = await openai.ChatCompletion.acreate(
+                model=model,
+                messages=[
+                    {"role": "system", "content": "You are a financial analyst specializing in statistical analysis and market insights."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+            
+            return response.choices[0].message.content
+            
+        except Exception as e:
+            raise Exception(f"Error generating insights: {str(e)}")
+    
+    def _prepare_insight_prompt(
+        self,
+        regression: RegressionAnalysis,
+        additional_context: Optional[str]
+    ) -> str:
+        """
+        Prepare prompt for insight generation
+        
+        Args:
+            regression: RegressionAnalysis object
+            additional_context: Additional market context
+            
+        Returns:
+            Formatted prompt
+        """
+        # Base prompt
+        prompt = f"""
+        Analyze the regression analysis between {regression.x_ticker} and {regression.y_ticker}:
+        
+        Time Period: {regression.start_date} to {regression.end_date}
+        Model Type: {regression.model_type}
+        
+        Statistics:
+        - R-squared: {regression.statistics['r_squared']:.4f}
+        - Adjusted R-squared: {regression.statistics['adjusted_r_squared']:.4f}
+        - P-value: {regression.statistics['p_value']:.6f}
+        - F-statistic: {regression.statistics['f_statistic']:.2f}
+        
+        Correlation:
+        - Pearson: {regression.correlation['pearson']['r']:.4f}
+        - Spearman: {regression.correlation['spearman']['r']:.4f}
+        
+        Coefficients:
+        {self._format_coefficients(regression.coefficients)}
+        
+        Diagnostics:
+        {self._format_diagnostics(regression.diagnostics)}
+        
+        Test Metrics:
+        {self._format_test_metrics(regression.test_metrics)}
+        """
+        
+        # Add additional context if provided
+        if additional_context:
+            prompt += f"\nAdditional Context:\n{additional_context}"
+        
+        # Add instruction
+        prompt += """
+        
+        Please provide a concise analysis of the relationship between these stocks, including:
+        1. Strength and significance of the relationship
+        2. Key drivers of the correlation
+        3. Potential investment implications
+        4. Any notable patterns or anomalies
+        5. Suggestions for further analysis
+        
+        Focus on actionable insights and practical implications.
+        """
+        
+        return prompt
+    
+    def _format_coefficients(self, coefficients: Dict[str, float]) -> str:
+        """Format coefficients for prompt"""
+        return "\n".join([f"- {k}: {v:.4f}" for k, v in coefficients.items()])
+    
+    def _format_diagnostics(self, diagnostics: Dict[str, Any]) -> str:
+        """Format diagnostics for prompt"""
+        return "\n".join([f"- {k}: {v}" for k, v in diagnostics.items()])
+    
+    def _format_test_metrics(self, metrics: Dict[str, float]) -> str:
+        """Format test metrics for prompt"""
+        return "\n".join([f"- {k}: {v:.4f}" for k, v in metrics.items()]) 

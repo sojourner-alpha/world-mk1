@@ -1,76 +1,196 @@
 """
 Test script for regression analysis API
 """
-import requests
-import json
+import asyncio
+import pytest
 from datetime import datetime, timedelta
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
-# Configuration
-API_URL = "http://localhost:8000/api/finance"
-TEST_X_TICKER = "AAPL"
-TEST_Y_TICKER = "MSFT"
-START_DATE = (datetime.now() - timedelta(days=365*5)).strftime("%Y-%m-%d")  # 5 years ago
+from app.main import app
+from app.db import Base, get_db
+from app.models.regression import StockData, RegressionAnalysis, SearchHistory
+
+# Create test database
+SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Create tables
+Base.metadata.create_all(bind=engine)
+
+def override_get_db():
+    """Override get_db dependency for testing"""
+    try:
+        db = TestingSessionLocal()
+        yield db
+    finally:
+        db.close()
+
+app.dependency_overrides[get_db] = override_get_db
+
+client = TestClient(app)
+
+def test_get_available_models():
+    """Test getting available regression models"""
+    response = client.get("/api/finance/regression-models")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, dict)
+    assert "ols" in data
+    assert "ridge" in data
+    assert "lasso" in data
+    assert "elastic_net" in data
+    assert "quantile" in data
+    assert "garch" in data
 
 def test_regression_analysis():
-    """
-    Test the regression analysis API endpoint
-    """
-    print(f"Testing regression analysis: {TEST_X_TICKER} vs {TEST_Y_TICKER}...")
+    """Test running regression analysis"""
+    # Test data
+    x_ticker = "AAPL"
+    y_ticker = "MSFT"
+    start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")
+    end_date = datetime.now().strftime("%Y-%m-%d")
     
-    # Request data
-    data = {
-        "x_ticker": TEST_X_TICKER,
-        "y_ticker": TEST_Y_TICKER,
-        "start_date": START_DATE,
-        "interval": "1mo",
-        "use_cache": True
-    }
+    # Test OLS regression
+    response = client.post(
+        "/api/finance/regression-analysis",
+        json={
+            "x_ticker": x_ticker,
+            "y_ticker": y_ticker,
+            "start_date": start_date,
+            "end_date": end_date,
+            "interval": "1d",
+            "model_type": "ols",
+            "add_features": False,
+            "test_size": 0.2,
+            "use_cache": False
+        }
+    )
     
-    # Send request
-    response = requests.post(f"{API_URL}/regression-analysis", json=data)
+    assert response.status_code == 200
+    data = response.json()
     
-    # Check response
-    if response.status_code == 200:
-        result = response.json()
-        print("Regression analysis successful!")
-        print(f"Data points: {result.get('data_points', 'N/A')}")
-        print(f"R-squared: {result.get('statistics', {}).get('r_squared', 'N/A'):.4f}")
-        print(f"P-value: {result.get('statistics', {}).get('p_value', 'N/A'):.6f}")
-        print("\nSummary:")
-        print(result.get('summary', 'No summary available'))
-        return True
-    else:
-        print(f"Error: {response.status_code}")
-        print(response.text)
-        return False
+    # Verify response structure
+    assert "id" in data
+    assert data["x_ticker"] == x_ticker
+    assert data["y_ticker"] == y_ticker
+    assert "statistics" in data
+    assert "correlation" in data
+    
+    # Verify statistics
+    stats = data["statistics"]
+    assert "r_squared" in stats
+    assert "adjusted_r_squared" in stats
+    assert "p_value" in stats
+    assert "standard_error" in stats
+    
+    # Verify correlation metrics
+    corr = data["correlation"]
+    assert "pearson" in corr
+    assert "spearman" in corr
+    assert "rolling_correlation" in corr
+    
+    # Test error handling
+    response = client.post(
+        "/api/finance/regression-analysis",
+        json={
+            "x_ticker": "INVALID",
+            "y_ticker": "INVALID",
+            "start_date": start_date,
+            "end_date": end_date
+        }
+    )
+    assert response.status_code == 400
 
-def test_recent_regressions():
-    """
-    Test the recent regressions API endpoint
-    """
-    print("\nTesting recent regressions...")
+def test_recent_searches():
+    """Test getting recent searches"""
+    response = client.get("/api/finance/recent-regressions")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+
+def test_regression_summary():
+    """Test getting regression summary"""
+    # First run a regression
+    x_ticker = "AAPL"
+    y_ticker = "MSFT"
+    start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")
+    end_date = datetime.now().strftime("%Y-%m-%d")
     
-    # Send request
-    response = requests.get(f"{API_URL}/recent-regressions?limit=5")
+    response = client.post(
+        "/api/finance/regression-analysis",
+        json={
+            "x_ticker": x_ticker,
+            "y_ticker": y_ticker,
+            "start_date": start_date,
+            "end_date": end_date,
+            "interval": "1d",
+            "model_type": "ols",
+            "add_features": False,
+            "test_size": 0.2,
+            "use_cache": False
+        }
+    )
     
-    # Check response
-    if response.status_code == 200:
-        result = response.json()
-        print("Recent regressions retrieved successfully!")
-        print(f"Found {len(result)} recent searches")
-        
-        if result:
-            print("\nRecent searches:")
-            for search in result:
-                print(f"- {search.get('x_ticker')} vs {search.get('y_ticker')} on {search.get('searched_at', 'unknown date')}")
-        return True
-    else:
-        print(f"Error: {response.status_code}")
-        print(response.text)
-        return False
+    assert response.status_code == 200
+    regression_id = response.json()["id"]
+    
+    # Test getting summary
+    response = client.post(
+        "/api/finance/regression-summary",
+        json={"regression_id": regression_id}
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert "summary" in data
+
+def test_regression_insights():
+    """Test getting regression insights"""
+    # First run a regression
+    x_ticker = "AAPL"
+    y_ticker = "MSFT"
+    start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")
+    end_date = datetime.now().strftime("%Y-%m-%d")
+    
+    response = client.post(
+        "/api/finance/regression-analysis",
+        json={
+            "x_ticker": x_ticker,
+            "y_ticker": y_ticker,
+            "start_date": start_date,
+            "end_date": end_date,
+            "interval": "1d",
+            "model_type": "ols",
+            "add_features": False,
+            "test_size": 0.2,
+            "use_cache": False
+        }
+    )
+    
+    assert response.status_code == 200
+    regression_id = response.json()["id"]
+    
+    # Test getting insights
+    response = client.post(
+        "/api/finance/regression-insights",
+        json={
+            "regression_id": regression_id,
+            "additional_context": "Market is in a bull phase",
+            "model": "gpt-4",
+            "temperature": 0.2,
+            "max_tokens": 350
+        }
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert "insights" in data
 
 if __name__ == "__main__":
-    print("=== Regression Analysis API Test ===\n")
-    test_regression_analysis()
-    test_recent_regressions()
-    print("\n=== Test Complete ===") 
+    pytest.main([__file__]) 

@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Check if .env file exists
+if [ ! -f .env ]; then
+    echo "Creating .env file..."
+    echo "OPENAI_API_KEY=your_api_key_here" > .env
+    echo "Please update the OPENAI_API_KEY in .env with your actual API key"
+fi
+
+# Start the development environment
+echo "Starting development environment..."
+docker-compose up --build
+
 # Start development environment with Docker Compose
 
 echo "═════════════════════════════════════════════"

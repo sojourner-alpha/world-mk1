@@ -11,8 +11,19 @@ from app.finance import fundamentals, valuation, portfolio, risk, technical, reg
 from app.db import get_db
 from app.services.regression_service import RegressionService
 from app.services.llm_service import LLMService
+from app.models.regression import RegressionAnalysis, SearchHistory
+from app.schemas.regression import (
+    RegressionAnalysisRequest,
+    RegressionAnalysisResponse,
+    RegressionSummaryRequest,
+    RegressionSummaryResponse,
+    RegressionInsightsRequest,
+    RegressionInsightsResponse,
+    RecentSearchesResponse
+)
 
 router = APIRouter()
+regression_service = RegressionService()
 
 # ---- Models for Financial Calculations ----
 
@@ -438,145 +449,91 @@ async def calculate_efficient_frontier(input_data: PortfolioOptimizationInput):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/regression-analysis")
+@router.get("/regression-models", response_model=dict)
+async def get_available_models():
+    """Get available regression model types"""
+    return regression_service.get_available_models()
+
+@router.post("/regression-analysis", response_model=RegressionAnalysisResponse)
 async def run_regression_analysis(
-    input_data: RegressionInput,
+    request: RegressionAnalysisRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Perform regression analysis on two stocks
-    """
+    """Run regression analysis between two stocks"""
     try:
-        # Call the service to perform the analysis
-        results = await RegressionService.run_regression_analysis(
+        result = await regression_service.run_regression_analysis(
             db=db,
-            x_ticker=input_data.x_ticker,
-            y_ticker=input_data.y_ticker, 
-            start_date=input_data.start_date,
-            end_date=input_data.end_date,
-            interval=input_data.interval,
-            model_type=input_data.model_type,
-            add_features=input_data.add_features,
-            test_size=input_data.test_size,
-            use_cache=input_data.use_cache
+            x_ticker=request.x_ticker,
+            y_ticker=request.y_ticker,
+            start_date=request.start_date,
+            end_date=request.end_date,
+            interval=request.interval,
+            model_type=request.model_type,
+            add_features=request.add_features,
+            test_size=request.test_size,
+            use_cache=request.use_cache
         )
-        
-        return results
-    
+        return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/recent-regressions")
-async def get_recent_regressions(
+@router.get("/recent-regressions", response_model=List[RecentSearchesResponse])
+async def get_recent_searches(
     limit: int = 10,
     db: Session = Depends(get_db)
 ):
-    """
-    Get recent regression searches
-    """
+    """Get recent regression searches"""
     try:
-        searches = await RegressionService.get_recent_searches(db, limit)
-        return searches
-    
+        return await regression_service.get_recent_searches(db, limit)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/regression-models")
-async def get_regression_models():
-    """
-    Get available regression model types
-    """
-    try:
-        models = await RegressionService.get_available_models()
-        return models
-    
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-@router.post("/regression-summary")
+@router.post("/regression-summary", response_model=RegressionSummaryResponse)
 async def get_regression_summary(
-    regression_id: int,
+    request: RegressionSummaryRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Get AI-generated summary of regression analysis
-    """
+    """Get detailed summary of a regression analysis"""
     try:
-        # Fetch regression analysis from database
-        regression = db.query(
-            "SELECT * FROM finance.regression_analysis WHERE id = :id",
-            {"id": regression_id}
+        regression = db.query(RegressionAnalysis).filter(
+            RegressionAnalysis.id == request.regression_id
         ).first()
         
         if not regression:
             raise HTTPException(status_code=404, detail="Regression analysis not found")
-        
-        # Convert regression to dictionary
-        regression_dict = {
-            "id": regression.id,
-            "x_ticker": regression.x_ticker,
-            "y_ticker": regression.y_ticker,
-            "model_type": regression.model_type,
-            "statistics": {
-                "r_squared": regression.r_squared,
-                "adjusted_r_squared": regression.adjusted_r_squared,
-                "f_pvalue": regression.p_value
-            },
-            "correlation": {
-                "pearson": {"r": regression.r_squared ** 0.5},
-                "spearman": {"r": 0}  # Placeholder, not stored in DB
-            }
+            
+        return {
+            "summary": regression.summary,
+            "statistics": regression.statistics,
+            "diagnostics": regression.diagnostics,
+            "test_metrics": regression.test_metrics
         }
-        
-        # Generate summary with LLM
-        summary = await LLMService.summarize_regression_analysis(regression_dict)
-        
-        return {"summary": summary}
-    
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/regression-insights")
+@router.post("/regression-insights", response_model=RegressionInsightsResponse)
 async def get_regression_insights(
-    input_data: RegressionInsightInput,
+    request: RegressionInsightsRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Get AI-generated investment insights based on regression analysis
-    """
+    """Get AI-generated insights for a regression analysis"""
     try:
-        # Fetch regression analysis from database
-        regression = db.query(
-            "SELECT * FROM finance.regression_analysis WHERE id = :id",
-            {"id": input_data.regression_id}
+        regression = db.query(RegressionAnalysis).filter(
+            RegressionAnalysis.id == request.regression_id
         ).first()
         
         if not regression:
             raise HTTPException(status_code=404, detail="Regression analysis not found")
-        
-        # Convert regression to dictionary
-        regression_dict = {
-            "id": regression.id,
-            "x_ticker": regression.x_ticker,
-            "y_ticker": regression.y_ticker,
-            "model_type": regression.model_type,
-            "statistics": {
-                "r_squared": regression.r_squared,
-                "adjusted_r_squared": regression.adjusted_r_squared,
-                "f_pvalue": regression.p_value
-            }
-        }
-        
-        # Generate insights with LLM
-        insights = await LLMService.generate_investment_insights(
-            regression_dict,
-            additional_context=input_data.additional_context,
-            model=input_data.model,
-            temperature=input_data.temperature,
-            max_tokens=input_data.max_tokens
+            
+        # Generate insights using the regression data and additional context
+        insights = await regression_service.generate_insights(
+            regression=regression,
+            additional_context=request.additional_context,
+            model=request.model,
+            temperature=request.temperature,
+            max_tokens=request.max_tokens
         )
         
         return {"insights": insights}
-    
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e)) 

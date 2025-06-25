@@ -1,56 +1,47 @@
-from fastapi import FastAPI, APIRouter
+"""
+Main FastAPI application
+"""
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
+from app.routes import finance
 
 # Load environment variables
 load_dotenv()
 
-# Import routes
-from app.routes import finance
-
 # Create FastAPI app
 app = FastAPI(
-    title="World-MK1 Finance API",
-    description="Financial analysis and calculation API",
-    version="0.1.0",
+    title="Finance API",
+    description="API for financial analysis and regression",
+    version="1.0.0"
 )
 
 # Configure CORS
-origins = [
-    "http://localhost:5173",  # Vite dev server
-    "http://localhost:3000",  # Alternative dev server
-    "https://curtislederle.com",  # Production domain
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # In production, replace with specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# API router setup
-api_router = APIRouter(prefix="/api")
-api_router.include_router(finance.router, prefix="/finance", tags=["finance"])
+# Include routers
+app.include_router(finance.router, prefix="/api/finance", tags=["finance"])
 
-# Include API router
-app.include_router(api_router)
-
-# Root endpoint
 @app.get("/")
 async def root():
+    """Root endpoint"""
     return {
-        "message": "Welcome to World-MK1 Finance API",
-        "docs": "/docs",
-        "redoc": "/redoc"
+        "message": "Welcome to the Finance API",
+        "version": "1.0.0",
+        "docs_url": "/docs"
     }
 
-# Test endpoint
-@app.get("/api/finance/test")
-async def test():
-    return {"status": "ok", "message": "Finance API is running"}
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy"}
 
 # Run the app
 if __name__ == "__main__":
